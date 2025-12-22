@@ -1355,8 +1355,202 @@ body {
     }
 }
 
-@media (max-width: 480px) {
-    .drawer {
-        width: 85%;
+/* ============================================
+   RESPONSIVE DESIGN IMPROVEMENTS
+   ============================================ */
+
+/* TABLET (up to 1024px) */
+@media (max-width: 1024px) {
+    .main {
+        padding: 1.5rem;
+    }
+
+    .practice-area,
+    .test-mode,
+    .learning-mode {
+        max-width: 100%;
+    }
+}
+
+/* MOBILE (up to 768px) */
+/* MOBILE (up to 768px) */
+@media (max-width: 768px) {
+
+    /* Global Adjustments */
+    html {
+        font-size: 14px;
+        /* Reduce base font size */
+    }
+
+    .header {
+        padding: 0.5rem 0;
+    }
+
+    .header-content {
+        padding: 0 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        position: relative;
+    }
+
+    /* Row 1: Logo (Left) & Theme Toggle (Right - via absolute positioning) */
+    .logo {
+        width: auto;
+        margin-bottom: 0;
+        /* Make space for theme toggle on the right */
+        padding-right: 50px;
+    }
+
+    .header-actions {
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        height: auto;
+        /* Align with the logo vertically implicitly or by top offset */
+        top: 0.5rem;
+        /* Adjust based on logo height/padding */
+    }
+
+    /* Row 2: Navigation (Below) */
+    .nav {
+        position: relative;
+        left: auto;
+        transform: none;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0;
+        justify-content: flex-start;
+        /* Allow scrolling from start */
+        -webkit-overflow-scrolling: touch;
+        gap: 0.5rem;
+        padding: 0.25rem 0;
+        /* Hide scrollbar visually but keep functionality */
+        scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-btn {
+        flex-shrink: 0;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+    }
+
+    .nav-btn.active {
+        background: var(--accent-primary);
+        color: white;
+        border-color: var(--accent-primary);
+    }
+
+    /* Layout Adjustments */
+    .main {
+        padding: 1rem;
+    }
+
+    /* Practice Area Stacking */
+    .practice-card,
+    .input-card {
+        padding: 1.25rem;
+        border-radius: var(--radius-md);
+    }
+
+    .practice-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .shuffle-btn {
+        align-self: flex-end;
+        margin-top: -2rem;
+    }
+
+    .practice-text {
+        font-size: 1.5rem;
+        word-break: break-word;
+    }
+
+    /* Input & Keyboard */
+    .practice-input {
+        font-size: 1.1rem;
+        padding: 0.75rem;
+    }
+
+    .keyboard-key {
+        min-width: 30px;
+        height: 36px;
+        font-size: 0.9rem;
+        padding: 0.15rem;
+    }
+
+    .key-backspace {
+        min-width: auto;
+        font-size: 0;
+    }
+
+    .key-backspace::after {
+        content: '⌫';
+        font-size: 1rem;
+    }
+
+    .key-space {
+        min-width: 100px;
+    }
+
+    /* Drawer Toggle */
+    .drawer-toggle-btn {
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Test Mode */
+    .test-card {
+        padding: 1.5rem;
+    }
+
+    .question-text {
+        font-size: 1.25rem;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .option-btn {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    /* Stats on Test Result */
+    .stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Daily Summary */
+    .daily-summary {
+        margin-bottom: 5rem;
+    }
+}
+
+/* SMALL MOBILE (up to 375px) */
+@media (max-width: 375px) {
+    .keyboard-key {
+        min-width: 26px;
+        font-size: 0.85rem;
+    }
+
+    .nav-btn {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.8rem;
     }
 }
