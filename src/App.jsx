@@ -6,10 +6,12 @@ import LearningMode from './components/LearningMode';
 import TestMode from './components/TestMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
+import LetterDrawer from './components/LetterDrawer';
 import { useProgress } from './hooks/useProgress';
 
 function App() {
     const [currentView, setCurrentView] = useState('transliteration');
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [theme, setTheme] = useState(() => {
         const saved = localStorage.getItem('kiril-theme');
         return saved || 'light';
@@ -59,6 +61,21 @@ function App() {
             <main className="main">
                 {renderView()}
             </main>
+
+            {/* Global Drawer Toggle Button */}
+            <button
+                className="global-drawer-btn"
+                onClick={() => setIsDrawerOpen(true)}
+                title="Harf Tablosunu Göster"
+            >
+                📖 Harfler
+            </button>
+
+            {/* Global Drawer */}
+            <LetterDrawer
+                isOpen={isDrawerOpen}
+                onClose={() => setIsDrawerOpen(false)}
+            />
         </>
     );
 }

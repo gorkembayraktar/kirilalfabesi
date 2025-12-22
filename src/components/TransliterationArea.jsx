@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { transliterate } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
-import LetterTable from './LetterTable';
 
 // Pratik için Türkçe cümleler
 const practiceTexts = [
@@ -19,7 +18,42 @@ const practiceTexts = [
     "Hava soğuk bugün",
     "Yemek çok lezzetli",
     "Türkçe öğreniyorum",
-    "Kiril alfabesi zor değil"
+    "Kiril alfabesi zor değil",
+    "Benim adım ne",
+    "Senin adın ne",
+    "Nerede yaşıyorsun",
+    "Ben İstanbul'da yaşıyorum",
+    "Okula gidiyorum",
+    "İşe gidiyorum",
+    "Seni seviyorum",
+    "Bana yardım et",
+    "Lütfen bekle",
+    "Kapıyı aç",
+    "Pencereyi kapat",
+    "Su içmek istiyorum",
+    "Karnım aç",
+    "Uykum var",
+    "Saat kaç",
+    "Bugün günlerden ne",
+    "Yarın ne yapacaksın",
+    "Sinemaya gidelim mi",
+    "Müzik dinlemeyi severim",
+    "Hangi renk bu",
+    "Kırmızı elma",
+    "Mavi gökyüzü",
+    "Yeşil ağaç",
+    "Sarı güneş",
+    "Beyaz kedi",
+    "Siyah köpek",
+    "Bir iki üç dört beş",
+    "Altı yedi sekiz dokuz on",
+    "Annem ve babam",
+    "Kardeşim okulda",
+    "Arkadaşım geliyor",
+    "Telefonum nerede",
+    "Bilgisayar kullanıyorum",
+    "Çay içelim",
+    "Hafta sonu tatil"
 ];
 
 export default function TransliterationArea({ onRecordPractice }) {
@@ -27,7 +61,6 @@ export default function TransliterationArea({ onRecordPractice }) {
     const [userAnswer, setUserAnswer] = useState('');
     const [isVerified, setIsVerified] = useState(false);
     const [comparisonResult, setComparisonResult] = useState(null);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const inputRef = useRef(null);
 
     const currentText = practiceTexts[currentTextIndex];
@@ -44,6 +77,11 @@ export default function TransliterationArea({ onRecordPractice }) {
             inputRef.current.focus();
         }
     };
+
+    useEffect(() => {
+        getRandomText();
+    }, []);
+
 
     // Rastgele metin al
     const getRandomText = () => {
@@ -92,7 +130,17 @@ export default function TransliterationArea({ onRecordPractice }) {
     };
 
     // Klavyeden giriş
+    // Klavyeden giriş
     const handleKeyboardInput = (key) => {
+        if (key === 'ENTER') {
+            if (!isVerified) {
+                verifyAnswer();
+            } else {
+                getNextText();
+            }
+            return;
+        }
+
         if (isVerified) return;
 
         if (key === 'BACKSPACE') {
@@ -118,26 +166,6 @@ export default function TransliterationArea({ onRecordPractice }) {
 
     return (
         <div className="practice-area">
-            {/* Çekmece Toggle Butonu */}
-            <button
-                className="drawer-toggle-btn"
-                onClick={() => setIsDrawerOpen(true)}
-                title="Harf Tablosunu Göster"
-            >
-                📖 Harfler
-            </button>
-
-            {/* Sol Çekmece (Harf Tablosu) */}
-            <div className={`drawer-overlay ${isDrawerOpen ? 'open' : ''}`} onClick={() => setIsDrawerOpen(false)} />
-            <div className={`drawer ${isDrawerOpen ? 'open' : ''}`}>
-                <div className="drawer-header">
-                    <h3>Harf Tablosu</h3>
-                    <button className="drawer-close-btn" onClick={() => setIsDrawerOpen(false)}>✕</button>
-                </div>
-                <div className="drawer-content">
-                    <LetterTable />
-                </div>
-            </div>
 
             <div className="practice-content">
                 {/* Türkçe metin kartı */}

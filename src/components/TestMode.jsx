@@ -94,6 +94,13 @@ export default function TestMode({ onRecordPractice }) {
     };
 
     const handleKeyboardInput = (key) => {
+        if (key === 'ENTER') {
+            if (!isAnswered && userAnswer.trim()) {
+                handleTextSubmit({ preventDefault: () => { } });
+            }
+            return;
+        }
+
         if (isAnswered) return;
 
         if (key === 'BACKSPACE') {

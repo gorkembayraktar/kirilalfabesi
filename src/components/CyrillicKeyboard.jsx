@@ -72,6 +72,14 @@ export default function CyrillicKeyboard({ onKeyPress, disabled }) {
                         >
                             Boşluk
                         </button>
+                        <button
+                            type="button"
+                            className={`keyboard-key key-enter ${disabled ? 'disabled' : ''}`}
+                            onClick={() => !disabled && onKeyPress && onKeyPress('ENTER')}
+                            disabled={disabled}
+                        >
+                            ↵ Giriş
+                        </button>
                     </div>
                 </div>
             )}

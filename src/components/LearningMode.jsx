@@ -22,10 +22,23 @@ export default function LearningMode({ onRecordPractice }) {
     };
 
     useEffect(() => {
-        if (isStarted && inputRef.current) {
+        if (isStarted && inputRef.current && feedback === null) {
             inputRef.current.focus();
         }
-    }, [currentIndex, isStarted]);
+    }, [currentIndex, isStarted, feedback]);
+
+    // Listen for Enter key to proceed when feedback is shown
+    useEffect(() => {
+        const handleGlobalKeyDown = (e) => {
+            if (e.key === 'Enter' && feedback !== null) {
+                e.preventDefault();
+                nextWord();
+            }
+        };
+
+        window.addEventListener('keydown', handleGlobalKeyDown);
+        return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    }, [feedback]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,6 +59,15 @@ export default function LearningMode({ onRecordPractice }) {
     };
 
     const handleKeyboardInput = (key) => {
+        if (key === 'ENTER') {
+            if (feedback === null && userAnswer.trim()) {
+                handleSubmit({ preventDefault: () => { } });
+            } else if (feedback !== null) {
+                nextWord();
+            }
+            return;
+        }
+
         if (feedback !== null) return;
 
         if (key === 'BACKSPACE') {

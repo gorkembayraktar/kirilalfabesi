@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function DailySummary({ progress }) {
+
+    return null;
+
     const { streak, todayWords, todayCorrect, totalWords } = progress;
 
     // 1. Düzeltme: String karşılaştırmasını geri ekledik

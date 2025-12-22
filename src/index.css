@@ -26,7 +26,12 @@
     --radius-sm: 6px;
     --radius-md: 10px;
     --radius-lg: 14px;
+    --radius-lg: 14px;
     --radius-xl: 20px;
+
+    /* Semantic Surface Aliases */
+    --surface-ground: var(--bg-primary);
+    --surface-card: var(--bg-secondary);
 }
 
 [data-theme="dark"] {
@@ -779,6 +784,19 @@ body {
 .key-space {
     min-width: 180px;
     font-size: 0.85rem;
+}
+
+.key-enter {
+    min-width: 80px;
+    font-size: 0.85rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.key-enter:hover:not(.disabled) {
+    background: var(--accent-primary);
+    color: white;
 }
 
 /* ============================================
@@ -1782,5 +1800,55 @@ body {
     .today-stats {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+}
+
+/* ============================================
+   GLOBAL DRAWER
+   ============================================ */
+
+.global-drawer-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 1000;
+    /* High z-index */
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-md);
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+}
+
+.global-drawer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-primary);
+}
+
+/* Ensure Drawer matches new z-index needs */
+.drawer-overlay {
+    z-index: 2000;
+}
+
+.drawer {
+    z-index: 2001;
+}
+
+/* Update Media Query for Button */
+@media (max-width: 480px) {
+    .global-drawer-btn {
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
     }
 }
