@@ -3,7 +3,8 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
         { id: 'transliteration', label: 'Çeviri', icon: '✍️' },
         { id: 'letters', label: 'Harfler', icon: '📖' },
         { id: 'learning', label: 'Öğren', icon: '🎓' },
-        { id: 'test', label: 'Test', icon: '📝' }
+        { id: 'test', label: 'Test', icon: '📝' },
+        { id: 'progress', label: 'İlerleme', icon: '📊' }
     ];
 
     return (

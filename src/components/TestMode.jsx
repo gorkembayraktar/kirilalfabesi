@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { transliterate, getRandomWords, getLetterMapping, checkAnswer } from '../utils/transliteration';
+import CyrillicKeyboard from './CyrillicKeyboard';
 
 // Soru tipleri oluştur
 const generateQuestions = () => {
@@ -89,6 +90,16 @@ export default function TestMode({ onRecordPractice }) {
 
         if (onRecordPractice) {
             onRecordPractice(isCorrect);
+        }
+    };
+
+    const handleKeyboardInput = (key) => {
+        if (isAnswered) return;
+
+        if (key === 'BACKSPACE') {
+            setUserAnswer(prev => prev.slice(0, -1));
+        } else {
+            setUserAnswer(prev => prev + key);
         }
     };
 
@@ -193,18 +204,24 @@ export default function TestMode({ onRecordPractice }) {
                 <div className="question-text">{currentQuestion.question}</div>
 
                 {currentQuestion.type === 'word-write' ? (
-                    <form onSubmit={handleTextSubmit}>
-                        <input
-                            type="text"
-                            className={`answer-input ${isAnswered ? (userAnswer.trim().toLowerCase() === currentQuestion.correctAnswer.toLowerCase() ? 'correct' : 'incorrect') : ''}`}
-                            value={userAnswer}
-                            onChange={(e) => setUserAnswer(e.target.value)}
-                            placeholder="Cevabınızı yazın..."
+                    <div className="word-write-section">
+                        <form onSubmit={handleTextSubmit}>
+                            <input
+                                type="text"
+                                className={`answer-input ${isAnswered ? (userAnswer.trim().toLowerCase() === currentQuestion.correctAnswer.toLowerCase() ? 'correct' : 'incorrect') : ''}`}
+                                value={userAnswer}
+                                onChange={(e) => setUserAnswer(e.target.value)}
+                                placeholder="Cevabınızı yazın..."
+                                disabled={isAnswered}
+                                autoComplete="off"
+                                autoFocus
+                            />
+                        </form>
+                        <CyrillicKeyboard
+                            onKeyPress={handleKeyboardInput}
                             disabled={isAnswered}
-                            autoComplete="off"
-                            autoFocus
                         />
-                    </form>
+                    </div>
                 ) : (
                     <div className="options-grid">
                         {currentQuestion.options.map((option, idx) => (

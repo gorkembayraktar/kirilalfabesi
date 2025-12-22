@@ -1554,3 +1554,233 @@ body {
         font-size: 0.8rem;
     }
 }
+
+/* ============================================
+   HISTORY CHART
+   ============================================ */
+
+.history-chart-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.chart-title {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.history-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 120px;
+    padding-bottom: 1.5rem;
+    /* space for labels */
+}
+
+.chart-bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    flex: 1;
+    position: relative;
+}
+
+.chart-bar {
+    width: 8px;
+    /* Slim bars for cleaner look */
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    transition: height 0.3s ease;
+    min-height: 4px;
+    position: relative;
+}
+
+.chart-bar-group.today .chart-bar {
+    background: var(--accent-primary);
+}
+
+.chart-bar:hover {
+    background: var(--accent-hover);
+}
+
+.chart-val {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.chart-label {
+    position: absolute;
+    bottom: -25px;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+}
+
+/* Mobile Chart */
+@media (max-width: 480px) {
+    .chart-bar {
+        width: 12px;
+    }
+}
+
+/* ============================================
+   PROGRESS PAGE
+   ============================================ */
+
+.progress-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--surface-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    background: var(--bg-secondary);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+}
+
+/* Detailed Chart Section */
+.chart-section {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+
+.history-chart-large {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 250px;
+    /* Taller chart */
+    padding-bottom: 2rem;
+}
+
+.history-chart-large .chart-bar {
+    width: 24px;
+    /* Thicker bars */
+    min-width: 12px;
+}
+
+.history-chart-large .chart-val {
+    top: -25px;
+    font-size: 0.9rem;
+}
+
+/* Today Section */
+.today-section {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.today-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.today-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.today-stat .label {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+.today-stat .value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+/* Mobile Adjustments for Progress Page */
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-chart-large .chart-bar {
+        width: 16px;
+    }
+
+    .today-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}

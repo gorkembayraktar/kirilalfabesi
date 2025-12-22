@@ -5,6 +5,7 @@ import LetterTable from './components/LetterTable';
 import LearningMode from './components/LearningMode';
 import TestMode from './components/TestMode';
 import DailySummary from './components/DailySummary';
+import ProgressStats from './components/ProgressStats';
 import { useProgress } from './hooks/useProgress';
 
 function App() {
@@ -40,6 +41,8 @@ function App() {
                 return <LearningMode onRecordPractice={recordPractice} />;
             case 'test':
                 return <TestMode onRecordPractice={recordPractice} />;
+            case 'progress':
+                return <ProgressStats progress={progress} />;
             default:
                 return <TransliterationArea />;
         }

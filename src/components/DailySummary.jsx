@@ -14,6 +14,12 @@ export default function DailySummary({ progress }) {
 
     const todayAccuracy = todayWords > 0 ? Math.round((todayCorrect / todayWords) * 100) : 0;
 
+    const formatTime = (seconds) => {
+        if (!seconds) return '0dk';
+        if (seconds < 60) return `${seconds}sn`;
+        return `${Math.floor(seconds / 60)}dk`;
+    };
+
     // State değiştiğinde localStorage'a kaydet
     useEffect(() => {
         localStorage.setItem('dailySummaryHidden', isHidden);
@@ -65,12 +71,16 @@ export default function DailySummary({ progress }) {
                     <div className="summary-stat-label">Bugün Pratik</div>
                 </div>
                 <div className="summary-stat">
+                    <div className="summary-stat-value">{formatTime(progress.todayTime)}</div>
+                    <div className="summary-stat-label">Süre</div>
+                </div>
+                <div className="summary-stat">
                     <div className="summary-stat-value">%{todayAccuracy}</div>
-                    <div className="summary-stat-label">Bugün Başarı</div>
+                    <div className="summary-stat-label">Başarı</div>
                 </div>
                 <div className="summary-stat">
                     <div className="summary-stat-value">{totalWords}</div>
-                    <div className="summary-stat-label">Toplam Kelime</div>
+                    <div className="summary-stat-label">Toplam</div>
                 </div>
             </div>
         </div>
