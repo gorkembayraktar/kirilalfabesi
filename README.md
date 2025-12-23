@@ -1,44 +1,46 @@
-# Kiril Alfabe Öğrenme Uygulaması 🇹🇷🇧🇬
+# Kiril Alfabe Öğrenme Uygulaması 🇹🇷🇧🇬🇷🇺
 
-Modern, etkileşimli ve kapsamlı bir Kiril alfabesi öğrenme platformu. React ile geliştirilen bu uygulama, kullanıcıların Kiril alfabesini kolayca öğrenmelerini, pratik yapmalarını ve ilerlemelerini takip etmelerini sağlar.
+Modern, etkileşimli ve kapsamlı bir Kiril alfabesi öğrenme platformu. Türkçe konuşanlar için özel olarak tasarlanan bu uygulama, Rusça ve diğer Kiril alfabesi dillerini öğrenmeyi eğlenceli ve etkili hale getirir.
 
-![Ana Ekran](./assets/main_ui.png)
+![Uygulama Demo](./assets/kiril_demo.gif)
 
-## 🌟 Özellikler
 
-### 1. Çeviri ve Pratik (Transliteration Area)
-Ana öğrenme alanı. Türkçe cümleleri Kiril alfabesiyle yazmaya çalışın.
-- **Anlık Doğrulama:** Yazdığınız her harfi kontrol eder ve hata yaptığınızda hemen geri bildirim verir.
-- **Sanal Klavye:** Kiril karakterleri için ekranda sanal bir klavye bulunur.
-- **Harf Tablosu:** Takıldığınızda "📖 Harfler" butonu ile global harf tablosuna ulaşabilirsiniz.
+## 🌟 Öne Çıkan Özellikler
 
-### 2. Gelişmiş İlerleme Analizi
-Gelişiminizi detaylı grafikler ve istatistiklerle takip edin.
-- **Günlük Özet:** Ana sayfada o günkü kelime sayınızı ve sürenizi görün.
-- **Detaylı İlerleme Sayfası:** Son 7 günlük performansınızı, toplam çalışma sürenizi ve başarı oranınızı analiz edin.
-- **Otomatik Süre Takibi:** Uygulamada aktif geçirdiğiniz süreyi otomatik olarak hesaplar.
+### 1. 🔗 İnteraktif Eşleştirme Modu
+Öğrenmeyi oyunlaştırın!
+- **Neon İp Mekaniği:** Harfleri sürükleyip bırakarak birbirine bağlayın.
+- **Dinamik Fizik:** İpler yer çekimi ve hareket fiziğine sahiptir.
+- **Görsel Hafıza:** Kiril ve Latince karşılıklarını eşleştirerek görsel hafızanızı güçlendirin.
 
-![İlerleme Detayları](./assets/progress_page.png)
+### 2. ✍️ Yazı (Handwriting) Modu
+Sadece okumayı değil, yazmayı da öğrenin.
+- **Canvas Çizimi:** Ekrana parmağınızla veya fareyle harfleri çizin.
+- **Rehberli Pratik:** Arkaplanda silik harf ipucu ile doğru formu öğrenin.
+- **Dokunmatik Desteği:** Mobil cihazlarda kalem/parmak desteği.
 
-### 3. Test Modu & Klavye Desteği
-Öğrendiklerinizi test edin.
-- **Çoktan Seçmeli:** Kiril -> Latin veya Latin -> Kiril eşleştirme.
-- **Kelime Yazma:** Size verilen Türkçe kelimenin Kiril karşılığını yazın. Sanal klavye bu modda otomatik olarak açılır.
-- **Sesli Geri Bildirim:** Doğru ve yanlış cevaplarda sesli uyarılar.
+### 3. 🔥 Motivasyon Araçları
+Düzenli çalışmayı teşvik eden sistemler.
+- **Seri (Streak) Sayacı:** Her gün pratik yaparak serinizi koruyun.
+- **Alev Animasyonu:** Başarınızı kutlayan görsel geri bildirimler.
+- **Detaylı İstatistikler:** Doğru/yanlış oranları, çalışma süresi ve öğrenilen harf sayısı.
 
-![Test Modu Klavye](./assets/test_mode_keyboard.png)
+### 4. 🔊 Sesli Telaffuz & Kelimeler
+Doğru telaffuzu duyun.
+- **Web Speech API:** Her harfin ve kelimenin Rusça okunuşunu dinleyin.
+- **Zengin Örnekler:** Her harf için Türkçe karşılıkları ve örnek kelimeler.
+- **Özel Blog İçerikleri:** "Hangi harf Türkçede yok?", "Ç harfi var mı?" gibi kafa karıştıran konularda detaylı rehberler.
 
-### 4. Öğrenme Modu (Flashcards)
-Yeni kelimeler öğrenmek için tasarlanmış kart sistemi.
-- **İlerleme Çubuğu:** Setin ne kadarını tamamladığınızı görün.
-- **Enter Desteği:** Hızlı pratik için klavye kısayolları (Enter ile geçiş).
+### 5. 🛠 Diğer Araçlar
+- **Çeviri Alanı:** Kendi cümlelerinizi yazın ve anlık olarak Kiril karşılığını görün.
+- **Test Modu:** Bilginizi çoktan seçmeli ve yazılı sorularla sınayın.
+- **Sanal Klavye:** Kiril klavyesi olmayanlar için ekran klavyesi.
 
-### 5. Mobil Uyumlu Tasarım
+## 📱 Mobil Uyumlu Tasarım
 Her cihazda mükemmel deneyim.
-- **Responsive Header:** Mobilde kompakt, masaüstünde geniş görünüm.
+- **Responsive Header:** Mobilde kompakt menü, masaüstünde geniş görünüm.
 - **Global Çekmece:** Harf tablosuna her yerden kolay erişim.
-
-![Mobil Görünüm](./assets/mobile_header.webp)
+- **Karanlık Mod:** Göz yormayan tema desteği. 🌙
 
 ## 🚀 Kurulum
 
@@ -65,8 +67,14 @@ Projeyi yerel makinenizde çalıştırmak için:
 ## 🛠 Teknolojiler
 
 -   **React** (Vite ile)
--   **CSS3** (CSS Variables, Flexbox, Grid)
+-   **CSS3** (Modern CSS Variables, Flexbox, Grid, Animations)
+-   **HTML5 Canvas API** (Yazı Modu için)
+-   **Web Speech API** (Seslendirme için)
+-   **LocalStorage** (Veri kalıcılığı için)
 
 ## 📝 Lisans
 
 Bu proje MIT lisansı ile lisanslanmıştır.
+
+---
+© 2025 Developed by Görkem Bayraktar
