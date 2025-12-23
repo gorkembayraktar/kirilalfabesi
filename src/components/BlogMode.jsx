@@ -138,6 +138,68 @@ Kiril alfabesini öğrenmek:
 
 **Hadi başlayalım! Çeviri modunda kendi cümlelerinizi yazarak pratik yapın.**
         `
+    },
+    {
+        id: 4,
+        title: 'Türkçedeki Hangi Harfler Kiril\'de Yok?',
+        icon: '🇹🇷',
+        date: '23 Aralık 2024',
+        readTime: '6 dk',
+        summary: 'Ç, C, Ğ, Ö, Ü gibi harflerin Kiril alfabesindeki durumları.',
+        content: `
+## Türkçe Özel Harfleri ve Kiril Karşılıkları
+
+Türkçe konuşanların Kiril alfabesi öğrenirken en çok kafasını karıştıran konulardan biri: "Bizim 'Ç', 'C', 'Ğ' gibi harflerimiz ne olacak?" Gelin bu harfleri tek tek inceleyelim.
+
+### 1. Ç Harfi (Çok Sorulan!)
+
+En büyük yanılgılardan biri "Ç" harfinin Kiril'de olmadığıdır. **Aksine, Ç harfi vardır!**
+
+- **Türkçe:** Ç (Çanta)
+- **Kiril:** **Ч** (Çay)
+
+Gördüğünüz gibi "4" rakamına benzeyen **Ч** harfi, tam olarak bizim "Ç" sesimizi verir. Yani "Çok" yazmak isterseniz "Чок" yazabilirsiniz.
+
+### 2. C Harfi (Cem) - Kötü Haber!
+
+İşte burada işler biraz karışıyor. Standart Rus Kiril alfabesinde bizim yumuşak "C" (Cem, Cam) sesini veren **tek bir harf yoktur**.
+
+Bunun yerine genellikle iki harf birleştirilir:
+- **D** (Д) + **J** (Ж) = **ДЖ**
+
+Örneğin "Can" ismini yazmak isterseniz "Джан" (Djan) şeklinde yazmanız gerekir.
+
+### 3. Ğ (Yumuşak G)
+
+Maalesef "Ğ" harfinin de doğrudan bir karşılığı yoktur. Genellikle bu ses yutulur veya uzatılır.
+
+- **Dağ** -> Да (Da)
+- **Yağmur** -> Ямур (Yamur)
+
+### 4. Ö ve Ü Harfleri
+
+Bu harfler **Rusça** alfabesinde (tam olarak bizdeki gibi) yoktur. Rusça'da "Yo" (Ё) ve "Yu" (Ю) vardır.
+
+ANCAK! **Kazakça, Kırgızca, Tatarca** gibi Türki dillerin Kiril alfabelerinde bu harfler özel olarak üretilmiştir:
+- **Ö** -> **Ө** (Ortası çizgili O)
+- **Ü** -> **Ү** (Düz çizgili Y)
+
+### 5. I (Işık) Harfi
+
+Bizim "I" sesimize en yakın harf **Ы** harfidir. Tam olarak aynısı olmasa da (biraz daha gırtlaktan ve kalın bir 'ı-i' karışımıdır), "I" sesi yerine kullanılır.
+
+- **Işık** -> **Ы**şık
+
+### Özet Tablo
+
+| Türkçe Harf | Kiril Durumu | Çözüm |
+|-------------|--------------|-------|
+| **Ç** | ✅ VAR | **Ч** harfini kullanın |
+| **C** | ❌ YOK | **ДЖ** (Dj) kombinasyonu |
+| **Ö** | ⚠️ Rusça'da Yok | **Ё** (Yo) veya **O** |
+| **Ü** | ⚠️ Rusça'da Yok | **Ю** (Yu) veya **У** |
+| **Ğ** | ❌ YOK | Genelde yazılmaz |
+        `
     }
 ];
 
