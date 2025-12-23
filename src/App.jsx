@@ -5,6 +5,7 @@ import LetterTable from './components/LetterTable';
 import LearningMode from './components/LearningMode';
 import TestMode from './components/TestMode';
 import MatchingMode from './components/MatchingMode';
+import WritingMode from './components/WritingMode';
 import BlogMode from './components/BlogMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
@@ -47,6 +48,8 @@ function App() {
                 return <TestMode onRecordPractice={recordPractice} />;
             case 'matching':
                 return <MatchingMode onRecordPractice={recordPractice} />;
+            case 'writing':
+                return <WritingMode onRecordPractice={recordPractice} />;
             case 'blog':
                 return <BlogMode />;
             case 'progress':
