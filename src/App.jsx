@@ -10,6 +10,7 @@ import BlogMode from './components/BlogMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
+import Footer from './components/Footer';
 import { useProgress } from './hooks/useProgress';
 
 function App() {
@@ -71,6 +72,8 @@ function App() {
             <main className="main">
                 {renderView()}
             </main>
+
+            <Footer />
 
             {/* Global Drawer Toggle Button */}
             <button

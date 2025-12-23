@@ -66,8 +66,6 @@ Projeyi yerel makinenizde çalıştırmak için:
 
 -   **React** (Vite ile)
 -   **CSS3** (CSS Variables, Flexbox, Grid)
--   **LocalStorage** (Veri kalıcılığı için)
--   **Chart.js** (Grafikler için - *Eğer kullanıldıysa, yoksa CSS ile yapıldıysa belirtilmeli. Bizim projemizde CSS ile yapıldı*)
 
 ## 📝 Lisans
 

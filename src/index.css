@@ -3196,6 +3196,28 @@ body {
     }
 }
 
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: auto;
+    background: var(--bg-primary);
+}
+
+.footer-link {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--accent-primary);
+}
+
 @media (max-width: 480px) {
     .streak-badge {
         padding: 0.3rem 0.6rem;
