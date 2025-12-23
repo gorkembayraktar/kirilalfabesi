@@ -7,7 +7,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="footer-link"
             >
-                © 2025 Developed by Görkem Bayraktar
+                © 2025 Developed by Görkem
             </a>
         </footer>
     );
