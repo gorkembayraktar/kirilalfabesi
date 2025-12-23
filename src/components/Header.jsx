@@ -4,6 +4,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
         { id: 'letters', label: 'Harfler', icon: '📖' },
         { id: 'learning', label: 'Öğren', icon: '🎓' },
         { id: 'test', label: 'Test', icon: '📝' },
+        { id: 'matching', label: 'Eşleştir', icon: '🔗' },
         { id: 'progress', label: 'İlerleme', icon: '📊' }
     ];
 

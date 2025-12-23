@@ -4,6 +4,7 @@ import TransliterationArea from './components/TransliterationArea';
 import LetterTable from './components/LetterTable';
 import LearningMode from './components/LearningMode';
 import TestMode from './components/TestMode';
+import MatchingMode from './components/MatchingMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
@@ -43,6 +44,8 @@ function App() {
                 return <LearningMode onRecordPractice={recordPractice} />;
             case 'test':
                 return <TestMode onRecordPractice={recordPractice} />;
+            case 'matching':
+                return <MatchingMode onRecordPractice={recordPractice} />;
             case 'progress':
                 return <ProgressStats progress={progress} />;
             default:
