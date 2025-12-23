@@ -5,6 +5,7 @@ import LetterTable from './components/LetterTable';
 import LearningMode from './components/LearningMode';
 import TestMode from './components/TestMode';
 import MatchingMode from './components/MatchingMode';
+import BlogMode from './components/BlogMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
@@ -46,6 +47,8 @@ function App() {
                 return <TestMode onRecordPractice={recordPractice} />;
             case 'matching':
                 return <MatchingMode onRecordPractice={recordPractice} />;
+            case 'blog':
+                return <BlogMode />;
             case 'progress':
                 return <ProgressStats progress={progress} />;
             default:
