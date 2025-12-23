@@ -66,6 +66,7 @@ function App() {
                 setCurrentView={setCurrentView}
                 theme={theme}
                 toggleTheme={toggleTheme}
+                streak={progress.streak}
             />
             <main className="main">
                 {renderView()}

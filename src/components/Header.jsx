@@ -1,4 +1,4 @@
-export default function Header({ currentView, setCurrentView, theme, toggleTheme }) {
+export default function Header({ currentView, setCurrentView, theme, toggleTheme, streak }) {
     const views = [
         { id: 'transliteration', label: 'Çeviri', icon: '✍️' },
         { id: 'letters', label: 'Harfler', icon: '📖' },
@@ -35,6 +35,16 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                 </nav>
 
                 <div className="header-actions">
+                    {streak > 0 && (
+                        <div
+                            className="streak-badge"
+                            title="İlerleme detaylarını gör"
+                            onClick={() => setCurrentView('progress')}
+                        >
+                            <span className="streak-icon">🔥</span>
+                            <span className="streak-count">{streak}</span>
+                        </div>
+                    )}
                     <button className="theme-toggle" onClick={toggleTheme} title="Tema değiştir">
                         {theme === 'light' ? '🌙' : '☀️'}
                     </button>

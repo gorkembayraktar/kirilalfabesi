@@ -3135,3 +3135,74 @@ body {
         box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
     }
 }
+
+/* ============================================
+   STREAK COUNTER
+   ============================================ */
+
+.streak-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.75rem;
+    background: rgba(245, 158, 11, 0.1);
+    /* Amber tint */
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-full);
+    margin-right: 0.75rem;
+    user-select: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.streak-badge:hover {
+    background: rgba(245, 158, 11, 0.2);
+    transform: translateY(-1px);
+}
+
+/* STREAK ICON */
+.streak-icon {
+    font-size: 1.2rem;
+    display: inline-block;
+    /* animation: flame-burn 0.8s infinite alternate ease-in-out; */
+    transform-origin: center bottom;
+}
+
+.streak-count {
+    font-weight: 700;
+    color: #f59e0b;
+    font-size: 0.95rem;
+}
+
+@keyframes flame-burn {
+    0% {
+        transform: scale(1) rotate(-3deg);
+        opacity: 0.9;
+        filter: drop-shadow(0 0 2px #f59e0b);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(3deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 8px #ea580c);
+        /* Orange-600 glow */
+    }
+
+    100% {
+        transform: scale(1.05) rotate(-2deg);
+        opacity: 0.95;
+        filter: drop-shadow(0 0 4px #dc2626);
+        /* Red-600 glow */
+    }
+}
+
+@media (max-width: 480px) {
+    .streak-badge {
+        padding: 0.3rem 0.6rem;
+        margin-right: 0.5rem;
+    }
+
+    .streak-count {
+        font-size: 0.85rem;
+    }
+}

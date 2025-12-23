@@ -119,23 +119,39 @@ export function useProgress() {
     }
   }, [progress]);
 
-  // Günlük sıfırlama kontrolü
+  // Günlük sıfırlama kontrolü (Sadece state güncellemesi, yazma yok)
   useEffect(() => {
     const today = new Date().toDateString();
+    
+    // Eğer son pratik tarihi bugün değilse, günlük sayaçları sıfırla
+    // Ama lastPracticeDate'i hemen GÜNCELLEME. Bunu pratik yapınca güncelleyeceğiz.
+    // Sadece streak'in bozulup bozulmadığını kontrol et.
     if (progress.lastPracticeDate && progress.lastPracticeDate !== today) {
-      // Yeni gün başladı
-      const lastDate = new Date(progress.lastPracticeDate);
-      const todayDate = new Date(today);
-      const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
-
-      setProgress(prev => ({
-        ...prev,
-        todayWords: 0,
-        todayCorrect: 0,
-        todayTime: 0, // Reset today time
-        streak: diffDays === 1 ? prev.streak : 0, // Streak devam mı yoksa sıfırlandı mı
-        lastPracticeDate: today
-      }));
+        // Son pratikten beri kaç gün geçmiş?
+        const lastDate = new Date(progress.lastPracticeDate);
+        const todayDate = new Date(today);
+        const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+        
+        // Eğer 1 günden fazla geçmişse streak sıfırlanmalı
+        // Ama bunu sadece display için yapıyoruz, kalıcı olarak pratik yapınca işlenir
+        if (diffDays > 1 && progress.streak > 0) {
+             setProgress(prev => ({
+                ...prev,
+                streak: 0,
+                // Diğer günlük istatistikleri de sıfırla
+                todayWords: 0,
+                todayCorrect: 0,
+                todayTime: 0
+             }));
+        } else if (progress.todayWords > 0) {
+            // Yeni gün ama henüz pratik yapılmadıysa günlükleri sıfırla
+             setProgress(prev => ({
+                ...prev,
+                todayWords: 0,
+                todayCorrect: 0,
+                todayTime: 0
+             }));
+        }
     }
   }, [progress.lastPracticeDate]);
 
