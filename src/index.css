@@ -3488,56 +3488,75 @@ body {
     transform-origin: top center;
 }
 
+/* Main Mobile Adjustment */
+@media (max-width: 600px) {
+    .main {
+        padding: 0.5rem;
+    }
+}
+
 @media (max-width: 600px) {
     .turkish-keyboard {
-        transform: scale(0.9);
-        margin-top: -1rem;
-        /* Klavyeyi yukarı çek */
+        transform: scale(0.85);
+        /* Slightly smaller */
+        margin-top: -1.5rem;
+        /* Pull up further */
     }
 
     .game-active-letter {
-        font-size: 5rem;
-        height: 100px;
-        /* Mobilde biraz daha az yer kaplasın */
+        font-size: 4rem;
+        height: 80px;
+        /* Smaller height */
     }
 
     .game-intro,
     .game-result {
-        padding: 1.5rem;
-        margin: 1rem auto;
+        padding: 1rem;
+        margin: 0.5rem auto;
+    }
+
+    .game-container {
+        padding: 0.5rem;
+        gap: 1rem;
+        /* Reduced gap */
     }
 
     .game-queue {
-        height: 70px;
-        margin-bottom: 0.5rem;
+        height: 60px;
+        margin-bottom: 0.25rem;
     }
 
     .game-middle {
-        gap: 0.5rem;
-        min-height: 150px;
-        margin-bottom: 0.5rem;
+        gap: 0.25rem;
+        min-height: 120px;
+        margin-bottom: 0.25rem;
+    }
+
+    .game-bottom {
+        margin-top: 0;
+        /* Pull keyboard up */
     }
 
     .game-bubble {
-        width: 45px;
-        height: 45px;
-        font-size: 1.25rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
     }
 
     .game-bubble.active {
-        width: 70px;
-        height: 70px;
-        font-size: 2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
     }
 
     .game-stats {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     /* Klavye tuşları */
     .game-keyboard .keyboard-key {
-        height: 48px !important;
-        width: 40px !important;
+        height: 44px !important;
+        width: 36px !important;
     }
 }
 
