@@ -10,6 +10,7 @@ import BlogMode from './components/BlogMode';
 import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
+import GameMode from './components/GameMode';
 import Footer from './components/Footer';
 import { useProgress } from './hooks/useProgress';
 
@@ -55,6 +56,8 @@ function App() {
                 return <BlogMode />;
             case 'progress':
                 return <ProgressStats progress={progress} />;
+            case 'games':
+                return <GameMode onRecordPractice={recordPractice} />;
             default:
                 return <TransliterationArea />;
         }
