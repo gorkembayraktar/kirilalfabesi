@@ -1,14 +1,14 @@
 export default function Header({ currentView, setCurrentView, theme, toggleTheme, streak }) {
     const views = [
-        { id: 'transliteration', label: 'Çeviri', icon: '✍️' },
-        { id: 'letters', label: 'Harfler', icon: '📖' },
-        { id: 'learning', label: 'Öğren', icon: '🎓' },
-        { id: 'test', label: 'Test', icon: '📝' },
-        { id: 'matching', label: 'Eşleştir', icon: '🔗' },
-        { id: 'games', label: 'Oyun', icon: '🎮' },
-        { id: 'writing', label: 'Yazı', icon: '🖊️' },
-        { id: 'blog', label: 'Blog', icon: '📰' },
-        { id: 'progress', label: 'İlerleme', icon: '📊' }
+        { id: 'transliteration', label: 'Çeviri', icon: '✍️', isNew: false },
+        { id: 'letters', label: 'Harfler', icon: '📖', isNew: false },
+        { id: 'learning', label: 'Öğren', icon: '🎓', isNew: false },
+        { id: 'test', label: 'Test', icon: '📝', isNew: false },
+        { id: 'matching', label: 'Eşleştir', icon: '🔗', isNew: false },
+        { id: 'games', label: 'Oyun', icon: '🎮', isNew: true },
+        { id: 'writing', label: 'Yazı', icon: '🖊️', isNew: false },
+        { id: 'blog', label: 'Blog', icon: '📰', isNew: false },
+        { id: 'progress', label: 'İlerleme', icon: '📊', isNew: false }
     ];
 
     return (
@@ -31,6 +31,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                         >
                             <span className="nav-icon">{view.icon}</span>
                             <span className="nav-label">{view.label}</span>
+                            {view.isNew && <span className="new-badge">Yeni</span>}
                         </button>
                     ))}
                 </nav>

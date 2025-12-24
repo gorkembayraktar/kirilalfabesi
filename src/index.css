@@ -156,6 +156,7 @@ body {
 }
 
 .nav-btn {
+    position: relative;
     padding: 0.5rem 0.875rem;
     border: none;
     background: transparent;
@@ -3919,4 +3920,19 @@ body {
 
 .game-btn-secondary:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+/* new badge*/
+
+.new-badge {
+    background: var(--error);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.6rem;
+    font-weight: 600;
+    position: absolute;
+    top: -4px;
+    right: -10px;
+    border-radius: 5px;
 }
