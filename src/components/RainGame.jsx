@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
 
-export default function RainGame({ onExit }) {
+export default function RainGame({ onExit, availableLetters }) {
     const [gameStatus, setGameStatus] = useState('intro'); // intro, playing, finished
     const canvasRef = useRef(null);
     const requestRef = useRef();
@@ -24,8 +24,15 @@ export default function RainGame({ onExit }) {
     const letterMapRef = useRef([]);
 
     useEffect(() => {
-        letterMapRef.current = getLetterMapping();
-    }, []);
+        const fullMapping = getLetterMapping();
+        if (availableLetters && availableLetters.length > 0) {
+            letterMapRef.current = fullMapping.filter(item =>
+                availableLetters.includes(item.cyrillic.charAt(0))
+            );
+        } else {
+            letterMapRef.current = fullMapping;
+        }
+    }, [availableLetters]);
 
     // Handling Canvas Resize
     useEffect(() => {

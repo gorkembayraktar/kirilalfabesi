@@ -5,7 +5,8 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
         { id: 'learning', label: 'Öğren', icon: '🎓', isNew: false },
         { id: 'test', label: 'Test', icon: '📝', isNew: false },
         { id: 'matching', label: 'Eşleştir', icon: '🔗', isNew: false },
-        { id: 'games', label: 'Oyun', icon: '🎮', isNew: true },
+        { id: 'reflex', label: 'Refleks (Kodla)', icon: '🧠', isNew: true },
+        { id: 'games', label: 'Oyun', icon: '🎮', isNew: false },
         { id: 'writing', label: 'Yazı', icon: '🖊️', isNew: false },
         { id: 'blog', label: 'Blog', icon: '📰', isNew: false },
         { id: 'progress', label: 'İlerleme', icon: '📊', isNew: false }

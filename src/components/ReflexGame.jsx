@@ -11,7 +11,7 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-export default function ReflexGame({ onExit }) {
+export default function ReflexGame({ onExit, availableLetters }) {
     const [gameState, setGameState] = useState('intro'); // intro, playing, finished
     const [queue, setQueue] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -20,14 +20,22 @@ export default function ReflexGame({ onExit }) {
     const [combo, setCombo] = useState(0);
     const [lastResult, setLastResult] = useState(null); // 'correct', 'incorrect', null
     const [mistakes, setMistakes] = useState([]); // [{ cyrillic, correct, actual }]
+    const [answeredCount, setAnsweredCount] = useState(0); // Track total answered questions
 
     const mapRef = useRef([]);
     const timerRef = useRef(null);
 
     // Initialize letter mapping
     useEffect(() => {
-        mapRef.current = getLetterMapping();
-    }, []);
+        const fullMapping = getLetterMapping();
+        if (availableLetters && availableLetters.length > 0) {
+            mapRef.current = fullMapping.filter(item =>
+                availableLetters.includes(item.cyrillic.charAt(0))
+            );
+        } else {
+            mapRef.current = fullMapping;
+        }
+    }, [availableLetters]);
 
     const startGame = () => {
         const fullList = mapRef.current;
@@ -57,6 +65,7 @@ export default function ReflexGame({ onExit }) {
         setScore(0);
         setCombo(0);
         setMistakes([]);
+        setAnsweredCount(0);
         setTimeLeft(60);
         setGameState('playing');
         setLastResult(null);
@@ -115,12 +124,17 @@ export default function ReflexGame({ onExit }) {
             setQueue(prev => prev.map((q, i) => i === activeIndex ? { ...q, result: 'incorrect' } : q));
         }
 
+        // Increment answered count
+        setAnsweredCount(prev => prev + 1);
+
         // Always move to next item (Wait slightly for visual feedback)
         setTimeout(() => {
             if (activeIndex < queue.length - 1) {
                 setActiveIndex(prev => prev + 1);
             } else {
-                setScore(prev => prev + 100); // Bonus for finishing
+                if ((answeredCount - mistakes.length) > 0) {
+                    setScore(prev => prev + Math.round(Math.random() * 100)); // Bonus for finishing
+                }
                 endGame();
             }
             setLastResult(null);
@@ -172,7 +186,8 @@ export default function ReflexGame({ onExit }) {
     }
 
     if (gameState === 'finished') {
-        const accuracy = Math.round(((activeIndex + 1 - mistakes.length) / (activeIndex + 1 || 1)) * 100);
+        const correctCount = answeredCount - mistakes.length;
+        const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
 
         return (
             <div className="game-result">
@@ -182,11 +197,11 @@ export default function ReflexGame({ onExit }) {
 
                 <div className="result-stats-row">
                     <div className="result-stat-item">
-                        <div className="stat-val">{activeIndex + 1}</div>
+                        <div className="stat-val">{answeredCount}</div>
                         <div className="stat-lbl">Soru</div>
                     </div>
                     <div className="result-stat-item">
-                        <div className="stat-val" style={{ color: 'var(--success)' }}>{activeIndex + 1 - mistakes.length}</div>
+                        <div className="stat-val" style={{ color: 'var(--success)' }}>{correctCount}</div>
                         <div className="stat-lbl">Doğru</div>
                     </div>
                     <div className="result-stat-item">
@@ -195,7 +210,7 @@ export default function ReflexGame({ onExit }) {
                     </div>
                     <div className="result-stat-item">
                         <div className="stat-val">%{accuracy}</div>
-                        <div className="stat-lbl">İsabeti</div>
+                        <div className="stat-lbl">İsabet</div>
                     </div>
                 </div>
 

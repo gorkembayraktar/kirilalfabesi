@@ -11,6 +11,7 @@ import DailySummary from './components/DailySummary';
 import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
 import GameMode from './components/GameMode';
+import ReflexMode from './components/ReflexMode';
 import Footer from './components/Footer';
 import { useProgress } from './hooks/useProgress';
 
@@ -44,6 +45,8 @@ function App() {
                 );
             case 'letters':
                 return <LetterTable />;
+            case 'reflex':
+                return <ReflexMode />;
             case 'learning':
                 return <LearningMode onRecordPractice={recordPractice} />;
             case 'test':
@@ -57,7 +60,7 @@ function App() {
             case 'progress':
                 return <ProgressStats progress={progress} />;
             case 'games':
-                return <GameMode onRecordPractice={recordPractice} />;
+                return <GameMode onRecordPractice={recordPractice} progress={progress} />;
             default:
                 return <TransliterationArea />;
         }
