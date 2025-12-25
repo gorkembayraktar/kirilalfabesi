@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { PenTool, EyeOff, Lightbulb, Eraser, ArrowRight, Check, ArrowBigRight } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 
 // Harfleri karıştırma
@@ -149,7 +150,7 @@ export default function WritingMode({ onRecordPractice }) {
                 <div className="writing-intro">
                     {stats.practiced > 0 ? (
                         <>
-                            <div className="writing-result-icon">✍️</div>
+                            <div className="writing-result-icon"><PenTool size={64} style={{ color: 'var(--primary)' }} /></div>
                             <h2>Tebrikler!</h2>
                             <p className="writing-result-text">
                                 <strong>{stats.practiced}</strong> Kiril harfi yazdınız!
@@ -163,7 +164,7 @@ export default function WritingMode({ onRecordPractice }) {
                         </>
                     ) : (
                         <>
-                            <div className="writing-intro-icon">✍️</div>
+                            <div className="writing-intro-icon"><PenTool size={64} style={{ color: 'var(--primary)' }} /></div>
                             <h2>El Yazısı Modu</h2>
                             <p>Kiril harflerini el ile yazarak öğrenin.</p>
                             <div className="writing-how">
@@ -212,7 +213,7 @@ export default function WritingMode({ onRecordPractice }) {
                     <div className="target-label">Bu harfi yazın:</div>
                     <div className="target-letters">
                         <span className="target-turkish">{currentLetter.turkish}</span>
-                        <span className="target-arrow">→</span>
+                        <span className="target-arrow"><ArrowRight /></span>
                         <span className="target-cyrillic">{currentLetter.cyrillic}</span>
                     </div>
                 </div>
@@ -221,8 +222,9 @@ export default function WritingMode({ onRecordPractice }) {
                 <button
                     className={`hint-btn ${showHint ? 'active' : ''}`}
                     onClick={() => setShowHint(!showHint)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
                 >
-                    {showHint ? '👁️ İpucunu Gizle' : '💡 İpucu Göster'}
+                    {showHint ? <><EyeOff size={18} /> İpucunu Gizle</> : <><Lightbulb size={18} /> İpucu Göster</>}
                 </button>
 
                 {/* İpucu overlay - büyük örnek harf */}
@@ -252,15 +254,17 @@ export default function WritingMode({ onRecordPractice }) {
                     <button
                         className="writing-btn secondary"
                         onClick={clearCanvas}
+                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
                     >
-                        🗑️ Temizle
+                        <Eraser size={18} /> Temizle
                     </button>
                     <button
                         className="writing-btn primary"
                         onClick={nextLetter}
                         disabled={!hasDrawn}
+                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
                     >
-                        {currentIndex < letters.length - 1 ? 'Sonraki →' : 'Bitir ✓'}
+                        {currentIndex < letters.length - 1 ? <>Sonraki <ArrowRight size={18} /></> : <>Bitir <Check size={18} /></>}
                     </button>
                 </div>
 

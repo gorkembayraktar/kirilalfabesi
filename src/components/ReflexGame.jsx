@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { ArrowLeft, Gamepad2, Zap, FastForward, ArrowRight } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
 
@@ -166,17 +167,21 @@ export default function ReflexGame({ onExit, availableLetters }) {
     if (gameState === 'intro') {
         return (
             <div className="game-intro">
-                <button className="game-back-btn" onClick={onExit}>← Geri</button>
-                <div className="game-icon">🎮</div>
+                <button className="game-back-btn" onClick={onExit} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <ArrowLeft size={16} /> Geri
+                </button>
+                <div className="game-icon">
+                    <Gamepad2 size={64} strokeWidth={1.5} />
+                </div>
                 <h2>Refleks Oyunu</h2>
-                <p>Yukarıda çıkan Kiril harfeleriye klavyedeki Türkçe sesleri eşleştir!</p>
+                <p>Yukarıda çıkan Kiril harfeleriyet klavyedeki Türkçe sesleri eşleştir!</p>
                 <div className="game-rules">
                     <div className="rule">
-                        <span className="rule-icon">⚡</span>
+                        <span className="rule-icon"><Zap size={24} /></span>
                         <span>Hızlı Ol</span>
                     </div>
                     <div className="rule">
-                        <span className="rule-icon">⏩</span>
+                        <span className="rule-icon"><FastForward size={24} /></span>
                         <span>Yanlışta Geçer</span>
                     </div>
                 </div>
@@ -221,7 +226,7 @@ export default function ReflexGame({ onExit, availableLetters }) {
                             {mistakes.map((m, i) => (
                                 <div key={i} className="mistake-item">
                                     <div className="mistake-char cyrillic">{m.cyrillic}</div>
-                                    <div className="mistake-arrow">→</div>
+                                    <div className="mistake-arrow"><ArrowRight size={16} /></div>
                                     <div className="mistake-char correct" title="Olması Gereken">{m.correct.toUpperCase()}</div>
                                     <div className="mistake-sep">vs</div>
                                     <div className="mistake-char incorrect" title="Senin Yanıtın">{m.actual.toUpperCase()}</div>

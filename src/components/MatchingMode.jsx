@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { Link, PartyPopper, ThumbsUp, Award, ArrowRight, Check, RotateCcw } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 
 function shuffleArray(array) {
@@ -266,7 +267,7 @@ export default function MatchingMode({ onRecordPractice }) {
                     {result ? (
                         <>
                             <div className="match-result-icon">
-                                {result.correct === result.total ? '🎉' : result.correct > result.total / 2 ? '👍' : '💪'}
+                                {result.correct === result.total ? <PartyPopper size={64} style={{ color: 'var(--primary)' }} /> : result.correct > result.total / 2 ? <ThumbsUp size={64} color="#3b82f6" /> : <Award size={64} color="#f59e0b" />}
                             </div>
                             <h2>{result.correct === result.total ? 'Mükemmel!' : 'Sonuçlar'}</h2>
                             <div className="match-result-grid">
@@ -300,7 +301,7 @@ export default function MatchingMode({ onRecordPractice }) {
                                                 return (
                                                     <div key={idx} className={`correction-item ${isWrong ? 'wrong' : 'missed'}`}>
                                                         <span className="correction-cyrillic">{cyrillic.letter}</span>
-                                                        <span className="correction-arrow">→</span>
+                                                        <span className="correction-arrow"><ArrowRight size={16} /></span>
                                                         <span className="correction-turkish">{cyrillic.correctTurkish}</span>
                                                         {isWrong && (
                                                             <span className="correction-wrong">
@@ -322,7 +323,7 @@ export default function MatchingMode({ onRecordPractice }) {
                         </>
                     ) : (
                         <>
-                            <div className="match-intro-icon">🔗</div>
+                            <div className="match-intro-icon"><Link size={64} style={{ color: 'var(--primary)' }} /></div>
                             <h2>Eşleştirme Modu</h2>
                             <p>Kiril harfleri doğru Türkçe karşılıklarıyla eşleştirin.</p>
                             <div className="match-how">
@@ -437,15 +438,17 @@ export default function MatchingMode({ onRecordPractice }) {
                                 className="match-btn secondary"
                                 onClick={() => setConnections({})}
                                 disabled={connectedCount === 0}
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
                             >
-                                Sıfırla
+                                <RotateCcw size={16} /> Sıfırla
                             </button>
                             <button
                                 className="match-btn primary"
                                 onClick={checkAnswers}
                                 disabled={connectedCount < totalCount}
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
                             >
-                                Doğrula ✓
+                                Doğrula <Check size={18} />
                             </button>
                         </>
                     ) : (
@@ -453,8 +456,8 @@ export default function MatchingMode({ onRecordPractice }) {
                             <button className="match-btn secondary" onClick={() => { setResult(null); setConnections({}); }}>
                                 Tekrar
                             </button>
-                            <button className="match-btn primary" onClick={() => setIsStarted(false)}>
-                                Bitir →
+                            <button className="match-btn primary" onClick={() => setIsStarted(false)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                                Bitir <ArrowRight size={18} />
                             </button>
                         </>
                     )}

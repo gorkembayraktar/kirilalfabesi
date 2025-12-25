@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { CloudRain, Heart, ArrowLeft, RotateCcw, Home } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
 
 export default function RainGame({ onExit, availableLetters }) {
     const [gameStatus, setGameStatus] = useState('intro'); // intro, playing, finished
+    const [hudState, setHudState] = useState({ score: 0, lives: 3, level: 1 });
     const canvasRef = useRef(null);
     const requestRef = useRef();
     const isPlayingRef = useRef(false);
@@ -59,6 +61,7 @@ export default function RainGame({ onExit, availableLetters }) {
     const startGame = () => {
         setGameStatus('playing');
         isPlayingRef.current = true;
+        setHudState({ score: 0, lives: 3, level: 1 });
 
         // Reset State
         gameStateRef.current = {
@@ -150,6 +153,7 @@ export default function RainGame({ onExit, availableLetters }) {
             // Hit bottom
             if (item.y > state.height + 20) {
                 state.lives -= 1;
+                setHudState(prev => ({ ...prev, lives: state.lives }));
                 state.items.splice(i, 1);
                 if (state.lives <= 0) {
                     endGame();
@@ -175,24 +179,6 @@ export default function RainGame({ onExit, availableLetters }) {
         const state = gameStateRef.current;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw HUD (On Canvas as requested)
-        ctx.font = 'bold 24px Inter, sans-serif';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        ctx.fillText(`Puan: ${state.score}`, 20, 20);
-
-        ctx.textAlign = 'right';
-        ctx.fillText(`Seviye: ${state.level}`, canvas.width - 20, 20);
-
-        // Draw Lives (Hearts)
-        ctx.textAlign = 'center';
-        let hearts = '';
-        for (let i = 0; i < 3; i++) {
-            hearts += i < state.lives ? '❤️ ' : '🖤 ';
-        }
-        ctx.fillText(hearts, canvas.width / 2, 20);
 
         // Draw Items
         ctx.font = 'bold 36px monospace';
@@ -248,6 +234,8 @@ export default function RainGame({ onExit, availableLetters }) {
             if (state.score % 100 === 0) {
                 state.level += 1;
             }
+            // Update HUD state
+            setHudState(prev => ({ ...prev, score: state.score, level: state.level }));
 
             const originalIndex = state.items.findIndex(i => i.id === hitItem.id);
             if (originalIndex !== -1) {
@@ -275,13 +263,16 @@ export default function RainGame({ onExit, availableLetters }) {
     if (gameStatus === 'intro') {
         return (
             <div className="game-container rain-mode">
-                {/* Background canvas for visual consistency? Or just black background */}
                 <div className="game-intro">
-                    <button className="game-back-btn" onClick={onExit}>← Geri</button>
-                    <div className="game-icon">🌧️</div>
+                    <button className="game-back-btn" onClick={onExit} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <ArrowLeft size={16} /> Geri
+                    </button>
+                    <div className="game-icon">
+                        <CloudRain size={64} color="#60a5fa" />
+                    </div>
                     <h2>Yağmur Oyunu</h2>
                     <p>Harfler yere düşmeden onları yakala!</p>
-                    <p className="game-hint">Puan ve can durumunu artık çizim ekranında görebilirsin.</p>
+                    <p className="game-hint">Puan ve can durumunu ekranın üstünde görebilirsin.</p>
                     <button className="game-btn-start" onClick={startGame}>Başla</button>
                 </div>
             </div>
@@ -295,8 +286,12 @@ export default function RainGame({ onExit, availableLetters }) {
                     <h2>Oyun Bitti!</h2>
                     <div className="final-score">{gameStateRef.current.score}</div>
                     <div className="game-actions">
-                        <button className="game-btn-restart" onClick={startGame}>Tekrar Oyna</button>
-                        <button className="game-btn-secondary" onClick={onExit} style={{ marginTop: '1rem' }}>Menüye Dön</button>
+                        <button className="game-btn-restart" onClick={startGame} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                            <RotateCcw size={18} /> Tekrar Oyna
+                        </button>
+                        <button className="game-btn-secondary" onClick={onExit} style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                            <Home size={18} /> Menüye Dön
+                        </button>
                     </div>
                 </div>
             </div>
@@ -304,7 +299,40 @@ export default function RainGame({ onExit, availableLetters }) {
     }
 
     return (
-        <div className="game-container rain-mode" style={{ display: 'flex', flexDirection: 'column', height: '600px', overflow: 'hidden' }}>
+        <div className="game-container rain-mode" style={{ display: 'flex', flexDirection: 'column', height: '600px', overflow: 'hidden', position: 'relative' }}>
+            {/* HUD Overlay */}
+            <div className="game-hud" style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                padding: '1rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                pointerEvents: 'none',
+                zIndex: 10
+            }}>
+                <div className="hud-score" style={{ color: 'white', fontWeight: 'bold', fontSize: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                    Puan: {hudState.score}
+                </div>
+
+                <div className="hud-lives" style={{ display: 'flex', gap: '4px' }}>
+                    {[...Array(3)].map((_, i) => (
+                        <Heart
+                            key={i}
+                            size={24}
+                            fill={i < hudState.lives ? "#ef4444" : "#374151"}
+                            color={i < hudState.lives ? "#ef4444" : "#4b5563"}
+                        />
+                    ))}
+                </div>
+
+                <div className="hud-level" style={{ color: 'white', fontWeight: 'bold', fontSize: '1.2rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                    Seviye: {hudState.level}
+                </div>
+            </div>
+
             {/* Canvas takes remaining space */}
             <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
                 <canvas
@@ -314,7 +342,7 @@ export default function RainGame({ onExit, availableLetters }) {
             </div>
 
             {/* Keyboard sits below canvas */}
-            <div className="game-bottom" style={{ padding: '1rem', background: '#1a1a1a', borderTop: '1px solid #333' }}>
+            <div className="game-bottom" style={{ padding: '1rem', background: '#1a1a1a', borderTop: '1px solid #333', position: 'relative', zIndex: 10 }}>
                 <TurkishKeyboard onKeyPress={handleInput} />
             </div>
         </div>

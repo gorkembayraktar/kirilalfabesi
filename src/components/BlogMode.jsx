@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { BookOpen, Type, Target, Globe, ArrowLeft, Clock } from 'lucide-react';
 
 const blogPosts = [
     {
         id: 1,
         title: 'Kiril Alfabesi Nedir?',
-        icon: '📚',
+        icon: <BookOpen className="text-blue-500" size={32} />,
         date: '23 Aralık 2024',
         readTime: '5 dk',
         summary: 'Kiril alfabesinin tarihçesi ve Türkçe ile ilişkisi hakkında temel bilgiler.',
@@ -33,7 +34,7 @@ Türkçe konuşanlar için iyi haber şu ki, Kiril alfabesinde birçok harf Tür
     {
         id: 2,
         title: 'Türkçe ve Kiril: Harf Karşılıkları',
-        icon: '🔤',
+        icon: <Type className="text-green-500" size={32} />,
         date: '23 Aralık 2024',
         readTime: '7 dk',
         summary: 'Her Türkçe harfin Kiril karşılığını öğrenin.',
@@ -90,7 +91,7 @@ Türkçe'den Kiril alfabesine geçiş düşündüğünüzden daha kolaydır! İ�
     {
         id: 3,
         title: 'Kiril Öğrenmenin En Kolay Yolu',
-        icon: '🎯',
+        icon: <Target className="text-red-500" size={32} />,
         date: '23 Aralık 2024',
         readTime: '4 dk',
         summary: 'Kiril alfabesini hızlı ve etkili öğrenmek için ipuçları.',
@@ -142,7 +143,7 @@ Kiril alfabesini öğrenmek:
     {
         id: 4,
         title: 'Türkçedeki Hangi Harfler Kiril\'de Yok?',
-        icon: '🇹🇷',
+        icon: <Globe className="text-purple-500" size={32} />,
         date: '23 Aralık 2024',
         readTime: '6 dk',
         summary: 'Ç, C, Ğ, Ö, Ü gibi harflerin Kiril alfabesindeki durumları.',
@@ -210,8 +211,8 @@ export default function BlogMode() {
         return (
             <div className="blog-mode">
                 <div className="blog-post-full">
-                    <button className="blog-back-btn" onClick={() => setSelectedPost(null)}>
-                        ← Geri Dön
+                    <button className="blog-back-btn" onClick={() => setSelectedPost(null)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <ArrowLeft size={16} /> Geri Dön
                     </button>
 
                     <article className="blog-article">
@@ -220,7 +221,7 @@ export default function BlogMode() {
                             <div className="blog-post-meta">
                                 <span>{selectedPost.date}</span>
                                 <span>•</span>
-                                <span>{selectedPost.readTime} okuma</span>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={14} /> {selectedPost.readTime} okuma</span>
                             </div>
                         </div>
 
@@ -241,7 +242,9 @@ export default function BlogMode() {
     return (
         <div className="blog-mode">
             <div className="blog-header">
-                <h1>📖 Blog</h1>
+                <h1 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                    <BookOpen size={36} className="text-primary" /> Blog
+                </h1>
                 <p>Kiril alfabesi hakkında bilgi edinin</p>
             </div>
 
@@ -258,7 +261,7 @@ export default function BlogMode() {
                             <p>{post.summary}</p>
                             <div className="blog-card-footer">
                                 <span className="blog-card-date">{post.date}</span>
-                                <span className="blog-card-read">{post.readTime} okuma →</span>
+                                <span className="blog-card-read">{post.readTime} okuma</span>
                             </div>
                         </div>
                     </div>

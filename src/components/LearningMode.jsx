@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { GraduationCap, PartyPopper, Check, X, ArrowRight } from 'lucide-react';
 import { transliterate, getRandomWords, checkAnswer } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
 
@@ -99,7 +100,7 @@ export default function LearningMode({ onRecordPractice }) {
                 <div className="learning-card">
                     {stats.total > 0 ? (
                         <>
-                            <div className="start-icon">🎉</div>
+                            <div className="start-icon"><PartyPopper size={64} style={{ color: 'var(--primary)' }} /></div>
                             <h2 className="start-title">Tebrikler!</h2>
                             <p className="start-description">
                                 {stats.total} kelimeden {stats.correct} tanesini doğru yazdınız.
@@ -111,7 +112,7 @@ export default function LearningMode({ onRecordPractice }) {
                         </>
                     ) : (
                         <>
-                            <div className="start-icon">🎓</div>
+                            <div className="start-icon"><GraduationCap size={64} style={{ color: 'var(--primary)' }} /></div>
                             <h2 className="start-title">Öğrenme Modu</h2>
                             <p className="start-description">
                                 Size Türkçe kelimeler göstereceğiz. Her kelimenin Kiril karşılığını yazın.
@@ -159,11 +160,11 @@ export default function LearningMode({ onRecordPractice }) {
                 />
 
                 {feedback && (
-                    <div className={`feedback ${feedback} fade-in`}>
+                    <div className={`feedback ${feedback} fade-in`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                         {feedback === 'correct' ? (
-                            <>✅ Doğru!</>
+                            <><Check size={24} /> Doğru!</>
                         ) : (
-                            <>❌ Yanlış</>
+                            <><X size={24} /> Yanlış</>
                         )}
                     </div>
                 )}
@@ -175,8 +176,8 @@ export default function LearningMode({ onRecordPractice }) {
                 )}
 
                 {feedback && (
-                    <button className="next-btn fade-in" onClick={nextWord}>
-                        {currentIndex < words.length - 1 ? 'Sonraki Kelime →' : 'Bitir'}
+                    <button className="next-btn fade-in" onClick={nextWord} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                        {currentIndex < words.length - 1 ? <>Sonraki Kelime <ArrowRight size={18} /></> : 'Bitir'}
                     </button>
                 )}
 

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Flame, Timer, CheckSquare, Target, BarChart2 } from 'lucide-react';
 
 export default function ProgressStats({ progress }) {
     const { streak, todayWords, todayCorrect, todayTime, totalWords, totalCorrect, history } = progress;
@@ -38,33 +39,33 @@ export default function ProgressStats({ progress }) {
 
     return (
         <div className="progress-page fade-in">
-            <h2 className="page-title">📊 İlerleme Raporu</h2>
+            <h2 className="page-title"><BarChart2 style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} /> İlerleme Raporu</h2>
 
             {/* Özet Kartları */}
             <div className="stats-grid">
                 <div className="stat-card">
-                    <div className="stat-icon">🔥</div>
+                    <div className="stat-icon"><Flame size={24} color="#f59e0b" /></div>
                     <div className="stat-info">
                         <span className="stat-value">{streak} Gün</span>
                         <span className="stat-label">Seri</span>
                     </div>
                 </div>
                 <div className="stat-card">
-                    <div className="stat-icon">⏱️</div>
+                    <div className="stat-icon"><Timer size={24} color="#3b82f6" /></div>
                     <div className="stat-info">
                         <span className="stat-value">{formatTime(progress.totalTime)}</span>
                         <span className="stat-label">Toplam Süre</span>
                     </div>
                 </div>
                 <div className="stat-card">
-                    <div className="stat-icon">📝</div>
+                    <div className="stat-icon"><CheckSquare size={24} color="#10b981" /></div>
                     <div className="stat-info">
                         <span className="stat-value">{totalWords}</span>
                         <span className="stat-label">Toplam Kelime</span>
                     </div>
                 </div>
                 <div className="stat-card">
-                    <div className="stat-icon">🎯</div>
+                    <div className="stat-icon"><Target size={24} color="#ec4899" /></div>
                     <div className="stat-info">
                         <span className="stat-value">%{totalAccuracy}</span>
                         <span className="stat-label">Genel Başarı</span>

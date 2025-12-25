@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { RotateCcw, Lock, Brain, PartyPopper, AlertTriangle } from 'lucide-react';
 import { reflexData } from '../../data/reflexData';
 import { useProgress } from '../../hooks/useProgress';
 import CodingStage from './CodingStage';
@@ -47,7 +48,9 @@ export default function ReflexMode() {
     const ResetModal = () => (
         <div className="reflex-modal-overlay" onClick={() => setShowResetModal(false)}>
             <div className="reflex-modal" onClick={e => e.stopPropagation()}>
-                <h3>⚠️ İlerlemeyi Sıfırla</h3>
+                <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                    <AlertTriangle size={20} /> İlerlemeyi Sıfırla
+                </h3>
                 <p>Tüm kilitli harfler sıfırlanacak ve baştan başlayacaksın.</p>
                 <p className="modal-warning">Bu işlem geri alınamaz!</p>
                 <div className="modal-buttons">
@@ -72,7 +75,7 @@ export default function ReflexMode() {
     if (lockedCount === reflexData.length) {
         return (
             <div className="reflex-container completed">
-                <h2>🎉 Tebrikler!</h2>
+                <h2><PartyPopper size={24} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} /> Tebrikler!</h2>
                 <p>Tüm harfleri başarıyla kilitledin!</p>
                 <div className="reflex-stats">
                     {reflexData.map(l => (
@@ -85,8 +88,9 @@ export default function ReflexMode() {
                 <button
                     className="reflex-reset-btn"
                     onClick={() => setShowResetModal(true)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
                 >
-                    🔄 Sıfırla
+                    <RotateCcw size={16} /> Sıfırla
                 </button>
                 {showResetModal && <ResetModal />}
             </div>
@@ -139,7 +143,7 @@ export default function ReflexMode() {
     if (stage === 'completed') {
         return (
             <div className="reflex-container completed">
-                <h2>🎉 Harika!</h2>
+                <h2><PartyPopper size={24} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} /> Harika!</h2>
                 <p>Bu seti başarıyla kilitledin!</p>
                 <div className="reflex-stats">
                     {reflexData.filter(l => progress.reflexStatus?.[l.cyrillic]?.locked).map(l => (
@@ -174,10 +178,10 @@ export default function ReflexMode() {
                         onClick={() => setShowResetModal(true)}
                         title="Sıfırla"
                     >
-                        🔄
+                        <RotateCcw size={16} />
                     </button>
-                    <div className="reflex-mode-badge">
-                        {stage === 'coding' ? '🧠 Kodlama' : '🔒 Kilitle'}
+                    <div className="reflex-mode-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        {stage === 'coding' ? <><Brain size={14} /> Kodlama</> : <><Lock size={14} /> Kilitle</>}
                     </div>
                 </div>
             </div>

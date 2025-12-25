@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BookOpen, Volume2 } from 'lucide-react';
 import { getLetterMapping, transliterate } from '../utils/transliteration';
 
 const exampleWords = {
@@ -71,9 +72,9 @@ export default function LetterTable() {
 
     return (
         <div className="letter-table">
-            <h2>📚 Harf Eşleşmeleri</h2>
+            <h2><BookOpen className="inline-icon" style={{ marginRight: '0.5rem' }} /> Harf Eşleşmeleri</h2>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.9rem' }}>
-                Harfe tıklayarak örnek görün, 🔊 ile telaffuzu dinleyin
+                Harfe tıklayarak örnek görün, <Volume2 size={16} className="inline-icon" /> ile telaffuzu dinleyin
             </p>
 
             <div className="letter-grid">
@@ -95,7 +96,7 @@ export default function LetterTable() {
                                 onClick={(e) => handleSpeak(e, cyrillicLower)}
                                 title="Telaffuzu dinle"
                             >
-                                🔊
+                                <Volume2 size={16} />
                             </button>
                         </div>
                     );
@@ -122,7 +123,7 @@ export default function LetterTable() {
                             onClick={() => speakCyrillic(transliterate(exampleWords[selectedLetter]))}
                             title="Kelimeyi dinle"
                         >
-                            🔊
+                            <Volume2 size={24} />
                         </button>
                     </div>
                     <div style={{ fontSize: '1.5rem', color: 'var(--accent-primary)', fontWeight: '600' }}>

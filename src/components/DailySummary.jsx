@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { BarChart2, Flame, X } from 'lucide-react';
 
 export default function DailySummary({ progress }) {
-
     return null;
-
     const { streak, todayWords, todayCorrect, totalWords } = progress;
 
     // 1. Düzeltme: String karşılaştırmasını geri ekledik
@@ -40,8 +39,8 @@ export default function DailySummary({ progress }) {
 
     if (isHidden) {
         return (
-            <button className="summary-show-btn" onClick={() => setIsHidden(false)}>
-                📊 İlerlemeyi Göster
+            <button className="summary-show-btn" onClick={() => setIsHidden(false)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <BarChart2 size={16} /> İlerlemeyi Göster
             </button>
         );
     }
@@ -49,21 +48,22 @@ export default function DailySummary({ progress }) {
     return (
         <div className="daily-summary fade-in">
             <div className="summary-header">
-                <h3 className="summary-title">
-                    📊 Bugün Öğrendiklerin
+                <h3 className="summary-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <BarChart2 size={20} /> Bugün Öğrendiklerin
                 </h3>
                 <div className="summary-actions">
                     {streak > 0 && (
-                        <div className="streak-badge">
-                            🔥 {streak} gün
+                        <div className="streak-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <Flame size={16} fill="currentColor" /> {streak} gün
                         </div>
                     )}
                     <button
                         className="summary-close-btn"
                         onClick={() => setIsHidden(true)}
                         title="Gizle"
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                        ✕
+                        <X size={16} />
                     </button>
                 </div>
             </div>

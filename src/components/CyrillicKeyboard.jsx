@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Keyboard, ChevronUp, ChevronDown, Delete, CornerDownLeft } from 'lucide-react';
 
 // Kiril klavye düzeni
 const keyboardRows = [
@@ -34,8 +35,9 @@ export default function CyrillicKeyboard({ onKeyPress, disabled }) {
                 className="keyboard-toggle"
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
             >
-                ⌨️ Kiril Klavye {isOpen ? '▲' : '▼'}
+                <Keyboard size={18} /> Kiril Klavye {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
 
             {isOpen && (
@@ -61,8 +63,9 @@ export default function CyrillicKeyboard({ onKeyPress, disabled }) {
                             className={`keyboard-key key-backspace ${disabled ? 'disabled' : ''}`}
                             onClick={handleBackspace}
                             disabled={disabled}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
                         >
-                            ⌫ Sil
+                            <Delete size={18} /> Sil
                         </button>
                         <button
                             type="button"
@@ -77,8 +80,9 @@ export default function CyrillicKeyboard({ onKeyPress, disabled }) {
                             className={`keyboard-key key-enter ${disabled ? 'disabled' : ''}`}
                             onClick={() => !disabled && onKeyPress && onKeyPress('ENTER')}
                             disabled={disabled}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
                         >
-                            ↵ Giriş
+                            <CornerDownLeft size={18} /> Giriş
                         </button>
                     </div>
                 </div>

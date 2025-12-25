@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Star, Zap, BookOpen, Target, ClipboardList, Trophy, ThumbsUp, Type, PenTool, Eye, ArrowRight } from 'lucide-react';
 import { transliterate, getRandomWords, getLetterMapping, checkAnswer } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
 
@@ -141,17 +142,17 @@ export default function TestMode({ onRecordPractice }) {
 
     const getScoreMessage = () => {
         const percent = (score / questions.length) * 100;
-        if (percent >= 90) return "Muhteşem! Kiril alfabesine hakim olmuşsunuz! 🌟";
-        if (percent >= 70) return "Çok iyi! Biraz daha pratikle mükemmel olacaksınız! 💪";
-        if (percent >= 50) return "İyi bir başlangıç! Pratik yapmaya devam edin. 📚";
-        return "Daha fazla pratik yapmanız gerekiyor. Pes etmeyin! 🎯";
+        if (percent >= 90) return <><Star className="inline-icon" size={20} /> Muhteşem! Kiril alfabesine hakim olmuşsunuz!</>;
+        if (percent >= 70) return <><Zap className="inline-icon" size={20} /> Çok iyi! Biraz daha pratikle mükemmel olacaksınız!</>;
+        if (percent >= 50) return <><BookOpen className="inline-icon" size={20} /> İyi bir başlangıç! Pratik yapmaya devam edin.</>;
+        return <><Target className="inline-icon" size={20} /> Daha fazla pratik yapmanız gerekiyor. Pes etmeyin!</>;
     };
 
     if (!isStarted) {
         return (
             <div className="test-mode">
                 <div className="test-card start-screen">
-                    <div className="start-icon">📝</div>
+                    <div className="start-icon"><ClipboardList size={64} style={{ color: 'var(--primary)' }} /></div>
                     <h2 className="start-title">Mini Test</h2>
                     <p className="start-description">
                         10 soruluk bir test ile Kiril bilginizi ölçün. Harf eşleştirme, kelime yazma
@@ -170,11 +171,13 @@ export default function TestMode({ onRecordPractice }) {
             <div className="test-mode">
                 <div className="test-card test-results fade-in">
                     <div className="results-icon">
-                        {score >= questions.length * 0.7 ? '🏆' : score >= questions.length * 0.5 ? '👍' : '📚'}
+                        {score >= questions.length * 0.7 ? <Trophy size={64} color="#fbbf24" /> : score >= questions.length * 0.5 ? <ThumbsUp size={64} color="#3b82f6" /> : <BookOpen size={64} color="#60a5fa" />}
                     </div>
                     <h2 className="results-title">Test Tamamlandı!</h2>
                     <div className="results-score">{score}/{questions.length}</div>
-                    <p className="results-message">{getScoreMessage()}</p>
+                    <div className="results-message" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                        {getScoreMessage()}
+                    </div>
                     <button className="restart-btn" onClick={startTest}>
                         Tekrar Dene
                     </button>
@@ -188,9 +191,9 @@ export default function TestMode({ onRecordPractice }) {
 
     const getTypeLabel = (type) => {
         switch (type) {
-            case 'letter-match': return '🔤 Harf Eşleştirme';
-            case 'word-write': return '✍️ Kelime Yazma';
-            case 'cyrillic-read': return '👁️ Kiril Okuma';
+            case 'letter-match': return <><Type size={18} /> Harf Eşleştirme</>;
+            case 'word-write': return <><PenTool size={18} /> Kelime Yazma</>;
+            case 'cyrillic-read': return <><Eye size={18} /> Kiril Okuma</>;
             default: return '';
         }
     };
@@ -206,7 +209,9 @@ export default function TestMode({ onRecordPractice }) {
                     Soru {currentIndex + 1} / {questions.length}
                 </div>
 
-                <div className="question-type">{getTypeLabel(currentQuestion.type)}</div>
+                <div className="question-type" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                    {getTypeLabel(currentQuestion.type)}
+                </div>
 
                 <div className="question-text">{currentQuestion.question}</div>
 
@@ -252,8 +257,8 @@ export default function TestMode({ onRecordPractice }) {
                 )}
 
                 {isAnswered && (
-                    <button className="next-btn fade-in" onClick={nextQuestion}>
-                        {currentIndex < questions.length - 1 ? 'Sonraki Soru →' : 'Sonuçları Gör'}
+                    <button className="next-btn fade-in" onClick={nextQuestion} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                        {currentIndex < questions.length - 1 ? <>Sonraki Soru <ArrowRight size={18} /></> : 'Sonuçları Gör'}
                     </button>
                 )}
             </div>
