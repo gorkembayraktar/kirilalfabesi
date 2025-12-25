@@ -12,11 +12,12 @@ import ProgressStats from './components/ProgressStats';
 import LetterDrawer from './components/LetterDrawer';
 import GameMode from './components/GameMode';
 import ReflexMode from './components/ReflexMode';
+import IntroPage from './components/IntroPage';
 import Footer from './components/Footer';
 import { useProgress } from './hooks/useProgress';
 
 function App() {
-    const [currentView, setCurrentView] = useState('transliteration');
+    const [currentView, setCurrentView] = useState('intro');
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [theme, setTheme] = useState(() => {
         const saved = localStorage.getItem('kiril-theme');
@@ -36,6 +37,8 @@ function App() {
 
     const renderView = () => {
         switch (currentView) {
+            case 'intro':
+                return <IntroPage setCurrentView={setCurrentView} />;
             case 'transliteration':
                 return (
                     <>
@@ -46,7 +49,7 @@ function App() {
             case 'letters':
                 return <LetterTable />;
             case 'reflex':
-                return <ReflexMode />;
+                return <ReflexMode theme={theme} />;
             case 'learning':
                 return <LearningMode onRecordPractice={recordPractice} />;
             case 'test':

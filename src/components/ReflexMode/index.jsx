@@ -7,7 +7,9 @@ import LockingStage from './LockingStage';
 
 const MAX_UNLOCKED_LETTERS = 6;
 
-export default function ReflexMode() {
+export default function ReflexMode({ theme }) {
+
+
     const { progress, updateReflexStatus, resetReflexProgress } = useProgress();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [stage, setStage] = useState('coding'); // 'coding' or 'locking'
@@ -178,7 +180,7 @@ export default function ReflexMode() {
                         onClick={() => setShowResetModal(true)}
                         title="Sıfırla"
                     >
-                        <RotateCcw size={16} />
+                        <RotateCcw size={16} stroke={theme === 'light' ? "black" : "white"} />
                     </button>
                     <div className="reflex-mode-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                         {stage === 'coding' ? <><Brain size={14} /> Kodlama</> : <><Lock size={14} /> Kilitle</>}

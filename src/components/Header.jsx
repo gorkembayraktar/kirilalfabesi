@@ -13,7 +13,8 @@ import {
     Flame,
     Moon,
     Sun,
-    ChevronDown
+    ChevronDown,
+    Home
 } from 'lucide-react';
 
 export default function Header({ currentView, setCurrentView, theme, toggleTheme, streak }) {
@@ -21,6 +22,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
     const navRef = useRef(null);
 
     const menuItems = [
+        { id: 'intro', label: 'Giriş', icon: Home },
         {
             id: 'learn-group',
             label: 'Öğren',
@@ -79,7 +81,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
     return (
         <header className="header">
             <div className="header-content">
-                <div className="logo" onClick={() => setCurrentView('transliteration')} style={{ cursor: 'pointer' }}>
+                <div className="logo" onClick={() => setCurrentView('intro')} style={{ cursor: 'pointer' }}>
                     <img src="/favicon.png" alt="Kiril Logo" className="logo-img" />
                     <div className="logo-text">
                         <span className="logo-title">Kiril Alfabesi Öğreniyorum</span>
