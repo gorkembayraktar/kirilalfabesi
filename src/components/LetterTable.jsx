@@ -89,8 +89,8 @@ export default function LetterTable() {
                             className={`letter-card ${isSelected ? 'highlighted' : ''}`}
                             onClick={() => handleClick(letter)}
                         >
-                            <div className="letter-turkish">{letter.turkish}</div>
                             <div className="letter-cyrillic">{letter.cyrillic}</div>
+                            <div className="letter-turkish">{letter.turkish}</div>
                             <button
                                 className={`speak-btn ${speaking === cyrillicLower ? 'speaking' : ''}`}
                                 onClick={(e) => handleSpeak(e, cyrillicLower)}

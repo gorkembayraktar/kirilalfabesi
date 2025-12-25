@@ -8,7 +8,6 @@ const letterMap = {
   'e': 'е', 'E': 'Е',
   'f': 'ф', 'F': 'Ф',
   'g': 'г', 'G': 'Г',
-  'ğ': 'г', 'Ğ': 'Г',
   'h': 'х', 'H': 'Х',
   'ı': 'ы', 'I': 'Ы',
   'i': 'и', 'İ': 'И',
@@ -18,14 +17,12 @@ const letterMap = {
   'm': 'м', 'M': 'М',
   'n': 'н', 'N': 'Н',
   'o': 'о', 'O': 'О',
-  'ö': 'ё', 'Ö': 'Ё',
   'p': 'п', 'P': 'П',
   'r': 'р', 'R': 'Р',
   's': 'с', 'S': 'С',
   'ş': 'ш', 'Ş': 'Ш',
   't': 'т', 'T': 'Т',
   'u': 'у', 'U': 'У',
-  'ü': 'ю', 'Ü': 'Ю',
   'v': 'в', 'V': 'В',
   'y': 'й', 'Y': 'Й',
   'z': 'з', 'Z': 'З'
@@ -93,12 +90,13 @@ export function getLetterMapping() {
   const seen = new Set();
   
   for (const [turkish, cyrillic] of Object.entries(letterMap)) {
-    const lowerTurkish = turkish.toLowerCase();
+    const lowerTurkish = turkish.toLocaleLowerCase('tr-TR');
     if (!seen.has(lowerTurkish) && turkish === lowerTurkish) {
       seen.add(lowerTurkish);
+      const upperTurkish = turkish.toLocaleUpperCase('tr-TR');
       letters.push({
-        turkish: turkish.toUpperCase() + turkish,
-        cyrillic: letterMap[turkish.toUpperCase()] + cyrillic
+        turkish: upperTurkish + turkish,
+        cyrillic: (letterMap[upperTurkish] || '') + cyrillic
       });
     }
   }
@@ -126,5 +124,5 @@ export function getRandomWords(count, maxLevel = 3) {
  */
 export function checkAnswer(userAnswer, turkishWord) {
   const correct = transliterate(turkishWord);
-  return userAnswer.trim().toLowerCase() === correct.toLowerCase();
+  return userAnswer.trim().toLocaleLowerCase('tr-TR') === correct.toLocaleLowerCase('tr-TR');
 }

@@ -53,7 +53,7 @@ export default function LockingStage({ data, onLock, onFail }) {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Türkçe karşılığını yaz"
                     className={`locking-input ${error ? 'error' : ''}`}
-                    maxLength={1}
+                    maxLength={data.turkish.length}
                     autoComplete="off"
                 />
                 <button type="submit" className="locking-submit-btn">Kontrol Et</button>

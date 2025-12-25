@@ -533,13 +533,14 @@ body {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; removed for swap */
 }
 
 .letter-cyrillic {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--accent-primary);
+    margin-bottom: 0.25rem;
 }
 
 /* ============================================
