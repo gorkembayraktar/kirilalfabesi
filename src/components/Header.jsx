@@ -45,8 +45,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
         },
         { id: 'reflex', label: 'Refleks', icon: Brain, isNew: true },
         { id: 'games', label: 'Oyun', icon: Gamepad2 },
-        { id: 'blog', label: 'Blog', icon: Newspaper },
-        { id: 'progress', label: 'İlerleme', icon: BarChart2 }
+        { id: 'blog', label: 'Blog', icon: Newspaper }
     ];
 
     // Close dropdown when clicking outside
