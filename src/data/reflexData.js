@@ -16,7 +16,7 @@ export const reflexData = [
         pronunciation: 'Be',
         association: 'Boru',
         exampleWord: 'баба',
-        exampleTranslation: 'nine',
+        exampleTranslation: 'baba',
         examplePronunciation: 'baba'
     },
     {
@@ -44,7 +44,7 @@ export const reflexData = [
         cyrillic: 'Д',
         turkish: 'D',
         pronunciation: 'De',
-        association: 'Dam/Ev',
+        association: 'Ev/Dam',
         exampleWord: 'дом',
         exampleTranslation: 'ev',
         examplePronunciation: 'dom'
@@ -52,9 +52,9 @@ export const reflexData = [
     {
         id: 6,
         cyrillic: 'Е',
-        turkish: 'E',
+        turkish: 'YE',
         pronunciation: 'Ye',
-        association: 'Aynen E gibi',
+        association: 'Başta Ye sesi',
         exampleWord: 'еда',
         exampleTranslation: 'yemek',
         examplePronunciation: 'yeda'
@@ -62,9 +62,9 @@ export const reflexData = [
     {
         id: 7,
         cyrillic: 'Ё',
-        turkish: 'Ö',
+        turkish: 'YO',
         pronunciation: 'Yo',
-        association: 'İki nokta = Ö',
+        association: 'İki noktalı Yo',
         exampleWord: 'ёлка',
         exampleTranslation: 'çam ağacı',
         examplePronunciation: 'yolka'
@@ -74,7 +74,7 @@ export const reflexData = [
         cyrillic: 'Ж',
         turkish: 'J',
         pronunciation: 'Je',
-        association: 'Kelebek = J',
+        association: 'Kelebek',
         exampleWord: 'жук',
         exampleTranslation: 'böcek',
         examplePronunciation: 'juk'
@@ -84,7 +84,7 @@ export const reflexData = [
         cyrillic: 'З',
         turkish: 'Z',
         pronunciation: 'Ze',
-        association: 'Ters 3 = Z',
+        association: 'Ters 3',
         exampleWord: 'зима',
         exampleTranslation: 'kış',
         examplePronunciation: 'zima'
@@ -94,7 +94,7 @@ export const reflexData = [
         cyrillic: 'И',
         turkish: 'İ',
         pronunciation: 'İ',
-        association: 'Ters N = İ',
+        association: 'Ters N',
         exampleWord: 'имя',
         exampleTranslation: 'isim',
         examplePronunciation: 'imya'
@@ -104,7 +104,7 @@ export const reflexData = [
         cyrillic: 'Й',
         turkish: 'Y',
         pronunciation: 'Kısa İ',
-        association: 'Şapkalı İ = Y',
+        association: 'Şapkalı İ',
         exampleWord: 'йогурт',
         exampleTranslation: 'yoğurt',
         examplePronunciation: 'yogurt'
@@ -124,7 +124,7 @@ export const reflexData = [
         cyrillic: 'Л',
         turkish: 'L',
         pronunciation: 'El',
-        association: 'Çadır = L',
+        association: 'Çadır',
         exampleWord: 'лампа',
         exampleTranslation: 'lamba',
         examplePronunciation: 'lampa'
@@ -144,7 +144,7 @@ export const reflexData = [
         cyrillic: 'Н',
         turkish: 'N',
         pronunciation: 'En',
-        association: 'H benzeri = N',
+        association: 'H gibi ama N',
         exampleWord: 'нос',
         exampleTranslation: 'burun',
         examplePronunciation: 'nos'
@@ -164,7 +164,7 @@ export const reflexData = [
         cyrillic: 'П',
         turkish: 'P',
         pronunciation: 'Pe',
-        association: 'Kapı = P',
+        association: 'Kapı',
         exampleWord: 'папа',
         exampleTranslation: 'baba',
         examplePronunciation: 'papa'
@@ -174,7 +174,7 @@ export const reflexData = [
         cyrillic: 'Р',
         turkish: 'R',
         pronunciation: 'Er',
-        association: 'P benzeri = R',
+        association: 'P gibi ama R',
         exampleWord: 'рука',
         exampleTranslation: 'el',
         examplePronunciation: 'ruka'
@@ -184,7 +184,7 @@ export const reflexData = [
         cyrillic: 'С',
         turkish: 'S',
         pronunciation: 'Es',
-        association: 'C şekli = S',
+        association: 'C şekli',
         exampleWord: 'сок',
         exampleTranslation: 'meyve suyu',
         examplePronunciation: 'sok'
@@ -204,7 +204,7 @@ export const reflexData = [
         cyrillic: 'У',
         turkish: 'U',
         pronunciation: 'U',
-        association: 'Y benzeri = U',
+        association: 'Y gibi',
         exampleWord: 'утро',
         exampleTranslation: 'sabah',
         examplePronunciation: 'utro'
@@ -214,7 +214,7 @@ export const reflexData = [
         cyrillic: 'Ф',
         turkish: 'F',
         pronunciation: 'Ef',
-        association: 'Göz/Baykuş = F',
+        association: 'Göz/Baykuş',
         exampleWord: 'фото',
         exampleTranslation: 'fotoğraf',
         examplePronunciation: 'foto'
@@ -224,7 +224,7 @@ export const reflexData = [
         cyrillic: 'Х',
         turkish: 'H',
         pronunciation: 'Ha',
-        association: 'X şekli = H',
+        association: 'X şekli',
         exampleWord: 'хлеб',
         exampleTranslation: 'ekmek',
         examplePronunciation: 'hleb'
@@ -232,9 +232,9 @@ export const reflexData = [
     {
         id: 24,
         cyrillic: 'Ц',
-        turkish: 'C',
+        turkish: 'TS',
         pronunciation: 'Tse',
-        association: 'Kuyruklu U = C(Ts)',
+        association: 'Kuyruklu T',
         exampleWord: 'цена',
         exampleTranslation: 'fiyat',
         examplePronunciation: 'tsena'
@@ -244,7 +244,7 @@ export const reflexData = [
         cyrillic: 'Ч',
         turkish: 'Ç',
         pronunciation: 'Çe',
-        association: 'Sandalye = Ç',
+        association: 'Sandalye',
         exampleWord: 'чай',
         exampleTranslation: 'çay',
         examplePronunciation: 'çay'
@@ -254,7 +254,7 @@ export const reflexData = [
         cyrillic: 'Ш',
         turkish: 'Ş',
         pronunciation: 'Şa',
-        association: 'Tarak = Ş',
+        association: 'Tarak',
         exampleWord: 'школа',
         exampleTranslation: 'okul',
         examplePronunciation: 'şkola'
@@ -264,7 +264,7 @@ export const reflexData = [
         cyrillic: 'Ы',
         turkish: 'I',
         pronunciation: 'Yı',
-        association: 'bI = I',
+        association: 'b + I',
         exampleWord: 'рыба',
         exampleTranslation: 'balık',
         examplePronunciation: 'rıba'
@@ -274,7 +274,7 @@ export const reflexData = [
         cyrillic: 'Э',
         turkish: 'E',
         pronunciation: 'E',
-        association: 'Ters E = E',
+        association: 'Ters E',
         exampleWord: 'это',
         exampleTranslation: 'bu',
         examplePronunciation: 'eto'
@@ -282,14 +282,15 @@ export const reflexData = [
     {
         id: 29,
         cyrillic: 'Ю',
-        turkish: 'Ü',
+        turkish: 'YU',
         pronunciation: 'Yu',
-        association: 'IO = Ü',
+        association: 'I + O',
         exampleWord: 'юг',
         exampleTranslation: 'güney',
         examplePronunciation: 'yug'
     }
 ];
+
 
 export const getQuestions = () => {
     // Helper to generate questions if needed later
