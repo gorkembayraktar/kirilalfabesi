@@ -1,9 +1,9 @@
-/* ============================================
-   KIRIL ALFABE ÖĞRENME - GLOBAL STILLER
+﻿/* ============================================
+   KIRIL ALFABE Ã–ÄRENME - GLOBAL STILLER
    ============================================ */
 
 :root {
-    /* Açık tema - Sıcak ve doğal tonlar */
+    /* AÃ§Ä±k tema - SÄ±cak ve doÄŸal tonlar */
     --bg-primary: #faf9f7;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f3f1ed;
@@ -35,7 +35,7 @@
 }
 
 [data-theme="dark"] {
-    /* Koyu tema - Yumuşak gece renkleri */
+    /* Koyu tema - YumuÅŸak gece renkleri */
     --bg-primary: #121212;
     --bg-secondary: #1e1e1e;
     --bg-tertiary: #2a2a2a;
@@ -1516,7 +1516,7 @@ body {
     }
 
     .key-backspace::after {
-        content: '⌫';
+        content: 'âŒ«';
         font-size: 1rem;
     }
 
@@ -1974,7 +1974,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Yanlış cevapların düzeltmeleri */
+/* YanlÄ±ÅŸ cevaplarÄ±n dÃ¼zeltmeleri */
 .match-corrections {
     background: var(--bg-primary);
     border-radius: var(--radius-md);
@@ -2130,7 +2130,7 @@ body {
     }
 }
 
-/* Sarkan ip (bağlı değilken) */
+/* Sarkan ip (baÄŸlÄ± deÄŸilken) */
 .match-rope.dangling {
     stroke: #818cf8;
     stroke-width: 2.5;
@@ -2656,7 +2656,7 @@ body {
 }
 
 .blog-content li::before {
-    content: "•";
+    content: "â€¢";
     position: absolute;
     left: 0;
     color: var(--accent-primary);
@@ -2754,7 +2754,7 @@ body {
 }
 
 /* ============================================
-   WRITING MODE (El Yazısı)
+   WRITING MODE (El YazÄ±sÄ±)
    ============================================ */
 
 .writing-mode {
@@ -3368,7 +3368,7 @@ body {
 
 .game-bubble.correct::after {
     content: '';
-    /* Tick kaldırıldı */
+    /* Tick kaldÄ±rÄ±ldÄ± */
     display: none;
 }
 
@@ -3379,10 +3379,10 @@ body {
     color: white;
     border-color: var(--error);
     font-size: 1.5rem;
-    /* Yanlış olanda harf gözüksün */
+    /* YanlÄ±ÅŸ olanda harf gÃ¶zÃ¼ksÃ¼n */
 }
 
-/* Yanlış olanda tick/checkmark olmasın */
+/* YanlÄ±ÅŸ olanda tick/checkmark olmasÄ±n */
 
 
 .game-middle {
@@ -3553,7 +3553,7 @@ body {
         font-size: 1.1rem;
     }
 
-    /* Klavye tuşları */
+    /* Klavye tuÅŸlarÄ± */
     .game-keyboard .keyboard-key {
         height: 44px !important;
         width: 36px !important;
@@ -4574,4 +4574,137 @@ body {
 
 .modal-btn.confirm:hover {
     opacity: 0.9;
+}
+
+/* ============================================
+   NAV DROPDOWNS
+   ============================================ */
+.nav-item-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background: var(--bg-tertiary);
+    color: var(--accent-primary);
+}
+
+.dropdown-item.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.dropdown-item svg {
+    opacity: 0.7;
+}
+
+.dropdown-item:hover svg,
+.dropdown-item.active svg {
+    opacity: 1;
+}
+
+/* New badge adjustment for dropdowns */
+.dropdown-item .new-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+}
+
+.fade-in-fast {
+    animation: fadeIn 0.2s ease forwards;
+}
+
+/* MOBILE HEADER RESPONSIVE */
+@media (max-width: 900px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .nav {
+        position: static;
+        transform: none;
+        width: 100%;
+        justify-content: flex-start;
+        /* Start alignment for scrolling */
+        flex-wrap: nowrap;
+        /* Prevent wrapping */
+        overflow-x: auto;
+        /* Enable horizontal scroll */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll on iOS */
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        /* Space for scrollbar if visible */
+
+        /* Hide scrollbar for cleaner look */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari and Opera */
+    }
+
+    .nav-item-wrapper {
+        flex-shrink: 0;
+        /* Prevent items from shrinking */
+    }
+
+    .nav-dropdown {
+        position: fixed;
+        /* Fix dropdown to screen on mobile */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 300px;
+        margin-top: 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 0 1000px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
 }

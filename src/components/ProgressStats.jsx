@@ -44,7 +44,7 @@ export default function ProgressStats({ progress }) {
             {/* Özet Kartları */}
             <div className="stats-grid">
                 <div className="stat-card">
-                    <div className="stat-icon"><Flame size={24} color="#f59e0b" /></div>
+                    <div className="stat-icon"><Flame size={24} color="#f59e0b" fill="red" stroke="orange" /></div>
                     <div className="stat-info">
                         <span className="stat-value">{streak} Gün</span>
                         <span className="stat-label">Seri</span>
