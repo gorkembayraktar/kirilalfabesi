@@ -129,7 +129,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                 </nav>
 
                 <div className="header-actions">
-                    {streak > 0 && (
+                    {streak > 0 ? (
                         <div
                             className="streak-badge"
                             title="İlerleme detaylarını gör"
@@ -137,6 +137,15 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                         >
                             <span className="streak-icon"><Flame size={18} fill="red" stroke="orange" /></span>
                             <span className="streak-count">{streak}</span>
+                        </div>
+                    ) : (
+                        <div
+                            className="streak-badge"
+                            title="İlerleme detaylarını gör"
+                            onClick={() => setCurrentView('progress')}
+                        >
+                            <span className="streak-icon"><Flame size={18} fill="red" stroke="orange" /></span>
+                            <span className="streak-count">İlerlemeyi göster</span>
                         </div>
                     )}
                     <button className="theme-toggle" onClick={toggleTheme} title="Tema değiştir">
