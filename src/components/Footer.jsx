@@ -2,7 +2,7 @@ export default function Footer() {
     return (
         <footer className="footer">
             <a
-                href="https://github.com/gorkembayraktar"
+                href="https://x.com/leopard2a4r"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-link"

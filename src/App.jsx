@@ -14,7 +14,9 @@ import GameMode from './components/GameMode';
 import ReflexMode from './components/ReflexMode';
 import IntroPage from './components/IntroPage';
 import Footer from './components/Footer';
+import SequentialLearningModal from './components/SequentialLearningModal';
 import { useProgress } from './hooks/useProgress';
+import { SequentialLearningProvider } from './contexts/SequentialLearningContext';
 
 function App() {
     const [currentView, setCurrentView] = useState('intro');
@@ -70,7 +72,7 @@ function App() {
     };
 
     return (
-        <>
+        <SequentialLearningProvider>
             <Header
                 currentView={currentView}
                 setCurrentView={setCurrentView}
@@ -98,7 +100,10 @@ function App() {
                 isOpen={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
             />
-        </>
+
+            {/* Global Sequential Learning Modal */}
+            <SequentialLearningModal />
+        </SequentialLearningProvider>
     );
 }
 

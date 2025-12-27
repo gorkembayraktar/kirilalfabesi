@@ -15,12 +15,15 @@ import {
     Rocket,
     Zap,
     Trophy,
-    Lock
+    Lock,
+    ListOrdered
 } from 'lucide-react';
 import { useProgress } from '../hooks/useProgress';
+import { useSequentialLearning } from '../contexts/SequentialLearningContext';
 
 export default function IntroPage({ setCurrentView }) {
     const { getLockedLetters } = useProgress();
+    const { openModal } = useSequentialLearning();
     const lockedLetters = getLockedLetters();
     const hasLockedLetters = lockedLetters.length > 0;
 
@@ -30,6 +33,11 @@ export default function IntroPage({ setCurrentView }) {
             return;
         }
         setCurrentView('games');
+    };
+
+    const handleSequentialLearn = (e) => {
+        e.stopPropagation();
+        openModal();
     };
 
     return (
@@ -59,14 +67,17 @@ export default function IntroPage({ setCurrentView }) {
                     <div className="card-pattern pat-1"></div>
                 </div>
 
-                {/* Secondary Action - Practice */}
-                <div className="bento-card practice-card" onClick={() => setCurrentView('transliteration')}>
+                {/* Secondary Action - Sequential Learning */}
+                <div className="bento-card practice-card" onClick={handleSequentialLearn}>
                     <div className="card-content">
                         <div className="card-icon-bg blue">
-                            <Dumbbell size={28} color="white" />
+                            <ListOrdered size={28} color="white" />
                         </div>
-                        <h3>Pratik Yap</h3>
-                        <p>Harfleri tanıyorsun ama hızlanman mı lazım? Bol bol alıştırma yap.</p>
+                        <h3>Sıralı Öğren</h3>
+                        <p>Harfleri sırayla tanı, sesli dinle ve kalıcı öğren. Otomatik geçiş ile kolayca ilerle.</p>
+                        <button className="start-btn" onClick={handleSequentialLearn}>
+                            Başla <ArrowRight size={16} />
+                        </button>
                     </div>
                     <div className="card-pattern pat-2"></div>
                 </div>
