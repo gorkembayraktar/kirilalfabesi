@@ -88,7 +88,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                     </div>
                 </div>
 
-                <nav className="nav" ref={navRef}>
+                <nav className={`nav ${openDropdown ? 'has-dropdown-open' : ''}`} ref={navRef}>
                     {menuItems.map(item => {
                         const Icon = item.icon;
                         const isGroupActive = item.children && item.children.some(c => c.id === currentView);

@@ -1,0 +1,301 @@
+/* ============================================
+   WRITING MODE (El Yazısı)
+   ============================================ */
+
+.writing-mode {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.writing-intro {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.writing-intro-icon,
+.writing-result-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.writing-intro h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.writing-intro p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.writing-result-text {
+    font-size: 1.1rem;
+}
+
+.writing-result-text strong {
+    font-size: 2rem;
+    color: var(--accent-primary);
+}
+
+.writing-tip {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+.writing-how {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    text-align: left;
+}
+
+/* Writing Card */
+.writing-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.writing-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.writing-progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.writing-progress-fill {
+    height: 100%;
+    background: var(--accent-primary);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.writing-progress-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Target Letter */
+.writing-target {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.target-label {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.target-letters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.target-turkish {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.target-arrow {
+    font-size: 1.5rem;
+    color: var(--text-tertiary);
+}
+
+.target-cyrillic {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+/* Hint Button */
+.hint-btn {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.hint-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.hint-btn.active {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+/* Canvas */
+.canvas-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.writing-canvas {
+    width: 100%;
+    height: 250px;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.writing-canvas:hover {
+    border-color: var(--accent-secondary);
+}
+
+/* Hint Overlay */
+.writing-hint-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hint-letter {
+    font-size: 10rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    opacity: 0.15;
+    user-select: none;
+}
+
+/* Actions */
+.writing-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.writing-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.writing-btn.primary {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.writing-btn.primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.writing-btn.primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.writing-btn.secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.writing-btn.secondary:hover {
+    border-color: var(--error);
+    color: var(--error);
+}
+
+/* Stats */
+.writing-stats {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.writing-stat {
+    text-align: center;
+}
+
+.writing-stat .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+.writing-stat .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Writing Mode Responsive */
+@media (max-width: 480px) {
+
+    .writing-intro,
+    .writing-card {
+        padding: 1rem;
+    }
+
+    .target-turkish {
+        font-size: 1.5rem;
+    }
+
+    .target-cyrillic {
+        font-size: 2rem;
+    }
+
+    .writing-canvas {
+        height: 200px;
+    }
+
+    .hint-letter {
+        font-size: 7rem;
+    }
+
+    .writing-btn {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}

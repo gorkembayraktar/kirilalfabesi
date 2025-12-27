@@ -1,0 +1,31 @@
+/* ============================================
+   KIRIL ALFABESI ÖĞRENME - MODULAR CSS
+   Main Entry Point - Import all modules
+   ============================================ */
+
+/* Base styles, variables, animations */
+@import './base.css';
+
+/* Header, navigation, streak */
+@import './header.css';
+
+/* Layout: Footer */
+@import './layout.css';
+
+/* Components: keyboard, drawer, daily summary, speech */
+@import './components.css';
+
+/* Mode-specific styles */
+@import './modes/practice.css';
+@import './modes/letters.css';
+@import './modes/learning.css';
+@import './modes/test.css';
+@import './modes/matching.css';
+@import './modes/blog.css';
+@import './modes/writing.css';
+@import './modes/games.css';
+@import './modes/progress.css';
+@import './modes/intro.css';
+
+/* Responsive design rules */
+@import './responsive.css';

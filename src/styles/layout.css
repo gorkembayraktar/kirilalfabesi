@@ -1,0 +1,52 @@
+/* ============================================
+   LAYOUT - Footer & General Layout Components
+   ============================================ */
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    padding: 1.25rem 2rem;
+    text-align: center;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-text {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+}
+
+.footer-link {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.footer-link:hover {
+    color: var(--accent-primary);
+}
+
+/* Footer Responsive */
+@media (max-width: 600px) {
+    .footer {
+        padding: 1rem;
+    }
+
+    .footer-link {
+        font-size: 0.8rem;
+    }
+}
