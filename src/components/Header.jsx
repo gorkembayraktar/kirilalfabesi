@@ -95,7 +95,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                         const isActive = item.id === currentView || isGroupActive;
 
                         return (
-                            <div key={item.id} className="nav-item-wrapper" style={{ position: 'relative' }}>
+                            <div key={item.id} className={`nav-item-wrapper ${openDropdown === item.id ? 'dropdown-open' : ''}`}>
                                 <button
                                     className={`nav-btn ${isActive ? 'active' : ''}`}
                                     onClick={() => handleMenuClick(item)}
@@ -145,7 +145,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                             onClick={() => setCurrentView('progress')}
                         >
                             <span className="streak-icon"><Flame size={18} fill="red" stroke="orange" /></span>
-                            <span className="streak-count">İlerlemeyi göster</span>
+                            <span className="streak-count hide-on-mobile">İlerlemeyi göster</span>
                         </div>
                     )}
                     <button className="theme-toggle" onClick={toggleTheme} title="Tema değiştir">
