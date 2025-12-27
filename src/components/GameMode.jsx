@@ -1,21 +1,19 @@
 import { useState } from 'react';
-import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight } from 'lucide-react';
+import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight, Zap, Trophy, TrendingUp, Play, Sparkles } from 'lucide-react';
 import ReflexGame from './ReflexGame';
 import RainGame from './RainGame';
 
 export default function GameMode({ onRecordPractice, progress }) {
-    const [currentMode, setCurrentMode] = useState('menu'); // 'menu', 'reflex', 'rain'
+    const [currentMode, setCurrentMode] = useState('menu');
 
     // Get locked letters from progress
     const lockedLetters = progress?.reflexStatus
         ? Object.keys(progress.reflexStatus).filter(l => progress.reflexStatus[l].locked)
         : [];
 
-    // For now, if no letters are locked, we disable the games or show a warning.
-    // However, the prompt says "Only locked letters enter the game pool".
-    // If pool is empty, maybe don't let them play?
-
     const hasLockedLetters = lockedLetters.length > 0;
+    const totalLetters = 29; // Total Cyrillic letters
+    const progressPercent = (lockedLetters.length / totalLetters) * 100;
 
     if (currentMode === 'reflex') {
         return <ReflexGame
@@ -33,54 +31,206 @@ export default function GameMode({ onRecordPractice, progress }) {
     }
 
     return (
-        <div className="game-menu-container">
-            <h2 className="game-menu-title">Oyun Modunu Seç</h2>
-
-            {!hasLockedLetters && (
-                <div style={{
-                    padding: '1rem',
-                    background: 'var(--error-bg)',
-                    color: 'var(--error)',
-                    borderRadius: 'var(--radius-md)',
-                    marginBottom: '1rem',
-                    textAlign: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}>
-                        <AlertTriangle size={20} /> Henüz hiç harf kilitlemediniz!
+        <div className="games-wrapper">
+            {/* Header Section */}
+            <div className="games-header">
+                <div className="games-header-content">
+                    <div className="games-title-section">
+                        <div className="games-title-icon">
+                            <Gamepad2 size={32} />
+                        </div>
+                        <div>
+                            <h1 className="games-title">Oyun Modu</h1>
+                            <p className="games-subtitle">Kilitlediğin harflerle reflekslerini geliştir</p>
+                        </div>
                     </div>
-                    <p>Oyunları oynamak için önce "Refleks (Kodla)" modunda harfleri pekiştirip kilitlemeniz gerekir.</p>
+
+                    {/* Stats */}
+                    <div className="games-stats">
+                        <div className="games-stat-card">
+                            <div className="stat-icon">
+                                <Lock size={18} />
+                            </div>
+                            <div className="stat-content">
+                                <span className="stat-value">{lockedLetters.length}</span>
+                                <span className="stat-label">Kilitli Harf</span>
+                            </div>
+                        </div>
+                        <div className="games-stat-card accent">
+                            <div className="stat-icon">
+                                <Trophy size={18} />
+                            </div>
+                            <div className="stat-content">
+                                <span className="stat-value">{Math.round(progressPercent)}%</span>
+                                <span className="stat-label">İlerleme</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="games-progress-section">
+                    <div className="games-progress-bar">
+                        <div 
+                            className="games-progress-fill" 
+                            style={{ width: `${progressPercent}%` }}
+                        />
+                    </div>
+                    <span className="games-progress-text">
+                        {lockedLetters.length} / {totalLetters} harf kilitli
+                    </span>
+                </div>
+            </div>
+
+            {/* Warning Message */}
+            {!hasLockedLetters && (
+                <div className="games-warning">
+                    <div className="warning-icon">
+                        <AlertTriangle size={24} />
+                    </div>
+                    <div className="warning-content">
+                        <h3>Henüz hiç harf kilitlemediniz!</h3>
+                        <p>Oyunları oynamak için önce <strong>"Refleks (Kodla)"</strong> modunda harfleri pekiştirip kilitlemeniz gerekir.</p>
+                        <div className="warning-hint">
+                            <Sparkles size={16} />
+                            <span>Her harfi 3 kez doğru yazarak kilitleyebilirsiniz</span>
+                        </div>
+                    </div>
                 </div>
             )}
 
-            <div className="game-cards">
+            {/* Game Cards */}
+            <div className="games-grid">
+                {/* Reflex Game Card */}
                 <div
-                    className={`game-card ${!hasLockedLetters ? 'disabled' : ''}`}
+                    className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} reflex-card`}
                     onClick={() => hasLockedLetters && setCurrentMode('reflex')}
-                    style={!hasLockedLetters ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
                 >
-                    <div className="card-icon"><Gamepad2 size={48} strokeWidth={1.5} /></div>
-                    <h3>Refleks Oyunu</h3>
-                    <p>Hızlı düşün, doğru eşleştir. Zamana karşı yarış!</p>
-                    <span className="card-play-btn">
-                        {hasLockedLetters ? <><span style={{ marginRight: '0.5rem' }}>Oyna</span> <ArrowRight size={16} /></> : <><span style={{ marginRight: '0.5rem' }}>Kilitli</span> <Lock size={16} /></>}
-                    </span>
+                    <div className="card-bg-gradient" />
+                    <div className="card-content">
+                        <div className="card-header">
+                            <div className="card-icon-wrapper reflex-icon">
+                                <Gamepad2 size={32} />
+                            </div>
+                            <div className="card-badge">
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Zap size={12} />
+                                        <span>Aktif</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={12} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="card-body">
+                            <h3 className="card-title">Refleks Oyunu</h3>
+                            <p className="card-description">
+                                Hızlı düşün, doğru eşleştir. Zamana karşı yarış ve reflekslerini test et!
+                            </p>
+
+                            <div className="card-features">
+                                <div className="feature-item">
+                                    <TrendingUp size={14} />
+                                    <span>Hız ve Doğruluk</span>
+                                </div>
+                                <div className="feature-item">
+                                    <Zap size={14} />
+                                    <span>Zamana Karşı</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <button 
+                                className={`card-play-button ${hasLockedLetters ? 'active' : 'disabled'}`}
+                                disabled={!hasLockedLetters}
+                            >
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Play size={18} />
+                                        <span>Oyna</span>
+                                        <ArrowRight size={16} />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={18} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
+                {/* Rain Game Card */}
                 <div
-                    className={`game-card ${!hasLockedLetters ? 'disabled' : ''}`}
+                    className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} rain-card`}
                     onClick={() => hasLockedLetters && setCurrentMode('rain')}
-                    style={!hasLockedLetters ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
                 >
-                    <div className="card-icon"><CloudRain size={48} strokeWidth={1.5} /></div>
-                    <h3>Yağmur Oyunu</h3>
-                    <p>Harfler yere düşmeden yakala. Seri ve dikkatli ol!</p>
-                    <span className="card-play-btn">
-                        {hasLockedLetters ? <><span style={{ marginRight: '0.5rem' }}>Oyna</span> <ArrowRight size={16} /></> : <><span style={{ marginRight: '0.5rem' }}>Kilitli</span> <Lock size={16} /></>}
-                    </span>
+                    <div className="card-bg-gradient" />
+                    <div className="card-content">
+                        <div className="card-header">
+                            <div className="card-icon-wrapper rain-icon">
+                                <CloudRain size={32} />
+                            </div>
+                            <div className="card-badge">
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Zap size={12} />
+                                        <span>Aktif</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={12} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="card-body">
+                            <h3 className="card-title">Yağmur Oyunu</h3>
+                            <p className="card-description">
+                                Harfler yere düşmeden yakala. Seri ve dikkatli ol, reflekslerini geliştir!
+                            </p>
+
+                            <div className="card-features">
+                                <div className="feature-item">
+                                    <CloudRain size={14} />
+                                    <span>Dikkat Gerektirir</span>
+                                </div>
+                                <div className="feature-item">
+                                    <Trophy size={14} />
+                                    <span>Yüksek Skor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <button 
+                                className={`card-play-button ${hasLockedLetters ? 'active' : 'disabled'}`}
+                                disabled={!hasLockedLetters}
+                            >
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Play size={18} />
+                                        <span>Oyna</span>
+                                        <ArrowRight size={16} />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={18} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

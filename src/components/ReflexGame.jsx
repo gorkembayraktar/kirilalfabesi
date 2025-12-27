@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Gamepad2, Zap, FastForward, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Gamepad2, Zap, FastForward, ArrowRight, Clock, Target, Trophy, TrendingUp, Play, RotateCcw, Home, CheckCircle, XCircle } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
 
@@ -12,21 +12,20 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-export default function ReflexGame({ onExit, availableLetters }) {
-    const [gameState, setGameState] = useState('intro'); // intro, playing, finished
+export default function ReflexGame({ onExit, availableLetters, onRecordPractice }) {
+    const [gameState, setGameState] = useState('intro');
     const [queue, setQueue] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [timeLeft, setTimeLeft] = useState(60);
     const [score, setScore] = useState(0);
     const [combo, setCombo] = useState(0);
-    const [lastResult, setLastResult] = useState(null); // 'correct', 'incorrect', null
-    const [mistakes, setMistakes] = useState([]); // [{ cyrillic, correct, actual }]
-    const [answeredCount, setAnsweredCount] = useState(0); // Track total answered questions
+    const [lastResult, setLastResult] = useState(null);
+    const [mistakes, setMistakes] = useState([]);
+    const [answeredCount, setAnsweredCount] = useState(0);
 
     const mapRef = useRef([]);
     const timerRef = useRef(null);
 
-    // Initialize letter mapping
     useEffect(() => {
         const fullMapping = getLetterMapping();
         if (availableLetters && availableLetters.length > 0) {
@@ -42,19 +41,13 @@ export default function ReflexGame({ onExit, availableLetters }) {
         const fullList = mapRef.current;
         if (fullList.length === 0) return;
 
-        // Shuffle full list to get unique items random order
         let deck = shuffleArray(fullList);
-
-        // If we want a longer game (e.g. 40 items) but alphabet is ~33,
-        // we add a second shuffled deck to fill the rest.
         if (deck.length < 40) {
             const extra = shuffleArray(fullList);
             deck = [...deck, ...extra];
         }
 
-        // Take first 40 (or however many)
         const selectedItems = deck.slice(0, 40);
-
         const newQueue = selectedItems.map((item, i) => ({
             id: i,
             cyrillic: item.cyrillic.charAt(0),
@@ -71,7 +64,6 @@ export default function ReflexGame({ onExit, availableLetters }) {
         setGameState('playing');
         setLastResult(null);
 
-        // Start Timer
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
             setTimeLeft(prev => {
@@ -87,9 +79,11 @@ export default function ReflexGame({ onExit, availableLetters }) {
     const endGame = () => {
         if (timerRef.current) clearInterval(timerRef.current);
         setGameState('finished');
+        if (onRecordPractice && answeredCount > 0) {
+            onRecordPractice(answeredCount - mistakes.length, answeredCount);
+        }
     };
 
-    // Cleanup timer
     useEffect(() => {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
@@ -98,22 +92,17 @@ export default function ReflexGame({ onExit, availableLetters }) {
 
     const handleKeyPress = (key) => {
         if (gameState !== 'playing') return;
-
-        // Prevent spamming
         if (lastResult) return;
 
         const currentItem = queue[activeIndex];
         const input = key.toLowerCase();
 
         if (input === currentItem.turkish) {
-            // Correct
             setScore(prev => prev + 10 + (combo * 2));
             setCombo(prev => prev + 1);
             setLastResult('correct');
-            // Mark as correct in queue
             setQueue(prev => prev.map((q, i) => i === activeIndex ? { ...q, result: 'correct' } : q));
         } else {
-            // Incorrect
             setCombo(0);
             setLastResult('incorrect');
             setMistakes(prev => [...prev, {
@@ -121,20 +110,17 @@ export default function ReflexGame({ onExit, availableLetters }) {
                 correct: currentItem.turkish,
                 actual: input
             }]);
-            // Mark as incorrect in queue
             setQueue(prev => prev.map((q, i) => i === activeIndex ? { ...q, result: 'incorrect' } : q));
         }
 
-        // Increment answered count
         setAnsweredCount(prev => prev + 1);
 
-        // Always move to next item (Wait slightly for visual feedback)
         setTimeout(() => {
             if (activeIndex < queue.length - 1) {
                 setActiveIndex(prev => prev + 1);
             } else {
                 if ((answeredCount - mistakes.length) > 0) {
-                    setScore(prev => prev + Math.round(Math.random() * 100)); // Bonus for finishing
+                    setScore(prev => prev + Math.round(Math.random() * 100));
                 }
                 endGame();
             }
@@ -142,11 +128,9 @@ export default function ReflexGame({ onExit, availableLetters }) {
         }, 300);
     };
 
-    // Handle physical keyboard input
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (gameState !== 'playing') return;
-            // Ignore modifiers
             if (e.metaKey || e.ctrlKey || e.altKey) return;
 
             if (e.key.length === 1) {
@@ -156,7 +140,7 @@ export default function ReflexGame({ onExit, availableLetters }) {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [gameState, activeIndex, queue, lastResult]);
+    }, [gameState, activeIndex, queue, lastResult, combo]);
 
     const formatTime = (seconds) => {
         const m = Math.floor(seconds / 60);
@@ -166,26 +150,58 @@ export default function ReflexGame({ onExit, availableLetters }) {
 
     if (gameState === 'intro') {
         return (
-            <div className="game-intro">
-                <button className="game-back-btn" onClick={onExit} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <ArrowLeft size={16} /> Geri
+            <div className="reflex-game-wrapper">
+                <button className="game-back-btn-modern" onClick={onExit}>
+                    <ArrowLeft size={18} />
+                    <span>Geri</span>
                 </button>
-                <div className="game-icon">
-                    <Gamepad2 size={64} strokeWidth={1.5} />
-                </div>
-                <h2>Refleks Oyunu</h2>
-                <p>Yukarıda çıkan Kiril harfeleriyet klavyedeki Türkçe sesleri eşleştir!</p>
-                <div className="game-rules">
-                    <div className="rule">
-                        <span className="rule-icon"><Zap size={24} /></span>
-                        <span>Hızlı Ol</span>
+
+                <div className="reflex-game-intro">
+                    <div className="intro-icon-wrapper">
+                        <div className="intro-icon-bg" />
+                        <Gamepad2 size={64} className="intro-icon" />
                     </div>
-                    <div className="rule">
-                        <span className="rule-icon"><FastForward size={24} /></span>
-                        <span>Yanlışta Geçer</span>
+
+                    <h1 className="intro-title">Refleks Oyunu</h1>
+                    <p className="intro-description">
+                        Yukarıda çıkan Kiril harflerini klavyedeki Türkçe sesleriyle eşleştir!
+                    </p>
+
+                    <div className="intro-rules">
+                        <div className="intro-rule-card">
+                            <div className="rule-icon-wrapper">
+                                <Zap size={24} />
+                            </div>
+                            <div className="rule-content">
+                                <h3>Hızlı Ol</h3>
+                                <p>Zamana karşı yarış</p>
+                            </div>
+                        </div>
+                        <div className="intro-rule-card">
+                            <div className="rule-icon-wrapper">
+                                <Target size={24} />
+                            </div>
+                            <div className="rule-content">
+                                <h3>Doğru Eşleştir</h3>
+                                <p>Her doğru cevap puan kazandırır</p>
+                            </div>
+                        </div>
+                        <div className="intro-rule-card">
+                            <div className="rule-icon-wrapper">
+                                <TrendingUp size={24} />
+                            </div>
+                            <div className="rule-content">
+                                <h3>Combo Yap</h3>
+                                <p>Ardışık doğrular bonus puan</p>
+                            </div>
+                        </div>
                     </div>
+
+                    <button className="intro-start-btn" onClick={startGame}>
+                        <Play size={20} />
+                        <span>Oyuna Başla</span>
+                    </button>
                 </div>
-                <button className="game-btn-start" onClick={startGame}>Oyuna Başla</button>
             </div>
         );
     }
@@ -195,61 +211,106 @@ export default function ReflexGame({ onExit, availableLetters }) {
         const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
 
         return (
-            <div className="game-result">
-                <h2>Oyun Bitti!</h2>
-                <div className="final-score">{score}</div>
-                <p className="final-label">TOPLAM PUAN</p>
+            <div className="reflex-game-wrapper">
+                <div className="reflex-game-result">
+                    <div className="result-header">
+                        <div className="result-icon-wrapper">
+                            <Trophy size={48} />
+                        </div>
+                        <h2>Oyun Bitti!</h2>
+                    </div>
 
-                <div className="result-stats-row">
-                    <div className="result-stat-item">
-                        <div className="stat-val">{answeredCount}</div>
-                        <div className="stat-lbl">Soru</div>
+                    <div className="result-score-section">
+                        <div className="final-score-display">{score}</div>
+                        <p className="final-score-label">TOPLAM PUAN</p>
                     </div>
-                    <div className="result-stat-item">
-                        <div className="stat-val" style={{ color: 'var(--success)' }}>{correctCount}</div>
-                        <div className="stat-lbl">Doğru</div>
-                    </div>
-                    <div className="result-stat-item">
-                        <div className="stat-val" style={{ color: 'var(--error)' }}>{mistakes.length}</div>
-                        <div className="stat-lbl">Yanlış</div>
-                    </div>
-                    <div className="result-stat-item">
-                        <div className="stat-val">%{accuracy}</div>
-                        <div className="stat-lbl">İsabet</div>
-                    </div>
-                </div>
 
-                {mistakes.length > 0 && (
-                    <div className="mistakes-section">
-                        <h3>Hataların</h3>
-                        <div className="mistakes-list">
-                            {mistakes.map((m, i) => (
-                                <div key={i} className="mistake-item">
-                                    <div className="mistake-char cyrillic">{m.cyrillic}</div>
-                                    <div className="mistake-arrow"><ArrowRight size={16} /></div>
-                                    <div className="mistake-char correct" title="Olması Gereken">{m.correct.toUpperCase()}</div>
-                                    <div className="mistake-sep">vs</div>
-                                    <div className="mistake-char incorrect" title="Senin Yanıtın">{m.actual.toUpperCase()}</div>
-                                </div>
-                            ))}
+                    <div className="result-stats-grid">
+                        <div className="result-stat-card">
+                            <div className="stat-card-icon">
+                                <Target size={20} />
+                            </div>
+                            <div className="stat-card-value">{answeredCount}</div>
+                            <div className="stat-card-label">Soru</div>
+                        </div>
+                        <div className="result-stat-card success">
+                            <div className="stat-card-icon">
+                                <CheckCircle size={20} />
+                            </div>
+                            <div className="stat-card-value">{correctCount}</div>
+                            <div className="stat-card-label">Doğru</div>
+                        </div>
+                        <div className="result-stat-card error">
+                            <div className="stat-card-icon">
+                                <XCircle size={20} />
+                            </div>
+                            <div className="stat-card-value">{mistakes.length}</div>
+                            <div className="stat-card-label">Yanlış</div>
+                        </div>
+                        <div className="result-stat-card accent">
+                            <div className="stat-card-icon">
+                                <TrendingUp size={20} />
+                            </div>
+                            <div className="stat-card-value">%{accuracy}</div>
+                            <div className="stat-card-label">İsabet</div>
                         </div>
                     </div>
-                )}
 
-                <div className="game-actions">
-                    <button className="game-btn-restart" onClick={startGame}>Tekrar Oyna</button>
-                    <button className="game-btn-secondary" onClick={onExit} style={{ marginTop: '1rem' }}>Menüye Dön</button>
+                    {mistakes.length > 0 && (
+                        <div className="result-mistakes">
+                            <h3 className="mistakes-title">Hataların</h3>
+                            <div className="mistakes-grid">
+                                {mistakes.map((m, i) => (
+                                    <div key={i} className="mistake-card">
+                                        <div className="mistake-cyrillic">{m.cyrillic}</div>
+                                        <ArrowRight size={16} className="mistake-arrow" />
+                                        <div className="mistake-correct">{m.correct.toUpperCase()}</div>
+                                        <span className="mistake-vs">vs</span>
+                                        <div className="mistake-wrong">{m.actual.toUpperCase()}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="result-actions">
+                        <button className="result-btn-primary" onClick={startGame}>
+                            <RotateCcw size={18} />
+                            <span>Tekrar Oyna</span>
+                        </button>
+                        <button className="result-btn-secondary" onClick={onExit}>
+                            <Home size={18} />
+                            <span>Menüye Dön</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="game-container">
-            {/* Top Section: Queue Bubbles */}
-            <div className="game-queue">
+        <div className="reflex-game-playing">
+            {/* Header Stats */}
+            <div className="playing-header">
+                <div className="playing-stat">
+                    <Clock size={18} />
+                    <span className="stat-value">{formatTime(timeLeft)}</span>
+                </div>
+                <div className="playing-stat">
+                    <Trophy size={18} />
+                    <span className="stat-value">{score}</span>
+                </div>
+                {combo > 1 && (
+                    <div className="playing-stat combo">
+                        <Zap size={18} />
+                        <span className="stat-value">x{combo}</span>
+                    </div>
+                )}
+            </div>
+
+            {/* Queue */}
+            <div className="playing-queue">
                 {queue.map((item, idx) => {
-                    // Show window
                     if (idx < activeIndex - 2 || idx > activeIndex + 4) return null;
 
                     let status = 'upcoming';
@@ -257,29 +318,23 @@ export default function ReflexGame({ onExit, availableLetters }) {
                     else if (idx === activeIndex) status = 'active';
 
                     return (
-                        <div key={item.id} className={`game-bubble ${status}`}>
+                        <div key={item.id} className={`queue-bubble ${status}`}>
                             {item.cyrillic}
                         </div>
                     );
                 })}
             </div>
 
-            {/* Middle Section: Active Letter & Timer */}
-            <div className="game-middle">
-                <div className="game-timer">{formatTime(timeLeft)}</div>
-
-                <div className={`game-active-letter ${lastResult ? lastResult : ''}`}>
-                    {queue[activeIndex]?.cyrillic}
-                </div>
-
-                <div className="game-stats">
-                    <span>Puan: {score}</span>
-                    {combo > 1 && <span className="game-combo">x{combo}</span>}
+            {/* Active Letter */}
+            <div className="playing-main">
+                <div className={`active-letter-display ${lastResult || ''}`}>
+                    <div className="letter-glow" />
+                    <span className="letter-char">{queue[activeIndex]?.cyrillic}</span>
                 </div>
             </div>
 
-            {/* Bottom: Keyboard */}
-            <div className="game-bottom">
+            {/* Keyboard */}
+            <div className="playing-keyboard">
                 <TurkishKeyboard onKeyPress={handleKeyPress} disabled={!!lastResult} />
             </div>
         </div>
