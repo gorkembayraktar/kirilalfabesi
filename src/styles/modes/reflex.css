@@ -191,6 +191,34 @@
     background: var(--border-color);
 }
 
+/* Sidebar Info Button */
+.sidebar-info-divider {
+    width: 2px;
+    height: 12px;
+    background: var(--border-color);
+    margin: 0.25rem 0;
+}
+
+.sidebar-info-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: auto;
+}
+
+.sidebar-info-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--accent-primary);
+}
+
 /* Content Area */
 .reflex-content {
     flex: 1;
@@ -1062,6 +1090,135 @@
 }
 
 /* ============================================
+   REFLEX MODE - INFO MODAL
+   ============================================ */
+
+.reflex-info-modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    max-width: 500px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.2s ease-out;
+}
+
+.info-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    color: white;
+}
+
+.info-modal-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.info-modal-content {
+    padding: 1.5rem;
+}
+
+.info-intro {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent-primary);
+}
+
+.info-section {
+    margin-bottom: 1.5rem;
+}
+
+.info-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.info-section h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-section li {
+    padding: 0.75rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.info-section li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.info-section li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.info-modal-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+}
+
+.info-modal-close-btn {
+    padding: 0.7rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.info-modal-close-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+/* ============================================
    REFLEX MODE - RESPONSIVE
    ============================================ */
 
@@ -1096,6 +1253,15 @@
 
     .tab-connector {
         height: 12px;
+    }
+
+    .sidebar-info-divider {
+        height: 8px;
+    }
+
+    .sidebar-info-btn {
+        width: 28px;
+        height: 28px;
     }
 
     .coding-hero {
@@ -1247,5 +1413,56 @@
     .completed-letter-chip {
         padding: 0.25rem 0.5rem;
         font-size: 0.75rem;
+    }
+
+    /* Info Modal Mobile */
+    .reflex-info-modal {
+        max-width: 95%;
+        max-height: 90vh;
+    }
+
+    .info-modal-header {
+        padding: 1.25rem 1rem 0.875rem;
+    }
+
+    .info-icon-wrap {
+        width: 36px;
+        height: 36px;
+    }
+
+    .info-modal-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .info-modal-content {
+        padding: 1.25rem 1rem;
+    }
+
+    .info-intro {
+        font-size: 0.9rem;
+        padding: 0.875rem;
+    }
+
+    .info-section {
+        margin-bottom: 1.25rem;
+    }
+
+    .info-section h4 {
+        font-size: 0.95rem;
+    }
+
+    .info-section li {
+        font-size: 0.85rem;
+        padding: 0.65rem 0;
+        padding-left: 1.25rem;
+    }
+
+    .info-modal-footer {
+        padding: 0.875rem 1rem 1.25rem;
+    }
+
+    .info-modal-close-btn {
+        padding: 0.65rem 1.75rem;
+        font-size: 0.9rem;
     }
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { RotateCcw, Lock, Brain, PartyPopper, AlertTriangle, Trophy, Zap, Target, ChevronRight, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { RotateCcw, Lock, Brain, PartyPopper, AlertTriangle, Trophy, Zap, Target, ChevronRight, Sparkles, Volume2, VolumeX, Info } from 'lucide-react';
 import { reflexData } from '../../data/reflexData';
 import { useProgress } from '../../hooks/useProgress';
 import CodingStage from './CodingStage';
@@ -24,6 +24,7 @@ export default function ReflexMode({ theme }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [stage, setStage] = useState('coding');
     const [showResetModal, setShowResetModal] = useState(false);
+    const [showInfoModal, setShowInfoModal] = useState(false);
     const [audioEnabled, setAudioEnabled] = useState(() => {
         const saved = localStorage.getItem('reflexAudioEnabled');
         return saved !== null ? JSON.parse(saved) : true;
@@ -81,6 +82,59 @@ export default function ReflexMode({ theme }) {
                     </button>
                     <button className="modal-btn confirm" onClick={handleReset}>
                         <RotateCcw size={16} /> Sıfırla
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+
+    // Info Modal Component
+    const InfoModal = () => (
+        <div className="reflex-modal-overlay" onClick={() => setShowInfoModal(false)}>
+            <div className="reflex-info-modal" onClick={e => e.stopPropagation()}>
+                <div className="info-modal-header">
+                    <div className="info-icon-wrap">
+                        <Info size={24} />
+                    </div>
+                    <h3>Reflex Mode Hakkında</h3>
+                </div>
+                <div className="info-modal-content">
+                    <p className="info-intro">
+                        Reflex Mode, Kiril alfabesini kalıcı olarak öğrenmen için tasarlanmış özel bir eğitim modudur.
+                    </p>
+                    
+                    <div className="info-section">
+                        <h4>🎯 Nasıl Çalışır?</h4>
+                        <ul>
+                            <li><strong>Kodlama Aşaması:</strong> Her harfi 5 saniye boyunca incele. Harfin şekli, sesi ve çağrışımını zihnine kodla.</li>
+                            <li><strong>Kilitleme Aşaması:</strong> Harfin Türkçe karşılığını 3 kez doğru yazarak kilitle.</li>
+                        </ul>
+                    </div>
+
+                    <div className="info-section">
+                        <h4>✨ Kazanımlar</h4>
+                        <ul>
+                            <li><strong>Kalıcı Öğrenme:</strong> İki aşamalı sistem sayesinde harfler hafızanda kalıcı olarak yer eder.</li>
+                            <li><strong>Görsel Hafıza:</strong> Şekil çağrışımları ile görsel hafızanı güçlendirirsin.</li>
+                            <li><strong>İşitsel Öğrenme:</strong> Sesli telaffuz özelliği ile doğru okunuşu öğrenirsin.</li>
+                            <li><strong>Refleks Geliştirme:</strong> Kilitlediğin harfler oyun modunda reflekslerini hızlandırır.</li>
+                            <li><strong>Adım Adım İlerleme:</strong> Her seferinde maksimum 6 harf ile odaklanarak öğrenirsin.</li>
+                        </ul>
+                    </div>
+
+                    <div className="info-section">
+                        <h4>💡 İpuçları</h4>
+                        <ul>
+                            <li>Her harfi dikkatlice incele ve çağrışımını düşün.</li>
+                            <li>Sesli telaffuz özelliğini kullanarak doğru okunuşu öğren.</li>
+                            <li>Örnek kelimeleri inceleyerek harflerin kullanımını gör.</li>
+                            <li>Sabırlı ol - kalıcı öğrenme zaman alır!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="info-modal-footer">
+                    <button className="info-modal-close-btn" onClick={() => setShowInfoModal(false)}>
+                        Anladım
                     </button>
                 </div>
             </div>
@@ -272,6 +326,14 @@ export default function ReflexMode({ theme }) {
                             <div className="tab-icon"><Lock size={18} /></div>
                             <span>Kilitle</span>
                         </div>
+                        <div className="sidebar-info-divider" />
+                        <button
+                            className="sidebar-info-btn"
+                            onClick={() => setShowInfoModal(true)}
+                            title="Reflex Mode Hakkında"
+                        >
+                            <Info size={18} />
+                        </button>
                     </div>
 
                     {/* Content */}
@@ -299,6 +361,7 @@ export default function ReflexMode({ theme }) {
             </div>
 
             {showResetModal && <ResetModal />}
+            {showInfoModal && <InfoModal />}
         </div>
     );
 }
