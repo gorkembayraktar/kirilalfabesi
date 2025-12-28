@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { GraduationCap, PartyPopper, Check, X, ArrowRight } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { GraduationCap, PartyPopper, Check, X, ArrowRight, CheckCircle2, XCircle, Play, RotateCcw, Trophy, Target, TrendingUp } from 'lucide-react';
 import { transliterate, getRandomWords, checkAnswer } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
 
@@ -22,6 +22,20 @@ export default function LearningMode({ onRecordPractice }) {
         setIsStarted(true);
     };
 
+    const nextWord = useCallback(() => {
+        setCurrentIndex(prev => {
+            if (prev < words.length - 1) {
+                return prev + 1;
+            } else {
+                // Session bitti
+                setIsStarted(false);
+                return prev;
+            }
+        });
+        setUserAnswer('');
+        setFeedback(null);
+    }, [words.length]);
+
     useEffect(() => {
         if (isStarted && inputRef.current && feedback === null) {
             inputRef.current.focus();
@@ -39,7 +53,7 @@ export default function LearningMode({ onRecordPractice }) {
 
         window.addEventListener('keydown', handleGlobalKeyDown);
         return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-    }, [feedback]);
+    }, [feedback, nextWord]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -83,43 +97,91 @@ export default function LearningMode({ onRecordPractice }) {
         }
     };
 
-    const nextWord = () => {
-        if (currentIndex < words.length - 1) {
-            setCurrentIndex(prev => prev + 1);
-            setUserAnswer('');
-            setFeedback(null);
-        } else {
-            // Session bitti
-            setIsStarted(false);
-        }
-    };
-
     if (!isStarted) {
+        const successRate = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+        const getPerformanceMessage = () => {
+            if (successRate >= 90) return { text: 'Mükemmel! 🌟', color: 'excellent' };
+            if (successRate >= 70) return { text: 'Harika! 🎉', color: 'great' };
+            if (successRate >= 50) return { text: 'İyi! 👍', color: 'good' };
+            return { text: 'Devam Et! 💪', color: 'keep-going' };
+        };
+        const performance = stats.total > 0 ? getPerformanceMessage() : null;
+
         return (
             <div className="learning-mode">
-                <div className="learning-card">
+                <div className="learning-start-card">
                     {stats.total > 0 ? (
                         <>
-                            <div className="start-icon"><PartyPopper size={64} style={{ color: 'var(--primary)' }} /></div>
-                            <h2 className="start-title">Tebrikler!</h2>
-                            <p className="start-description">
-                                {stats.total} kelimeden {stats.correct} tanesini doğru yazdınız.
-                                Başarı oranınız: %{Math.round((stats.correct / stats.total) * 100)}
-                            </p>
+                            <div className="result-header">
+                                <div className="result-icon-wrapper">
+                                    <Trophy size={40} className="result-icon" />
+                                </div>
+                                <h2 className="result-title">{performance?.text || 'Tebrikler!'}</h2>
+                                <p className="result-subtitle">Seans tamamlandı</p>
+                            </div>
+
+                            <div className="result-stats-grid-2">
+                                <div className="result-stat-card">
+                                    <div className="result-stat-icon">
+                                        <CheckCircle2 size={24} />
+                                    </div>
+                                    <div className="result-stat-content">
+                                        <div className="result-stat-value">{stats.correct}</div>
+                                        <div className="result-stat-label">Doğru</div>
+                                    </div>
+                                </div>
+                                
+                                <div className="result-stat-card">
+                                    <div className="result-stat-icon error">
+                                        <XCircle size={24} />
+                                    </div>
+                                    <div className="result-stat-content">
+                                        <div className="result-stat-value">{stats.total - stats.correct}</div>
+                                        <div className="result-stat-label">Yanlış</div>
+                                    </div>
+                                </div>
+                                
+                                <div className="result-stat-card highlight">
+                                    <div className="result-stat-icon success">
+                                        <TrendingUp size={24} />
+                                    </div>
+                                    <div className="result-stat-content">
+                                        <div className="result-stat-value">{successRate}%</div>
+                                        <div className="result-stat-label">Başarı</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="result-progress-section">
+                                <div className="result-progress-bar">
+                                    <div 
+                                        className="result-progress-fill" 
+                                        style={{ width: `${successRate}%` }}
+                                    />
+                                </div>
+                                <div className="result-progress-text">
+                                    <span>{stats.correct} / {stats.total} kelime doğru</span>
+                                </div>
+                            </div>
+
                             <button className="start-btn" onClick={startSession}>
-                                Tekrar Başla
+                                <RotateCcw size={18} />
+                                <span>Tekrar Başla</span>
                             </button>
                         </>
                     ) : (
                         <>
-                            <div className="start-icon"><GraduationCap size={64} style={{ color: 'var(--primary)' }} /></div>
+                            <div className="start-icon-wrapper">
+                                <GraduationCap size={48} className="start-icon" />
+                            </div>
                             <h2 className="start-title">Öğrenme Modu</h2>
                             <p className="start-description">
                                 Size Türkçe kelimeler göstereceğiz. Her kelimenin Kiril karşılığını yazın.
                                 Ekrandaki klavyeyi kullanabilir veya kendi klavyenizle yazabilirsiniz!
                             </p>
-                            <button className="start-btn" onClick={startSession}>
-                                Başla
+                            <button className="start-btn primary" onClick={startSession}>
+                                <Play size={18} />
+                                <span>Başla</span>
                             </button>
                         </>
                     )}
@@ -131,72 +193,125 @@ export default function LearningMode({ onRecordPractice }) {
     const currentWord = words[currentIndex];
     const progressPercent = ((currentIndex) / words.length) * 100;
 
+    const successRate = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+
     return (
         <div className="learning-mode">
             <div className="learning-card fade-in">
-                <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+                {/* Progress Section */}
+                <div className="learning-header">
+                    <div className="progress-section">
+                        <div className="progress-info">
+                            <span className="progress-label">İlerleme</span>
+                            <span className="progress-text">{currentIndex + 1} / {words.length}</span>
+                        </div>
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+                        </div>
+                    </div>
+                    <div className="learning-stats-compact">
+                        <div className="stat-badge">
+                            <CheckCircle2 size={16} />
+                            <span>{stats.correct}</span>
+                        </div>
+                        <div className="stat-badge success">
+                            <TrendingUp size={16} />
+                            <span>{successRate}%</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="word-display">{currentWord.turkish}</div>
-                <div className="word-hint">Bu kelimenin Kiril karşılığını yazın</div>
+                {/* Word Display */}
+                <div className="word-section">
+                    <div className="word-display">{currentWord.turkish}</div>
+                    <div className="word-hint">Bu kelimenin Kiril karşılığını yazın</div>
+                </div>
 
-                <form onSubmit={handleSubmit}>
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        className={`answer-input ${feedback || ''}`}
-                        value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
-                        placeholder="Kiril ile yazın..."
-                        disabled={feedback !== null}
-                        autoComplete="off"
-                    />
+                {/* Input Section */}
+                <form onSubmit={handleSubmit} className="input-section">
+                    <div className="input-wrapper">
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            className={`answer-input ${feedback || ''}`}
+                            value={userAnswer}
+                            onChange={(e) => setUserAnswer(e.target.value)}
+                            placeholder="Kiril ile yazın..."
+                            disabled={feedback !== null}
+                            autoComplete="off"
+                        />
+                        {!feedback && userAnswer.trim() && (
+                            <button 
+                                type="submit" 
+                                className="submit-btn"
+                                disabled={!userAnswer.trim()}
+                            >
+                                <Check size={18} />
+                            </button>
+                        )}
+                    </div>
                 </form>
 
-                <CyrillicKeyboard
-                    onKeyPress={handleKeyboardInput}
-                    disabled={feedback !== null}
-                />
-
+                {/* Feedback Section */}
                 {feedback && (
-                    <div className={`feedback ${feedback} fade-in`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                    <div className={`feedback-container ${feedback} fade-in`}>
                         {feedback === 'correct' ? (
-                            <><Check size={24} /> Doğru!</>
+                            <>
+                                <div className="feedback-message correct">
+                                    <CheckCircle2 size={20} />
+                                    <span>Doğru!</span>
+                                </div>
+                                <button className="learning-next-btn" onClick={nextWord}>
+                                    {currentIndex < words.length - 1 ? (
+                                        <>
+                                            <span>Sonraki</span>
+                                            <ArrowRight size={18} />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Trophy size={18} />
+                                            <span>Bitir</span>
+                                        </>
+                                    )}
+                                </button>
+                            </>
                         ) : (
-                            <><X size={24} /> Yanlış</>
+                            <>
+                                <div className="feedback-message incorrect">
+                                    <XCircle size={20} />
+                                    <span>Yanlış</span>
+                                </div>
+                                <div className="learning-correct-answer">
+                                    <span className="learning-correct-label">Doğru cevap:</span>
+                                    <span className="learning-correct-text">{transliterate(currentWord.turkish)}</span>
+                                </div>
+                                <button className="learning-next-btn" onClick={nextWord}>
+                                    {currentIndex < words.length - 1 ? (
+                                        <>
+                                            <span>Sonraki</span>
+                                            <ArrowRight size={18} />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Trophy size={18} />
+                                            <span>Bitir</span>
+                                        </>
+                                    )}
+                                </button>
+                            </>
                         )}
                     </div>
                 )}
 
-                {feedback === 'incorrect' && (
-                    <div className="correct-answer fade-in">
-                        Doğru cevap: {transliterate(currentWord.turkish)}
+                {/* Keyboard */}
+                {!feedback && (
+                    <div className="keyboard-section">
+                        <CyrillicKeyboard
+                            onKeyPress={handleKeyboardInput}
+                            disabled={feedback !== null}
+                        />
                     </div>
                 )}
-
-                {feedback && (
-                    <button className="next-btn fade-in" onClick={nextWord} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
-                        {currentIndex < words.length - 1 ? <>Sonraki Kelime <ArrowRight size={18} /></> : 'Bitir'}
-                    </button>
-                )}
-
-                <div className="stats">
-                    <div className="stat">
-                        <div className="stat-value">{currentIndex + 1}/{words.length}</div>
-                        <div className="stat-label">Kelime</div>
-                    </div>
-                    <div className="stat">
-                        <div className="stat-value">{stats.correct}</div>
-                        <div className="stat-label">Doğru</div>
-                    </div>
-                    <div className="stat">
-                        <div className="stat-value">
-                            {stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0}%
-                        </div>
-                        <div className="stat-label">Başarı</div>
-                    </div>
-                </div>
             </div>
         </div>
     );
