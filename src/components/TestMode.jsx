@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Star, Zap, BookOpen, Target, ClipboardList, Trophy, ThumbsUp, Type, PenTool, Eye, ArrowRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Star, Zap, BookOpen, Target, ClipboardList, Trophy, ThumbsUp, Type, PenTool, Eye, ArrowRight, Play, RotateCcw, CheckCircle2, XCircle, TrendingUp } from 'lucide-react';
 import { transliterate, getRandomWords, getLetterMapping, checkAnswer } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
 
@@ -64,6 +64,17 @@ export default function TestMode({ onRecordPractice }) {
     const [score, setScore] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
+    const inputRef = useRef(null);
+
+    // Focus input when word-write question appears
+    useEffect(() => {
+        if (isStarted && !isFinished && questions.length > 0) {
+            const currentQuestion = questions[currentIndex];
+            if (currentQuestion?.type === 'word-write' && inputRef.current && !isAnswered) {
+                inputRef.current.focus();
+            }
+        }
+    }, [currentIndex, isStarted, isFinished, questions, isAnswered]);
 
     const startTest = () => {
         setQuestions(generateQuestions());
@@ -150,16 +161,19 @@ export default function TestMode({ onRecordPractice }) {
 
     if (!isStarted) {
         return (
-            <div className="test-mode">
-                <div className="test-card start-screen">
-                    <div className="start-icon"><ClipboardList size={64} style={{ color: 'var(--primary)' }} /></div>
-                    <h2 className="start-title">Mini Test</h2>
-                    <p className="start-description">
+            <div className="pt-mode">
+                <div className="pt-start-card">
+                    <div className="pt-start-icon-wrapper">
+                        <ClipboardList size={48} className="pt-start-icon" />
+                    </div>
+                    <h2 className="pt-start-title">Mini Test</h2>
+                    <p className="pt-start-description">
                         10 soruluk bir test ile Kiril bilginizi ölçün. Harf eşleştirme, kelime yazma
                         ve okuma soruları olacak.
                     </p>
-                    <button className="start-btn" onClick={startTest}>
-                        Teste Başla
+                    <button className="pt-start-btn" onClick={startTest}>
+                        <Play size={18} />
+                        <span>Teste Başla</span>
                     </button>
                 </div>
             </div>
@@ -167,27 +181,46 @@ export default function TestMode({ onRecordPractice }) {
     }
 
     if (isFinished) {
+        const percent = Math.round((score / questions.length) * 100);
         return (
-            <div className="test-mode">
-                <div className="test-card test-results fade-in">
-                    <div className="results-icon">
-                        {score >= questions.length * 0.7 ? <Trophy size={64} color="#fbbf24" /> : score >= questions.length * 0.5 ? <ThumbsUp size={64} color="#3b82f6" /> : <BookOpen size={64} color="#60a5fa" />}
+            <div className="pt-mode">
+                <div className="pt-results-card fade-in">
+                    <div className="pt-results-header">
+                        <div className="pt-results-icon-wrapper">
+                            {score >= questions.length * 0.7 ? (
+                                <Trophy size={48} className="pt-results-icon" />
+                            ) : score >= questions.length * 0.5 ? (
+                                <ThumbsUp size={48} className="pt-results-icon" />
+                            ) : (
+                                <BookOpen size={48} className="pt-results-icon" />
+                            )}
+                        </div>
+                        <h2 className="pt-results-title">Test Tamamlandı!</h2>
                     </div>
-                    <h2 className="results-title">Test Tamamlandı!</h2>
-                    <div className="results-score">{score}/{questions.length}</div>
-                    <div className="results-message" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+
+                    <div className="pt-results-stats">
+                        <div className="pt-results-score">
+                            <div className="pt-score-value">{score}/{questions.length}</div>
+                            <div className="pt-score-label">Doğru Cevap</div>
+                        </div>
+                        <div className="pt-results-percent">
+                            <div className="pt-percent-value">{percent}%</div>
+                            <div className="pt-percent-label">Başarı Oranı</div>
+                        </div>
+                    </div>
+
+                    <div className="pt-results-message">
                         {getScoreMessage()}
                     </div>
-                    <button className="restart-btn" onClick={startTest}>
-                        Tekrar Dene
+
+                    <button className="pt-restart-btn" onClick={startTest}>
+                        <RotateCcw size={18} />
+                        <span>Tekrar Dene</span>
                     </button>
                 </div>
             </div>
         );
     }
-
-    const currentQuestion = questions[currentIndex];
-    const progressPercent = ((currentIndex) / questions.length) * 100;
 
     const getTypeLabel = (type) => {
         switch (type) {
@@ -198,68 +231,144 @@ export default function TestMode({ onRecordPractice }) {
         }
     };
 
+    const currentQuestion = isStarted && !isFinished && questions.length > 0 ? questions[currentIndex] : null;
+    const progressPercent = questions.length > 0 ? ((currentIndex) / questions.length) * 100 : 0;
+    
+    const isCorrect = currentQuestion && isAnswered && (
+        currentQuestion.type === 'word-write' 
+            ? userAnswer.trim().toLowerCase() === currentQuestion.correctAnswer.toLowerCase()
+            : selectedOption === currentQuestion.correctAnswer
+    );
+
+    if (!currentQuestion) {
+        return null;
+    }
+
     return (
-        <div className="test-mode">
-            <div className="test-card fade-in">
-                <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+        <div className="pt-mode">
+            <div className="pt-card fade-in">
+                {/* Header with Progress */}
+                <div className="pt-header">
+                    <div className="pt-progress-section">
+                        <div className="pt-progress-info">
+                            <span className="pt-progress-label">İlerleme</span>
+                            <span className="pt-progress-text">{currentIndex + 1} / {questions.length}</span>
+                        </div>
+                        <div className="pt-progress-bar">
+                            <div className="pt-progress-fill" style={{ width: `${progressPercent}%` }} />
+                        </div>
+                    </div>
+                    <div className="pt-score-badge">
+                        <CheckCircle2 size={16} />
+                        <span>{score}</span>
+                    </div>
                 </div>
 
-                <div className="question-number">
-                    Soru {currentIndex + 1} / {questions.length}
-                </div>
-
-                <div className="question-type" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                {/* Question Type Badge */}
+                <div className="pt-type-badge">
                     {getTypeLabel(currentQuestion.type)}
                 </div>
 
-                <div className="question-text">{currentQuestion.question}</div>
+                {/* Question Text */}
+                <div className="pt-question-text">{currentQuestion.question}</div>
 
+                {/* Answer Section */}
                 {currentQuestion.type === 'word-write' ? (
-                    <div className="word-write-section">
-                        <form onSubmit={handleTextSubmit}>
+                    <div className="pt-answer-section">
+                        <form onSubmit={handleTextSubmit} className="pt-input-form">
                             <input
+                                ref={inputRef}
                                 type="text"
-                                className={`answer-input ${isAnswered ? (userAnswer.trim().toLowerCase() === currentQuestion.correctAnswer.toLowerCase() ? 'correct' : 'incorrect') : ''}`}
+                                className={`pt-answer-input ${isAnswered ? (isCorrect ? 'pt-correct' : 'pt-incorrect') : ''}`}
                                 value={userAnswer}
                                 onChange={(e) => setUserAnswer(e.target.value)}
-                                placeholder="Cevabınızı yazın..."
+                                placeholder="Kiril ile yazın..."
                                 disabled={isAnswered}
                                 autoComplete="off"
-                                autoFocus
                             />
+                            {!isAnswered && userAnswer.trim() && (
+                                <button type="submit" className="pt-submit-btn">
+                                    <CheckCircle2 size={18} />
+                                </button>
+                            )}
                         </form>
-                        <CyrillicKeyboard
-                            onKeyPress={handleKeyboardInput}
-                            disabled={isAnswered}
-                        />
+                        {!isAnswered && (
+                            <div className="pt-keyboard-wrapper">
+                                <CyrillicKeyboard
+                                    onKeyPress={handleKeyboardInput}
+                                    disabled={isAnswered}
+                                />
+                            </div>
+                        )}
                     </div>
                 ) : (
-                    <div className="options-grid">
-                        {currentQuestion.options.map((option, idx) => (
-                            <button
-                                key={idx}
-                                className={`option-btn ${selectedOption === option ? 'selected' : ''} ${isAnswered && option === currentQuestion.correctAnswer ? 'correct' : ''
-                                    } ${isAnswered && selectedOption === option && option !== currentQuestion.correctAnswer ? 'incorrect' : ''}`}
-                                onClick={() => handleOptionSelect(option)}
-                                disabled={isAnswered}
-                            >
-                                {option}
-                            </button>
-                        ))}
+                    <div className="pt-options-grid">
+                        {currentQuestion.options.map((option, idx) => {
+                            const isSelected = selectedOption === option;
+                            const isCorrectOption = isAnswered && option === currentQuestion.correctAnswer;
+                            const isWrongOption = isAnswered && isSelected && option !== currentQuestion.correctAnswer;
+                            
+                            return (
+                                <button
+                                    key={idx}
+                                    className={`pt-option-btn ${isSelected ? 'pt-selected' : ''} ${isCorrectOption ? 'pt-correct' : ''} ${isWrongOption ? 'pt-incorrect' : ''}`}
+                                    onClick={() => handleOptionSelect(option)}
+                                    disabled={isAnswered}
+                                >
+                                    {option}
+                                </button>
+                            );
+                        })}
                     </div>
                 )}
 
-                {isAnswered && currentQuestion.type === 'word-write' && userAnswer.trim().toLowerCase() !== currentQuestion.correctAnswer.toLowerCase() && (
-                    <div className="correct-answer fade-in" style={{ marginTop: '1rem' }}>
-                        Doğru cevap: {currentQuestion.correctAnswer}
-                    </div>
-                )}
-
+                {/* Feedback Section */}
                 {isAnswered && (
-                    <button className="next-btn fade-in" onClick={nextQuestion} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
-                        {currentIndex < questions.length - 1 ? <>Sonraki Soru <ArrowRight size={18} /></> : 'Sonuçları Gör'}
-                    </button>
+                    <div className={`pt-feedback-container ${isCorrect ? 'pt-correct' : 'pt-incorrect'} fade-in`}>
+                        {/* Sadece kelime yazma sorularında feedback göster */}
+                        {currentQuestion.type === 'word-write' ? (
+                            <>
+                                {isCorrect ? (
+                                    <div className="pt-feedback-message pt-correct">
+                                        <CheckCircle2 size={20} />
+                                        <span>Doğru!</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="pt-feedback-message pt-incorrect">
+                                            <XCircle size={20} />
+                                            <span>Yanlış</span>
+                                        </div>
+                                        <div className="pt-correct-answer">
+                                            <span className="pt-correct-label">Doğru cevap:</span>
+                                            <span className="pt-correct-text">{currentQuestion.correctAnswer}</span>
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            /* Çoktan seçmeli sorularda sadece doğru mesajı göster */
+                            isCorrect && (
+                                <div className="pt-feedback-message pt-correct">
+                                    <CheckCircle2 size={20} />
+                                    <span>Doğru!</span>
+                                </div>
+                            )
+                        )}
+                        <button className="pt-next-btn" onClick={nextQuestion}>
+                            {currentIndex < questions.length - 1 ? (
+                                <>
+                                    <span>Sonraki Soru</span>
+                                    <ArrowRight size={18} />
+                                </>
+                            ) : (
+                                <>
+                                    <Trophy size={18} />
+                                    <span>Sonuçları Gör</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
                 )}
             </div>
         </div>
