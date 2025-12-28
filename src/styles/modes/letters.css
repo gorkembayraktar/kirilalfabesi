@@ -132,6 +132,7 @@
         opacity: 0;
         transform: scale(0.95) translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -256,8 +257,17 @@
 }
 
 @keyframes pulse-glow-sequential {
-    0%, 100% { transform: scale(1); opacity: 0.15; }
-    50% { transform: scale(1.1); opacity: 0.25; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.15;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.25;
+    }
 }
 
 .sequential-cyrillic-large {
@@ -298,8 +308,15 @@
 }
 
 @keyframes pulse-speak {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
 }
 
 .sequential-equals {
@@ -334,6 +351,7 @@
     gap: 1rem;
     padding: 0 1.5rem;
     width: 100%;
+    margin-bottom: 1rem;
 }
 
 .sequential-info-card {
@@ -413,8 +431,15 @@
 }
 
 @keyframes completionBounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 .completion-title {

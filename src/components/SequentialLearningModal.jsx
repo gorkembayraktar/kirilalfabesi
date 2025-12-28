@@ -181,11 +181,14 @@ export default function SequentialLearningModal() {
 
                         {/* Letter Info */}
                         <div className="sequential-letter-info">
-                            <div className="sequential-info-card">
+                            {/*
+                             <div className="sequential-info-card">
                                 <div className="info-label">Şekil Çağrışımı</div>
                                 <div className="info-value">{currentLetter.association}</div>
                             </div>
 
+                            */}
+                           
                             {currentLetter.exampleWord && (
                                 <div className="sequential-example-section">
                                     <div className="example-cyrillic-word">{currentLetter.exampleWord}</div>
