@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { transliterate } from '../utils/transliteration';
 import CyrillicKeyboard from './CyrillicKeyboard';
+import { Shuffle, CheckCircle2, XCircle, ArrowRight, Languages, Keyboard } from 'lucide-react';
 
 // Pratik için Türkçe cümleler
 const practiceTexts = [
@@ -166,48 +167,88 @@ export default function TransliterationArea({ onRecordPractice }) {
 
     return (
         <div className="practice-area">
-
             <div className="practice-content">
                 {/* Türkçe metin kartı */}
                 <div className="practice-card">
-                    <div className="practice-header">
-                        <span className="practice-label">Türkçe Metin</span>
-                        <button className="shuffle-btn" onClick={getRandomText} title="Rastgele metin">
-                            🔀
+                    <div className="practice-card-header">
+                        <div className="practice-card-title">
+                            <Languages size={20} className="practice-icon" />
+                            <span className="practice-label">Türkçe Metin</span>
+                        </div>
+                        <button 
+                            className="shuffle-btn" 
+                            onClick={getRandomText} 
+                            title="Rastgele metin"
+                            aria-label="Rastgele metin seç"
+                        >
+                            <Shuffle size={16} />
                         </button>
                     </div>
-                    <div className="practice-text">
-                        {currentText}
+                    <div className="practice-text-wrapper">
+                        <div className="practice-text">
+                            {currentText}
+                        </div>
                     </div>
                 </div>
 
                 {/* Kiril giriş alanı */}
                 <div className="input-card">
-                    <div className="practice-header">
-                        <span className="practice-label">Kiril ile Yazın</span>
+                    <div className="practice-card-header">
+                        <div className="practice-card-title">
+                            <Keyboard size={20} className="practice-icon" />
+                            <span className="practice-label">Kiril ile Yazın</span>
+                        </div>
                         {isVerified && (
-                            <span className={`result-badge ${isCorrect ? 'correct' : 'incorrect'}`}>
-                                {isCorrect ? '✓ Doğru' : '✗ Hatalı'}
-                            </span>
+                            <div className={`result-badge ${isCorrect ? 'correct' : 'incorrect'}`}>
+                                {isCorrect ? (
+                                    <>
+                                        <CheckCircle2 size={16} />
+                                        <span>Doğru</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <XCircle size={16} />
+                                        <span>Hatalı</span>
+                                    </>
+                                )}
+                            </div>
                         )}
                     </div>
 
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        className={`practice-input ${isVerified ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
-                        value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Kiril karakterleri ile yazın..."
-                        disabled={isVerified}
-                        autoComplete="off"
-                    />
+                    <div className="input-action-row">
+                        <div className="input-wrapper">
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                className={`practice-input ${isVerified ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+                                value={userAnswer}
+                                onChange={(e) => setUserAnswer(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="Kiril karakterleri ile yazın..."
+                                disabled={isVerified}
+                                autoComplete="off"
+                            />
+                        </div>
+                        {!isVerified ? (
+                            <button
+                                className="verify-btn"
+                                onClick={verifyAnswer}
+                                disabled={!userAnswer.trim()}
+                            >
+                                <CheckCircle2 size={18} />
+                                <span>Doğrula</span>
+                            </button>
+                        ) : (
+                            <button className="next-btn" onClick={getNextText}>
+                                <ArrowRight size={18} />
+                                <span>Sonraki</span>
+                            </button>
+                        )}
+                    </div>
 
                     {/* Doğrulama sonucu */}
                     {isVerified && comparisonResult && (
                         <div className="comparison-result">
-                            <div className="comparison-label">Karşılaştırma:</div>
                             <div className="comparison-chars">
                                 {comparisonResult.map((item, index) => (
                                     <span
@@ -215,7 +256,7 @@ export default function TransliterationArea({ onRecordPractice }) {
                                         className={`char-box ${item.correct ? 'correct' : 'incorrect'}`}
                                         title={!item.correct ? `Doğrusu: ${item.expected}` : ''}
                                     >
-                                        {item.char}
+                                        <span className="char-display">{item.char}</span>
                                         {!item.correct && item.expected && (
                                             <span className="expected-char">{item.expected}</span>
                                         )}
@@ -224,7 +265,7 @@ export default function TransliterationArea({ onRecordPractice }) {
                             </div>
                             {!isCorrect && (
                                 <div className="correct-line">
-                                    <span className="correct-label">Doğru yazılış:</span>
+                                    <span className="correct-label">Doğru:</span>
                                     <span className="correct-text">{correctAnswer}</span>
                                 </div>
                             )}
@@ -232,26 +273,11 @@ export default function TransliterationArea({ onRecordPractice }) {
                     )}
 
                     {/* Kiril Klavye */}
-                    <CyrillicKeyboard
-                        onKeyPress={handleKeyboardInput}
-                        disabled={isVerified}
-                    />
-
-                    {/* Butonlar */}
-                    <div className="practice-actions">
-                        {!isVerified ? (
-                            <button
-                                className="verify-btn"
-                                onClick={verifyAnswer}
-                                disabled={!userAnswer.trim()}
-                            >
-                                ✓ Doğrula
-                            </button>
-                        ) : (
-                            <button className="next-btn" onClick={getNextText}>
-                                Sonraki →
-                            </button>
-                        )}
+                    <div className="keyboard-wrapper">
+                        <CyrillicKeyboard
+                            onKeyPress={handleKeyboardInput}
+                            disabled={isVerified}
+                        />
                     </div>
                 </div>
             </div>
