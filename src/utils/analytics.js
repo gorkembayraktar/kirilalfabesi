@@ -53,7 +53,7 @@ export const trackPageView = (path) => {
 
   // Google Analytics 4
   if (window.gtag) {
-    window.gtag('config', 'G-XXXXXXXXXX', {
+    window.gtag('config', 'G-QJC0ZQ4JR8', {
       page_path: path,
       page_title: document.title
     });
