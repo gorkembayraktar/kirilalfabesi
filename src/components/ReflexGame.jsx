@@ -3,6 +3,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ArrowLeft, Gamepad2, Zap, FastForward, ArrowRight, Clock, Target, Trophy, TrendingUp, Play, RotateCcw, Home, CheckCircle, XCircle } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
+import { trackGameStart, trackGameEnd, trackGameAnswer } from '../utils/analytics';
 
 function shuffleArray(array) {
     const shuffled = [...array];
@@ -29,6 +30,7 @@ export default function ReflexGame() {
 
     const mapRef = useRef([]);
     const timerRef = useRef(null);
+    const gameStartTimeRef = useRef(null);
 
     useEffect(() => {
         const fullMapping = getLetterMapping();
@@ -67,6 +69,10 @@ export default function ReflexGame() {
         setTimeLeft(60);
         setGameState('playing');
         setLastResult(null);
+        gameStartTimeRef.current = Date.now();
+
+        // Track game start
+        trackGameStart('reflex', availableLetters);
 
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
@@ -83,6 +89,24 @@ export default function ReflexGame() {
     const endGame = () => {
         if (timerRef.current) clearInterval(timerRef.current);
         setGameState('finished');
+        
+        // Calculate game duration
+        const duration = gameStartTimeRef.current 
+            ? Math.round((Date.now() - gameStartTimeRef.current) / 1000) 
+            : 60;
+        
+        const correctCount = answeredCount - mistakes.length;
+        const accuracy = answeredCount > 0 ? (correctCount / answeredCount) * 100 : 0;
+        
+        // Track game end
+        trackGameEnd('reflex', score, duration, {
+            result: timeLeft > 0 ? 'completed' : 'timeout',
+            answered_count: answeredCount,
+            correct_count: correctCount,
+            accuracy: Math.round(accuracy),
+            max_combo: combo
+        });
+        
         if (onRecordPractice && answeredCount > 0) {
             onRecordPractice(answeredCount - mistakes.length, answeredCount);
         }
@@ -101,7 +125,9 @@ export default function ReflexGame() {
         const currentItem = queue[activeIndex];
         const input = key.toLowerCase();
 
-        if (input === currentItem.turkish) {
+        const isCorrect = input === currentItem.turkish;
+        
+        if (isCorrect) {
             setScore(prev => prev + 10 + (combo * 2));
             setCombo(prev => prev + 1);
             setLastResult('correct');
@@ -116,6 +142,9 @@ export default function ReflexGame() {
             }]);
             setQueue(prev => prev.map((q, i) => i === activeIndex ? { ...q, result: 'incorrect' } : q));
         }
+
+        // Track answer
+        trackGameAnswer('reflex', isCorrect, isCorrect ? combo + 1 : 0);
 
         setAnsweredCount(prev => prev + 1);
 

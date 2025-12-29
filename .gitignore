@@ -9,6 +9,10 @@ lerna-debug.log*
 
 SEO_DEGERLENDIRME.md
 USER_BEHAVIOR_TRACKING.md
+GTM_EVENT_TABLOSU.md
+GTM_HIZLI_BASLANGIC.md
+GTM_KURULUM_REHBERI.md
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

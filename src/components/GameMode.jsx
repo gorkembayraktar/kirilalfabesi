@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight, Zap, Trophy, TrendingUp, Play, Sparkles } from 'lucide-react';
+import { trackGameStart } from '../utils/analytics';
 
 export default function GameMode({ onRecordPractice, progress }) {
     const navigate = useNavigate();
@@ -95,7 +96,12 @@ export default function GameMode({ onRecordPractice, progress }) {
                 {/* Reflex Game Card */}
                 <div
                     className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} reflex-card`}
-                    onClick={() => hasLockedLetters && navigate('/games/reflex')}
+                    onClick={() => {
+                        if (hasLockedLetters) {
+                            trackGameStart('reflex', lockedLetters);
+                            navigate('/games/reflex');
+                        }
+                    }}
                 >
                     <div className="card-bg-gradient" />
                     <div className="card-content">
@@ -161,7 +167,12 @@ export default function GameMode({ onRecordPractice, progress }) {
                 {/* Rain Game Card */}
                 <div
                     className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} rain-card`}
-                    onClick={() => hasLockedLetters && navigate('/games/rain')}
+                    onClick={() => {
+                        if (hasLockedLetters) {
+                            trackGameStart('rain', lockedLetters);
+                            navigate('/games/rain');
+                        }
+                    }}
                 >
                     <div className="card-bg-gradient" />
                     <div className="card-content">

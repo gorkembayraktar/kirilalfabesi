@@ -21,6 +21,7 @@ import SequentialLearningModal from './components/SequentialLearningModal';
 import SEO from './components/SEO';
 import { useProgress } from './hooks/useProgress';
 import { SequentialLearningProvider } from './contexts/SequentialLearningContext';
+import { trackPageView } from './utils/analytics';
 
 function App() {
     const location = useLocation();
@@ -37,6 +38,11 @@ function App() {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('kiril-theme', theme);
     }, [theme]);
+
+    // Track page views
+    useEffect(() => {
+        trackPageView(location.pathname);
+    }, [location.pathname]);
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');

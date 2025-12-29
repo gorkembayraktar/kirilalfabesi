@@ -3,6 +3,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { CloudRain, Heart, ArrowLeft, RotateCcw, Home, Play, Trophy, Target, Zap } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
+import { trackGameStart, trackGameEnd, trackGameAnswer, trackGameLevelUp, trackGameLifeLost } from '../utils/analytics';
 
 export default function RainGame() {
     const navigate = useNavigate();
@@ -13,6 +14,8 @@ export default function RainGame() {
     const canvasRef = useRef(null);
     const requestRef = useRef();
     const isPlayingRef = useRef(false);
+    const gameStartTimeRef = useRef(null);
+    const lastLevelRef = useRef(1);
 
     const gameStateRef = useRef({
         score: 0,
@@ -61,6 +64,11 @@ export default function RainGame() {
         setGameStatus('playing');
         isPlayingRef.current = true;
         setHudState({ score: 0, lives: 3, level: 1 });
+        gameStartTimeRef.current = Date.now();
+        lastLevelRef.current = 1;
+
+        // Track game start
+        trackGameStart('rain', availableLetters);
 
         gameStateRef.current = {
             score: 0,
@@ -91,6 +99,22 @@ export default function RainGame() {
         setGameStatus('finished');
         isPlayingRef.current = false;
         if (requestRef.current) cancelAnimationFrame(requestRef.current);
+        
+        // Calculate game duration
+        const duration = gameStartTimeRef.current 
+            ? Math.round((Date.now() - gameStartTimeRef.current) / 1000) 
+            : 0;
+        
+        const finalScore = gameStateRef.current.score;
+        const finalLevel = gameStateRef.current.level;
+        const finalLives = gameStateRef.current.lives;
+        
+        // Track game end
+        trackGameEnd('rain', finalScore, duration, {
+            result: finalLives > 0 ? 'completed' : 'game_over',
+            level: finalLevel,
+            lives_remaining: finalLives
+        });
     };
 
     const spawnItem = () => {
@@ -149,6 +173,10 @@ export default function RainGame() {
                 state.lives -= 1;
                 setHudState(prev => ({ ...prev, lives: state.lives }));
                 state.items.splice(i, 1);
+                
+                // Track life lost
+                trackGameLifeLost('rain', state.lives);
+                
                 if (state.lives <= 0) {
                     endGame();
                     return;
@@ -220,10 +248,19 @@ export default function RainGame() {
 
         if (hitItem) {
             state.score += 10;
-            if (state.score % 100 === 0) {
+            const levelUp = state.score % 100 === 0;
+            if (levelUp) {
                 state.level += 1;
+                // Track level up
+                if (state.level > lastLevelRef.current) {
+                    trackGameLevelUp('rain', state.level);
+                    lastLevelRef.current = state.level;
+                }
             }
             setHudState(prev => ({ ...prev, score: state.score, level: state.level }));
+
+            // Track correct answer
+            trackGameAnswer('rain', true, 0);
 
             const originalIndex = state.items.findIndex(i => i.id === hitItem.id);
             if (originalIndex !== -1) {
@@ -231,6 +268,9 @@ export default function RainGame() {
                 createExplosion(item.x, item.y, '#4eff4e');
                 state.items.splice(originalIndex, 1);
             }
+        } else {
+            // Track incorrect answer (wrong key pressed)
+            trackGameAnswer('rain', false, 0);
         }
     };
 
