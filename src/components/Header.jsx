@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     PenTool,
     BookOpen,
@@ -17,7 +18,12 @@ import {
     Home
 } from 'lucide-react';
 
-export default function Header({ currentView, setCurrentView, theme, toggleTheme, streak }) {
+export default function Header({ setCurrentView, theme, toggleTheme, streak }) {
+    const location = useLocation();
+    // Get current view from location pathname
+    const activeView = location.pathname === '/' ? 'intro' : location.pathname.slice(1);
+    // For nested routes like /games/reflex, also check parent route
+    const activeViewParent = activeView.includes('/') ? activeView.split('/')[0] : activeView;
     const [openDropdown, setOpenDropdown] = useState(null);
     const navRef = useRef(null);
 
@@ -91,8 +97,8 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                 <nav className={`nav ${openDropdown ? 'has-dropdown-open' : ''}`} ref={navRef}>
                     {menuItems.map(item => {
                         const Icon = item.icon;
-                        const isGroupActive = item.children && item.children.some(c => c.id === currentView);
-                        const isActive = item.id === currentView || isGroupActive;
+                        const isGroupActive = item.children && item.children.some(c => c.id === activeView || c.id === activeViewParent);
+                        const isActive = item.id === activeView || item.id === activeViewParent || isGroupActive;
 
                         return (
                             <div key={item.id} className={`nav-item-wrapper ${openDropdown === item.id ? 'dropdown-open' : ''}`}>
@@ -113,7 +119,7 @@ export default function Header({ currentView, setCurrentView, theme, toggleTheme
                                             return (
                                                 <button
                                                     key={sub.id}
-                                                    className={`dropdown-item ${currentView === sub.id ? 'active' : ''}`}
+                                                    className={`dropdown-item ${activeView === sub.id ? 'active' : ''}`}
                                                     onClick={(e) => { e.stopPropagation(); handleSubMenuClick(sub.id); }}
                                                 >
                                                     <SubIcon size={16} />

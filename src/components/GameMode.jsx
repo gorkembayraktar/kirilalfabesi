@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight, Zap, Trophy, TrendingUp, Play, Sparkles } from 'lucide-react';
-import ReflexGame from './ReflexGame';
-import RainGame from './RainGame';
 
 export default function GameMode({ onRecordPractice, progress }) {
-    const [currentMode, setCurrentMode] = useState('menu');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const isGameActive = location.pathname !== '/games';
 
     // Get locked letters from progress
     const lockedLetters = progress?.reflexStatus
@@ -15,19 +16,9 @@ export default function GameMode({ onRecordPractice, progress }) {
     const totalLetters = 29; // Total Cyrillic letters
     const progressPercent = (lockedLetters.length / totalLetters) * 100;
 
-    if (currentMode === 'reflex') {
-        return <ReflexGame
-            onExit={() => setCurrentMode('menu')}
-            onRecordPractice={onRecordPractice}
-            availableLetters={lockedLetters}
-        />;
-    }
-
-    if (currentMode === 'rain') {
-        return <RainGame
-            onExit={() => setCurrentMode('menu')}
-            availableLetters={lockedLetters}
-        />;
+    // If a game is active, render it via Outlet
+    if (isGameActive) {
+        return <Outlet context={{ onRecordPractice, availableLetters: lockedLetters }} />;
     }
 
     return (
@@ -104,7 +95,7 @@ export default function GameMode({ onRecordPractice, progress }) {
                 {/* Reflex Game Card */}
                 <div
                     className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} reflex-card`}
-                    onClick={() => hasLockedLetters && setCurrentMode('reflex')}
+                    onClick={() => hasLockedLetters && navigate('/games/reflex')}
                 >
                     <div className="card-bg-gradient" />
                     <div className="card-content">
@@ -170,7 +161,7 @@ export default function GameMode({ onRecordPractice, progress }) {
                 {/* Rain Game Card */}
                 <div
                     className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} rain-card`}
-                    onClick={() => hasLockedLetters && setCurrentMode('rain')}
+                    onClick={() => hasLockedLetters && navigate('/games/rain')}
                 >
                     <div className="card-bg-gradient" />
                     <div className="card-content">

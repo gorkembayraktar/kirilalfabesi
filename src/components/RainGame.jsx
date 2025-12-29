@@ -1,9 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { CloudRain, Heart, ArrowLeft, RotateCcw, Home, Play, Trophy, Target, Zap } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
 
-export default function RainGame({ onExit, availableLetters }) {
+export default function RainGame() {
+    const navigate = useNavigate();
+    const { availableLetters } = useOutletContext();
+    const onExit = () => navigate('/games');
     const [gameStatus, setGameStatus] = useState('intro');
     const [hudState, setHudState] = useState({ score: 0, lives: 3, level: 1 });
     const canvasRef = useRef(null);

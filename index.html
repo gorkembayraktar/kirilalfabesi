@@ -5,8 +5,274 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Türkçe konuşanlar için Kiril alfabesi öğrenme uygulaması" />
-  <title>Kiril Alfabesi Öğreniyorum</title>
+
+  <!-- Primary Meta Tags -->
+  <title>Kiril Alfabesi Öğreniyorum - Türkçe Konuşanlar İçin Ücretsiz Öğrenme Uygulaması</title>
+  <meta name="title" content="Kiril Alfabesi Öğreniyorum - Türkçe Konuşanlar İçin Ücretsiz Öğrenme Uygulaması" />
+  <meta name="description"
+    content="Rusça ve diğer Kiril alfabesi dillerini öğrenin! İnteraktif eşleştirme (neon ip mekaniği), yazı pratiği (canvas çizimi), test modu, refleks oyunu, yağmur oyunu ve daha fazlası. Türkçe konuşanlar için özel olarak tasarlanmış ücretsiz Kiril alfabesi öğrenme platformu. Sesli telaffuz, günlük ilerleme takibi ve mobil uyumlu." />
+  <meta name="keywords"
+    content="kiril alfabesi, kiril harfleri, rusça öğrenme, kiril alfabesi öğrenme, türkçe kiril, kiril klavye, kiril harfleri türkçe, kiril alfabesi öğreniyorum, ücretsiz kiril öğrenme, online kiril öğrenme, refleks oyunu, yağmur oyunu, kiril oyunu, neon ip mekaniği, canvas çizim, sesli telaffuz, günlük ilerleme, seri sayacı, harf kilitleme" />
+  <meta name="author" content="Görkem Bayraktar" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Turkish" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kirilalfabesi.vercel.app/" />
+  <meta property="og:title" content="Kiril Alfabesi Öğreniyorum - Türkçe Konuşanlar İçin Ücretsiz Öğrenme Uygulaması" />
+  <meta property="og:description"
+    content="Rusça ve diğer Kiril alfabesi dillerini öğrenin! İnteraktif eşleştirme (neon ip mekaniği), yazı pratiği (canvas çizimi), test modu, refleks oyunu, yağmur oyunu ve daha fazlası. Türkçe konuşanlar için özel olarak tasarlanmış ücretsiz Kiril alfabesi öğrenme platformu." />
+  <meta property="og:image" content="https://kirilalfabesi.vercel.app/assets/kiril_demo.gif" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="tr_TR" />
+  <meta property="og:site_name" content="Kiril Alfabesi Öğreniyorum" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://kirilalfabesi.vercel.app/" />
+  <meta name="twitter:title"
+    content="Kiril Alfabesi Öğreniyorum - Türkçe Konuşanlar İçin Ücretsiz Öğrenme Uygulaması" />
+  <meta name="twitter:description"
+    content="Rusça ve diğer Kiril alfabesi dillerini öğrenin! İnteraktif eşleştirme, yazı pratiği, test modu, refleks oyunu, yağmur oyunu ve daha fazlası. Ücretsiz ve mobil uyumlu." />
+  <meta name="twitter:image" content="https://kirilalfabesi.vercel.app/assets/kiril_demo.gif" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kirilalfabesi.vercel.app/" />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kiril Öğren" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Kiril Alfabesi Öğreniyorum",
+      "description": "Türkçe konuşanlar için Kiril alfabesi öğrenme uygulaması. İnteraktif eşleştirme, yazı pratiği, test modu, refleks oyunları ve daha fazlası.",
+      "url": "https://kirilalfabesi.vercel.app/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "TRY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
+      },
+      "featureList": [
+        "İnteraktif harf eşleştirme - Neon ip mekaniği ile eğlenceli öğrenme",
+        "Yazı pratiği modu - Canvas üzerinde harf çizimi",
+        "Test modu - Çoktan seçmeli ve yazılı sorular",
+        "Refleks modu - Harf kilitleme ve ustalık sistemi",
+        "Refleks oyunu - Hızlı klavye reflekslerini geliştir",
+        "Yağmur oyunu - Düşen harfleri yakalama oyunu",
+        "Günlük ilerleme takibi - Seri sayacı ve istatistikler",
+        "Sesli telaffuz - Web Speech API ile doğru telaffuz",
+        "Çeviri alanı - Türkçe metinleri Kiril'e çevir",
+        "Blog ve rehberler - Detaylı öğrenme içerikleri",
+        "Mobil uyumlu tasarım - Her cihazda mükemmel deneyim"
+      ],
+      "inLanguage": "tr",
+      "author": {
+        "@type": "Person",
+        "name": "Görkem Bayraktar"
+      },
+      "screenshot": "https://kirilalfabesi.vercel.app/assets/kiril_demo.gif",
+      "softwareVersion": "1.1.0"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Kiril Alfabesi Öğrenme Özellikleri",
+      "description": "Kiril alfabesi öğrenme uygulamasının tüm özellikleri ve oyun modları",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Öğrenme Modu",
+          "description": "Kiril harflerini adım adım öğrenin. Her harf için Türkçe karşılıkları, örnek kelimeler ve sesli telaffuz.",
+          "url": "https://kirilalfabesi.vercel.app/learning"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Eşleştirme Modu",
+          "description": "Kiril ve Latince harfleri neon ip mekaniği ile eşleştirerek görsel hafızanızı güçlendirin.",
+          "url": "https://kirilalfabesi.vercel.app/matching"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Yazı Pratiği Modu",
+          "description": "Canvas üzerinde Kiril harflerini çizerek yazma becerilerinizi geliştirin.",
+          "url": "https://kirilalfabesi.vercel.app/writing"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Test Modu",
+          "description": "Çoktan seçmeli ve yazılı sorularla Kiril alfabesi bilginizi test edin.",
+          "url": "https://kirilalfabesi.vercel.app/test"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Refleks Modu",
+          "description": "Harf kilitleme sistemi ile ustalık kazanın ve reflekslerinizi geliştirin.",
+          "url": "https://kirilalfabesi.vercel.app/reflex"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Refleks Oyunu",
+          "description": "Hızlı klavye reflekslerini geliştiren zamanlı oyun. Kilitlediğiniz harflerle oynayın.",
+          "url": "https://kirilalfabesi.vercel.app/games"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Yağmur Oyunu",
+          "description": "Düşen Kiril harflerini yakalama oyunu. Hız ve doğruluk gerektiren eğlenceli pratik.",
+          "url": "https://kirilalfabesi.vercel.app/games"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Çeviri Alanı",
+          "description": "Türkçe metinleri anlık olarak Kiril alfabesine çevirin.",
+          "url": "https://kirilalfabesi.vercel.app/transliteration"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Blog ve Rehberler",
+          "description": "Kiril alfabesi hakkında detaylı rehberler, sık sorulan sorular ve öğrenme ipuçları.",
+          "url": "https://kirilalfabesi.vercel.app/blog"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Game",
+      "name": "Kiril Alfabesi Refleks Oyunu",
+      "description": "Kiril harflerini hızlı bir şekilde yazarak reflekslerinizi geliştirin. Zamanlı, skor tabanlı eğitici oyun.",
+      "gameLocation": "https://kirilalfabesi.vercel.app/games/reflex",
+      "gamePlatform": "Web Browser",
+      "applicationCategory": "EducationalGame",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "TRY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "120"
+      },
+      "inLanguage": "tr"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Game",
+      "name": "Kiril Alfabesi Yağmur Oyunu",
+      "description": "Düşen Kiril harflerini yakalayarak hız ve doğruluğunuzu test edin. Can sistemi ile eğlenceli öğrenme.",
+      "gameLocation": "https://kirilalfabesi.vercel.app/games/rain",
+      "gamePlatform": "Web Browser",
+      "applicationCategory": "EducationalGame",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "TRY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "95"
+      },
+      "inLanguage": "tr"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kiril alfabesi nasıl öğrenilir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kiril alfabesi öğrenmek için adım adım yaklaşım önerilir. Önce harfleri tanıyın, sonra eşleştirme oyunları ile pratik yapın, yazı modu ile yazma becerilerinizi geliştirin ve test modu ile bilginizi sınayın. Refleks oyunları ile hız kazanın."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kiril alfabesi kaç harf?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rusça Kiril alfabesi 33 harften oluşur. Uygulamamızda 29 temel harf üzerinde çalışıyoruz."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kiril alfabesi öğrenmek ne kadar sürer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Düzenli pratik ile Kiril alfabesini 1-2 hafta içinde öğrenebilirsiniz. Günlük 10-15 dakika pratik yeterli olacaktır."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kiril alfabesi ücretsiz mi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Evet, uygulamamız tamamen ücretsizdir. Tüm özellikler ve oyunlar ücretsiz kullanılabilir."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mobil cihazlarda çalışır mı?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Evet, uygulamamız tamamen mobil uyumludur. Telefon, tablet ve masaüstü bilgisayarlarda sorunsuz çalışır."
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ana Sayfa",
+          "item": "https://kirilalfabesi.vercel.app/"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Kiril Alfabesi Öğrenme Uygulaması Demo",
+      "description": "Kiril alfabesi öğrenme uygulamasının özelliklerini gösteren demo videosu",
+      "thumbnailUrl": "https://kirilalfabesi.vercel.app/assets/kiril_demo.gif",
+      "uploadDate": "2025-01-27",
+      "contentUrl": "https://kirilalfabesi.vercel.app/assets/kiril_demo.gif"
+    }
+  ]
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

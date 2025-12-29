@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { ArrowLeft, Gamepad2, Zap, FastForward, ArrowRight, Clock, Target, Trophy, TrendingUp, Play, RotateCcw, Home, CheckCircle, XCircle } from 'lucide-react';
 import { getLetterMapping } from '../utils/transliteration';
 import TurkishKeyboard from './TurkishKeyboard';
@@ -12,7 +13,10 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-export default function ReflexGame({ onExit, availableLetters, onRecordPractice }) {
+export default function ReflexGame() {
+    const navigate = useNavigate();
+    const { onRecordPractice, availableLetters } = useOutletContext();
+    const onExit = () => navigate('/games');
     const [gameState, setGameState] = useState('intro');
     const [queue, setQueue] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
