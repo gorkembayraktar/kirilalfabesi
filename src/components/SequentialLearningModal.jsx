@@ -23,9 +23,11 @@ export default function SequentialLearningModal() {
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
     const [autoAdvance, setAutoAdvance] = useState(true);
     const [advanceProgress, setAdvanceProgress] = useState(0);
+    const [showCompletion, setShowCompletion] = useState(false);
     const autoPlayTimeoutRef = useRef(null);
     const autoAdvanceTimeoutRef = useRef(null);
     const progressIntervalRef = useRef(null);
+    const completionTimeoutRef = useRef(null);
 
     // Prepare sequential learning data (use reflexData for detailed info)
     const letters = reflexData.map(item => ({
@@ -67,8 +69,8 @@ export default function SequentialLearningModal() {
                 autoPlayTimeoutRef.current = playTimer;
             }
 
-            // Auto-advance to next letter after 3 seconds
-            if (autoAdvance && currentIndex < letters.length - 1) {
+            // Show progress bar for current letter (including last letter)
+            if (autoAdvance) {
                 // Start progress animation (3 seconds = 3000ms)
                 const startTime = Date.now();
                 const duration = 3000;
@@ -84,11 +86,14 @@ export default function SequentialLearningModal() {
                     }
                 }, updateInterval);
 
-                const advanceTimer = setTimeout(() => {
-                    setCurrentIndex(prev => prev + 1);
-                }, duration);
+                // Auto-advance to next letter after 3 seconds (only if not last letter)
+                if (currentIndex < letters.length - 1) {
+                    const advanceTimer = setTimeout(() => {
+                        setCurrentIndex(prev => prev + 1);
+                    }, duration);
 
-                autoAdvanceTimeoutRef.current = advanceTimer;
+                    autoAdvanceTimeoutRef.current = advanceTimer;
+                }
             }
 
             return () => {
@@ -98,6 +103,24 @@ export default function SequentialLearningModal() {
             };
         }
     }, [currentIndex, isOpen, audioEnabled, autoAdvance]);
+
+    // Show completion message after last letter is displayed
+    useEffect(() => {
+        if (isOpen && currentIndex === letters.length - 1 && progress === 100) {
+            // Show completion message after a delay (3 seconds for the last letter to be visible)
+            completionTimeoutRef.current = setTimeout(() => {
+                setShowCompletion(true);
+            }, 3000);
+
+            return () => {
+                if (completionTimeoutRef.current) {
+                    clearTimeout(completionTimeoutRef.current);
+                }
+            };
+        } else {
+            setShowCompletion(false);
+        }
+    }, [currentIndex, progress, isOpen, letters.length]);
 
     // Cleanup on close
     useEffect(() => {
@@ -112,8 +135,12 @@ export default function SequentialLearningModal() {
             if (progressIntervalRef.current) {
                 clearInterval(progressIntervalRef.current);
             }
+            if (completionTimeoutRef.current) {
+                clearTimeout(completionTimeoutRef.current);
+            }
             setCurrentIndex(0);
             setAdvanceProgress(0);
+            setShowCompletion(false);
             spokenLettersRef.current.clear(); // Reset spoken letters when modal closes
         }
     }, [isOpen]);
@@ -140,12 +167,16 @@ export default function SequentialLearningModal() {
         if (progressIntervalRef.current) {
             clearInterval(progressIntervalRef.current);
         }
+        if (completionTimeoutRef.current) {
+            clearTimeout(completionTimeoutRef.current);
+        }
         
         // Reset spoken letters tracking
         spokenLettersRef.current.clear();
         
-        // Reset progress
+        // Reset progress and completion
         setAdvanceProgress(0);
+        setShowCompletion(false);
         
         // Reset to first letter
         setCurrentIndex(0);
@@ -200,7 +231,7 @@ export default function SequentialLearningModal() {
         }
     };
 
-    const isCompleted = currentIndex === letters.length - 1 && progress === 100;
+    const isCompleted = showCompletion && currentIndex === letters.length - 1 && progress === 100;
 
     if (!isOpen || !currentLetter) return null;
 
@@ -281,7 +312,7 @@ export default function SequentialLearningModal() {
                                 <div className="sequential-letter-glow" />
                                 <span 
                                     className="sequential-cyrillic-large"
-                                    style={autoAdvance && currentIndex < letters.length - 1 && advanceProgress > 0 ? {
+                                    style={autoAdvance && advanceProgress > 0 ? {
                                         backgroundImage: `linear-gradient(to top, var(--accent-primary) 0%, var(--accent-primary) ${advanceProgress}%, var(--text-primary) ${advanceProgress}%, var(--text-primary) 100%)`,
                                         WebkitBackgroundClip: 'text',
                                         backgroundClip: 'text',
