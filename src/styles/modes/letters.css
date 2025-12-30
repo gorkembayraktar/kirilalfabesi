@@ -177,7 +177,8 @@
 
 .sequential-control-btn,
 .sequential-audio-btn,
-.sequential-close-btn {
+.sequential-close-btn,
+.sequential-nav-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,6 +214,16 @@
     background: var(--error-bg);
     border-color: var(--error);
     color: var(--error);
+}
+
+.sequential-nav-btn:hover:not(:disabled) {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.sequential-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 /* Progress Bar */
@@ -277,6 +288,13 @@
     color: var(--text-primary);
     line-height: 1;
     z-index: 1;
+}
+
+/* Ensure text is visible when gradient is not applied */
+@supports not (background-clip: text) {
+    .sequential-cyrillic-large {
+        color: var(--text-primary) !important;
+    }
 }
 
 .sequential-speak-btn {

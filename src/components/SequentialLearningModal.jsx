@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Play, X, RotateCcw, CheckCircle2 } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, X, RotateCcw, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { reflexData } from '../data/reflexData';
 import { useSequentialLearning } from '../contexts/SequentialLearningContext';
 
@@ -22,8 +22,10 @@ export default function SequentialLearningModal() {
     const [audioEnabled, setAudioEnabled] = useState(true);
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
     const [autoAdvance, setAutoAdvance] = useState(true);
+    const [advanceProgress, setAdvanceProgress] = useState(0);
     const autoPlayTimeoutRef = useRef(null);
     const autoAdvanceTimeoutRef = useRef(null);
+    const progressIntervalRef = useRef(null);
 
     // Prepare sequential learning data (use reflexData for detailed info)
     const letters = reflexData.map(item => ({
@@ -45,9 +47,13 @@ export default function SequentialLearningModal() {
     // Auto-play and auto-advance when index changes
     useEffect(() => {
         if (isOpen && currentLetter) {
-            // Clear any existing timeouts
+            // Clear any existing timeouts and intervals
             if (autoPlayTimeoutRef.current) clearTimeout(autoPlayTimeoutRef.current);
             if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
+            if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+
+            // Reset progress
+            setAdvanceProgress(0);
 
             // Auto-play audio only once per letter
             if (audioEnabled && !spokenLettersRef.current.has(currentIndex)) {
@@ -63,9 +69,24 @@ export default function SequentialLearningModal() {
 
             // Auto-advance to next letter after 3 seconds
             if (autoAdvance && currentIndex < letters.length - 1) {
+                // Start progress animation (3 seconds = 3000ms)
+                const startTime = Date.now();
+                const duration = 3000;
+                const updateInterval = 16; // ~60fps
+
+                progressIntervalRef.current = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min((elapsed / duration) * 100, 100);
+                    setAdvanceProgress(progress);
+
+                    if (progress >= 100) {
+                        clearInterval(progressIntervalRef.current);
+                    }
+                }, updateInterval);
+
                 const advanceTimer = setTimeout(() => {
                     setCurrentIndex(prev => prev + 1);
-                }, 3000);
+                }, duration);
 
                 autoAdvanceTimeoutRef.current = advanceTimer;
             }
@@ -73,9 +94,10 @@ export default function SequentialLearningModal() {
             return () => {
                 if (autoPlayTimeoutRef.current) clearTimeout(autoPlayTimeoutRef.current);
                 if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
+                if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
             };
         }
-    }, [currentIndex, isOpen, audioEnabled, currentLetter, autoAdvance, letters.length]);
+    }, [currentIndex, isOpen, audioEnabled, autoAdvance]);
 
     // Cleanup on close
     useEffect(() => {
@@ -87,7 +109,11 @@ export default function SequentialLearningModal() {
             if (autoAdvanceTimeoutRef.current) {
                 clearTimeout(autoAdvanceTimeoutRef.current);
             }
+            if (progressIntervalRef.current) {
+                clearInterval(progressIntervalRef.current);
+            }
             setCurrentIndex(0);
+            setAdvanceProgress(0);
             spokenLettersRef.current.clear(); // Reset spoken letters when modal closes
         }
     }, [isOpen]);
@@ -101,9 +127,76 @@ export default function SequentialLearningModal() {
     };
 
     const handleRestart = () => {
-        setCurrentIndex(0);
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+        
+        // Clear all timeouts and intervals
+        if (autoPlayTimeoutRef.current) {
+            clearTimeout(autoPlayTimeoutRef.current);
+        }
         if (autoAdvanceTimeoutRef.current) {
             clearTimeout(autoAdvanceTimeoutRef.current);
+        }
+        if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+        }
+        
+        // Reset spoken letters tracking
+        spokenLettersRef.current.clear();
+        
+        // Reset progress
+        setAdvanceProgress(0);
+        
+        // Reset to first letter
+        setCurrentIndex(0);
+    };
+
+    const handlePrev = () => {
+        if (currentIndex > 0) {
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            
+            // Clear all timeouts and intervals
+            if (autoPlayTimeoutRef.current) {
+                clearTimeout(autoPlayTimeoutRef.current);
+            }
+            if (autoAdvanceTimeoutRef.current) {
+                clearTimeout(autoAdvanceTimeoutRef.current);
+            }
+            if (progressIntervalRef.current) {
+                clearInterval(progressIntervalRef.current);
+            }
+            
+            // Reset progress
+            setAdvanceProgress(0);
+            
+            // Remove current index from spoken set so it will play again
+            spokenLettersRef.current.delete(currentIndex - 1);
+            
+            setCurrentIndex(prev => prev - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentIndex < letters.length - 1) {
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            
+            // Clear all timeouts and intervals
+            if (autoPlayTimeoutRef.current) {
+                clearTimeout(autoPlayTimeoutRef.current);
+            }
+            if (autoAdvanceTimeoutRef.current) {
+                clearTimeout(autoAdvanceTimeoutRef.current);
+            }
+            if (progressIntervalRef.current) {
+                clearInterval(progressIntervalRef.current);
+            }
+            
+            // Reset progress
+            setAdvanceProgress(0);
+            
+            setCurrentIndex(prev => prev + 1);
         }
     };
 
@@ -123,12 +216,37 @@ export default function SequentialLearningModal() {
                         </span>
                     </div>
                     <div className="sequential-header-right">
+                    {/* 
+                        <button
+                            className="sequential-nav-btn"
+                            onClick={handleRestart}
+                            title="Yeniden Başlat"
+                        >
+                            <RotateCcw size={16} />
+                        </button>
+                        */}
+                        <button
+                            className="sequential-nav-btn"
+                            onClick={handlePrev}
+                            disabled={currentIndex === 0}
+                            title="Önceki Harf"
+                        >
+                            <ChevronLeft size={16} />
+                        </button>
+                        <button
+                            className="sequential-nav-btn"
+                            onClick={handleNext}
+                            disabled={currentIndex === letters.length - 1}
+                            title="Sonraki Harf"
+                        >
+                            <ChevronRight size={16} />
+                        </button>
                         <button
                             className={`sequential-control-btn ${autoAdvance ? 'active' : ''}`}
                             onClick={() => setAutoAdvance(!autoAdvance)}
-                            title={autoAdvance ? 'Otomatik Geçişi Kapat' : 'Otomatik Geçişi Aç'}
+                            title={autoAdvance ? 'Otomatik Geçişi Durdur' : 'Otomatik Geçişi Başlat'}
                         >
-                            <Play size={16} style={{ transform: autoAdvance ? 'none' : 'rotate(-90deg)' }} />
+                            {autoAdvance ? <Pause size={16} /> : <Play size={16} />}
                         </button>
                         <button
                             className={`sequential-audio-btn ${audioEnabled ? 'active' : ''}`}
@@ -161,7 +279,17 @@ export default function SequentialLearningModal() {
                         <div className="sequential-letter-display">
                             <div className="sequential-letter-main">
                                 <div className="sequential-letter-glow" />
-                                <span className="sequential-cyrillic-large">{currentLetter.cyrillic}</span>
+                                <span 
+                                    className="sequential-cyrillic-large"
+                                    style={autoAdvance && currentIndex < letters.length - 1 && advanceProgress > 0 ? {
+                                        backgroundImage: `linear-gradient(to top, var(--accent-primary) 0%, var(--accent-primary) ${advanceProgress}%, var(--text-primary) ${advanceProgress}%, var(--text-primary) 100%)`,
+                                        WebkitBackgroundClip: 'text',
+                                        backgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent'
+                                    } : undefined}
+                                >
+                                    {currentLetter.cyrillic}
+                                </span>
                                 <button
                                     className={`sequential-speak-btn ${isAutoPlaying ? 'playing' : ''}`}
                                     onClick={handleManualSpeak}
