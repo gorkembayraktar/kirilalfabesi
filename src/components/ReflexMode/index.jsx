@@ -46,10 +46,10 @@ export default function ReflexMode({ theme }) {
 
     // Reset index when available letters change
     useEffect(() => {
-        if (currentIndex >= availableLetters.length) {
+        if (availableLetters.length > 0 && currentIndex >= availableLetters.length) {
             setCurrentIndex(0);
         }
-    }, [availableLetters.length, currentIndex]);
+    }, [availableLetters.length, currentIndex, availableLetters]);
 
     // Count locked letters
     const lockedCount = useMemo(() => {
@@ -201,7 +201,24 @@ export default function ReflexMode({ theme }) {
         );
     }
 
-    const currentLetter = availableLetters[currentIndex];
+    // Ensure currentIndex is valid
+    const safeIndex = Math.min(currentIndex, availableLetters.length - 1);
+    const currentLetter = availableLetters[safeIndex];
+    
+    // Safety check: if currentLetter is still undefined, return loading state
+    if (!currentLetter) {
+        return (
+            <div className="reflex-wrapper">
+                <div className="reflex-container">
+                    <div className="reflex-loading">
+                        <Sparkles size={32} className="spin" />
+                        <p>Harfler yükleniyor...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const letterStatus = progress.reflexStatus?.[currentLetter.cyrillic] || { coded: false, locked: false };
 
     const handleCodingComplete = () => {
@@ -289,7 +306,7 @@ export default function ReflexMode({ theme }) {
                     <div className="reflex-header-left">
                         <div className="letter-counter">
                             <Target size={16} />
-                            <span>{currentIndex + 1}</span>
+                            <span>{safeIndex + 1}</span>
                             <span className="counter-divider">/</span>
                             <span className="counter-total">{availableLetters.length}</span>
                         </div>
