@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
-import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight, Zap, Trophy, TrendingUp, Play, Sparkles } from 'lucide-react';
+import { Gamepad2, CloudRain, AlertTriangle, Lock, ArrowRight, Zap, Trophy, TrendingUp, Play, Sparkles, Search } from 'lucide-react';
 import { trackGameStart } from '../utils/analytics';
 
 export default function GameMode({ onRecordPractice, progress }) {
@@ -209,6 +209,77 @@ export default function GameMode({ onRecordPractice, progress }) {
                                 <div className="feature-item">
                                     <Trophy size={14} />
                                     <span>Yüksek Skor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <button 
+                                className={`card-play-button ${hasLockedLetters ? 'active' : 'disabled'}`}
+                                disabled={!hasLockedLetters}
+                            >
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Play size={18} />
+                                        <span>Oyna</span>
+                                        <ArrowRight size={16} />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={18} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Word Hunt Game Card */}
+                <div
+                    className={`game-card-modern ${!hasLockedLetters ? 'disabled' : ''} wordhunt-card`}
+                    onClick={() => {
+                        if (hasLockedLetters) {
+                            trackGameStart('wordhunt', lockedLetters);
+                            navigate('/games/wordhunt');
+                        }
+                    }}
+                >
+                    <div className="card-bg-gradient" />
+                    <div className="card-content">
+                        <div className="card-header">
+                            <div className="card-icon-wrapper wordhunt-icon">
+                                <Search size={32} />
+                            </div>
+                            <div className="card-badge">
+                                {hasLockedLetters ? (
+                                    <>
+                                        <Zap size={12} />
+                                        <span>Aktif</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Lock size={12} />
+                                        <span>Kilitli</span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="card-body">
+                            <h3 className="card-title">Kelime Avı</h3>
+                            <p className="card-description">
+                                Grid içinde Kiril harflerinden oluşan kelimeleri bul. Yatay, dikey ve çapraz arama yap!
+                            </p>
+
+                            <div className="card-features">
+                                <div className="feature-item">
+                                    <Search size={14} />
+                                    <span>Görsel Tarama</span>
+                                </div>
+                                <div className="feature-item">
+                                    <Trophy size={14} />
+                                    <span>Kelime Bulmaca</span>
                                 </div>
                             </div>
                         </div>

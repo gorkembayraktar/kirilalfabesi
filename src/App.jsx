@@ -15,6 +15,7 @@ import GameMode from './components/GameMode';
 import ReflexMode from './components/ReflexMode';
 import ReflexGame from './components/ReflexGame';
 import RainGame from './components/RainGame';
+import WordHuntGame from './components/WordHuntGame';
 import IntroPage from './components/IntroPage';
 import Footer from './components/Footer';
 import SequentialLearningModal from './components/SequentialLearningModal';
@@ -96,9 +97,9 @@ function App() {
                 url: `${baseUrl}/progress`
             },
             games: {
-                title: 'Oyun Modu - Refleks ve Yağmur Oyunu',
-                description: 'Kiril alfabesini oyunlarla öğrenin! Refleks oyunu ile hızlı klavye becerileri, yağmur oyunu ile düşen harfleri yakalama. Kilitlediğiniz harflerle oynayın, skor yapın ve reflekslerinizi geliştirin. Eğlenceli ve etkili öğrenme deneyimi.',
-                keywords: 'kiril alfabesi oyunu, kiril öğrenme oyunu, rusça oyun, kiril harf oyunu, refleks oyunu, yağmur oyunu, kiril klavye oyunu, eğitici oyun, ücretsiz kiril oyunu',
+                title: 'Oyun Modu - Refleks, Yağmur ve Kelime Avı Oyunu',
+                description: 'Kiril alfabesini oyunlarla öğrenin! Refleks oyunu ile hızlı klavye becerileri, yağmur oyunu ile düşen harfleri yakalama, kelime avı oyunu ile grid içinde kelimeleri bulma. Kilitlediğiniz harflerle oynayın, skor yapın ve reflekslerinizi geliştirin. Eğlenceli ve etkili öğrenme deneyimi.',
+                keywords: 'kiril alfabesi oyunu, kiril öğrenme oyunu, rusça oyun, kiril harf oyunu, refleks oyunu, yağmur oyunu, kelime avı oyunu, kiril klavye oyunu, eğitici oyun, ücretsiz kiril oyunu',
                 url: `${baseUrl}/games`
             },
             'games/reflex': {
@@ -112,6 +113,12 @@ function App() {
                 description: 'Düşen Kiril harflerini yakalayarak hız ve doğruluğunuzu test edin. Can sistemi ile eğlenceli öğrenme. Harfler yere düşmeden yakalayın, seri ve dikkatli olun.',
                 keywords: 'yağmur oyunu, kiril yağmur oyunu, düşen harf oyunu, can sistemi, hız oyunu, dikkat oyunu, kiril harf yakalama',
                 url: `${baseUrl}/games/rain`
+            },
+            'games/wordhunt': {
+                title: 'Kelime Avı Oyunu - Grid İçinde Kelime Bulma',
+                description: 'Grid içinde Kiril harflerinden oluşan kelimeleri bulun. Yatay, dikey ve çapraz yönlerde arama yaparak kelimeleri keşfedin. İpucu sistemi, zaman limiti ve skor tabanlı eğlenceli öğrenme. Görsel hafızanızı ve kelime tanıma becerinizi geliştirin.',
+                keywords: 'kelime avı oyunu, kiril kelime avı, word hunt, grid oyunu, kelime bulmaca, kiril kelime bulma, yatay dikey çapraz arama, görsel hafıza, kelime tanıma',
+                url: `${baseUrl}/games/wordhunt`
             },
             reflex: {
                 title: 'Refleks Modu - Harf Kilitleme Sistemi',
@@ -172,6 +179,7 @@ function App() {
                     <Route path="/games" element={<GameMode onRecordPractice={recordPractice} progress={progress} />}>
                         <Route path="reflex" element={<ReflexGame />} />
                         <Route path="rain" element={<RainGame />} />
+                        <Route path="wordhunt" element={<WordHuntGame />} />
                     </Route>
                     <Route path="/reflex" element={<ReflexMode theme={theme} />} />
                     <Route path="/transliteration" element={
